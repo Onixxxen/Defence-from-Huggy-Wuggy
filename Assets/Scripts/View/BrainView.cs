@@ -3,9 +3,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BrainView : MonoBehaviour
 {
+    [SerializeField] private Slider _health;
+    [SerializeField] private Slider _armor;
+
     private DayChangerView _dayChangerView;
 
     private float _normalScale;
