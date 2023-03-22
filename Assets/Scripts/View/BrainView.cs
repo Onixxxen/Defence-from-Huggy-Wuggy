@@ -1,14 +1,19 @@
+using Assets.Scripts.Extensions;
 using DG.Tweening;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class BrainView : MonoBehaviour
 {
-    [SerializeField] private Slider _health;
-    [SerializeField] private Slider _armor;
+    private Slider _healthSlider;
+    private Slider _armorSlider;
+
+    private TMP_Text _healthText;
+    private TMP_Text _armorText;
 
     private DayChangerView _dayChangerView;
 
@@ -17,11 +22,19 @@ public class BrainView : MonoBehaviour
     private const int _clickerMode = 1;
     private const int _towerDefenceMode = 2;
 
-    public event Action ChangeNeuronCount;
+    private PointerEventData _eventData;
 
-    public void Init(DayChangerView dayChangerView)
+    public event Action ChangeNeuronCount;
+    public event Action OnRequestHealthValue;
+    public event Action OnRequestArmorValue;
+
+    public void Init(DayChangerView dayChangerView, Slider healthSlider, Slider armorSlider, TMP_Text healthText, TMP_Text armorText)
     {
         _dayChangerView = dayChangerView;
+        _healthSlider = healthSlider;
+        _armorSlider = armorSlider;
+        _healthText = healthText;
+        _armorText = armorText;
     }
 
     private void OnMouseDown()
@@ -36,6 +49,25 @@ public class BrainView : MonoBehaviour
     private void Start()
     {
         _normalScale = transform.localScale.x;
+        OnRequestHealthValue?.Invoke();
+        OnRequestArmorValue?.Invoke();
+
+        _eventData = new PointerEventData(EventSystem.current);
+    }
+
+    private void Update()
+    {
+        _healthText.text = FormatNumberExtension.FormatNumber((int)_healthSlider.value);
+        _armorText.text = FormatNumberExtension.FormatNumber((int)_armorSlider.value);
+
+        if (_dayChangerView.CurrentMode == _towerDefenceMode)
+        {
+            var enemy = EventSystem.current.GetFirstComponentUnderPoint<EnemyView>(_eventData);
+
+            if (Input.GetMouseButtonDown(0))
+                if (enemy != null)
+                    enemy.gameObject.SetActive(false);         
+        }
     }
 
     private void OnBraintClick()
@@ -50,4 +82,31 @@ public class BrainView : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         transform.DOScale(_normalScale, 0.5f);
     }
+
+    public void SetArmorValue(int value)
+    {
+        _armorSlider.maxValue = value;
+        _armorSlider.value = _armorSlider.maxValue;
+    }
+
+    public void SetHealthValue(int value)
+    {
+        _healthSlider.maxValue = value;
+        _healthSlider.value = _healthSlider.maxValue;
+    }
+
+    public void ChangeArmorValue(int armorValue)
+    {
+        _armorSlider.DOValue(armorValue, 1);
+    }
+
+    public void ChangeHealthValue(int healthValue)
+    {
+        _healthSlider.DOValue(healthValue, 1);
+    }
+
+    public void BrainDie()
+    {
+        gameObject.SetActive(false); // вызывать панель проигрыша
+    }       
 }

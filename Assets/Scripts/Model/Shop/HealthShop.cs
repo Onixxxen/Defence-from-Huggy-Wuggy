@@ -27,7 +27,7 @@ public class HealthShop : Shop
         if (_neuron.Count >= Price)
         {
             _neuron.RemoveNeuron(Price);
-            _health.ChangeHealthCount(Improvement);
+            _health.AddHealth(Improvement);
             SellHealthItem?.Invoke(_neuron.Count, newPrice, _health.Count, index);
         }
     }

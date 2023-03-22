@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class ObjectPoolView : MonoBehaviour
 {
@@ -9,12 +11,21 @@ public class ObjectPoolView : MonoBehaviour
 
     private List<EnemyView> _pool = new List<EnemyView>();
 
+    public List<EnemyView> Pool => _pool;
+
+    public event Action OnRequestAttack;
+    public event Action<int, int> OnGiveCharacteristics;
+
     public void Initialize(Enemies enemy, EnemyView prefab)
     {
         var spawned = Instantiate(prefab, _container.transform);
         spawned.gameObject.SetActive(false);
+
+        spawned.TryRequestAttack += TryAttack;
+        spawned.TryGiveCharacteristics += GiveCharacteristics;
+
         spawned.SetCharacteristics(enemy);
-        spawned.Init(_brain);
+        spawned.Init(_brain);       
 
         _pool.Add(spawned);
     }
@@ -25,4 +36,15 @@ public class ObjectPoolView : MonoBehaviour
 
         return result != null;
     }
+
+    public void TryAttack()
+    {
+        OnRequestAttack?.Invoke();
+    }
+
+    private void GiveCharacteristics(int damage, int speed)
+    {
+        OnGiveCharacteristics?.Invoke(damage, speed);
+    }
+
 }

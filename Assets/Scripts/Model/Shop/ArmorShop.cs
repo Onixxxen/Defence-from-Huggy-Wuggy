@@ -26,7 +26,7 @@ public class ArmorShop : Shop
         if (_neuron.Count >= Price)
         {
             _neuron.RemoveNeuron(Price);
-            _armor.ChangeArmorCount(Improvement);
+            _armor.AddArmor(Improvement);
             SellArmorItem?.Invoke(_neuron.Count, newPrice, _armor.Count, index);
         }        
     }

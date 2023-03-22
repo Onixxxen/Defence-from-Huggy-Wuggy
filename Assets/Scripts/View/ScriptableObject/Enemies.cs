@@ -5,6 +5,6 @@ public class Enemies : ScriptableObject
 {
     public EnemyView Template;
     public string Name;
-    public float Damage;
-    public float Speed;       
+    public int Damage;
+    public int Speed;       
 }

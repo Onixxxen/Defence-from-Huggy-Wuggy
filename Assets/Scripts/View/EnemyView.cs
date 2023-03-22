@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class EnemyView : MonoBehaviour
 {
-    private float _damage;
-    private float _speed;
-
     private BrainView _brain;
+
+    public event Action TryRequestAttack;
+    public event Action<int, int> TryGiveCharacteristics;
 
     private void OnMouseDown()
     {
         gameObject.SetActive(false);
+    }
+
+    private void OnEnable()
+    {
+        Attack();
     }
 
     public void Init(BrainView brain)
@@ -21,8 +27,12 @@ public class EnemyView : MonoBehaviour
     }
 
     public void SetCharacteristics(Enemies enemy)
-    {
-        _damage = enemy.Damage;
-        _speed = enemy.Speed;
+    {        
+        TryGiveCharacteristics?.Invoke(enemy.Damage, enemy.Speed);
     }
+
+    private void Attack()
+    {
+        TryRequestAttack?.Invoke();
+    }   
 }
