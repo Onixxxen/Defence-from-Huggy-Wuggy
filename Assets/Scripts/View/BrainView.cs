@@ -22,7 +22,7 @@ public class BrainView : MonoBehaviour
     private const int _clickerMode = 1;
     private const int _towerDefenceMode = 2;
 
-    private PointerEventData _eventData;
+    private Camera _camera;
 
     public event Action ChangeNeuronCount;
     public event Action OnRequestHealthValue;
@@ -50,9 +50,8 @@ public class BrainView : MonoBehaviour
     {
         _normalScale = transform.localScale.x;
         OnRequestHealthValue?.Invoke();
-        OnRequestArmorValue?.Invoke();
-
-        _eventData = new PointerEventData(EventSystem.current);
+        OnRequestArmorValue?.Invoke();  
+        _camera = Camera.main;
     }
 
     private void Update()
@@ -62,12 +61,22 @@ public class BrainView : MonoBehaviour
 
         if (_dayChangerView.CurrentMode == _towerDefenceMode)
         {
-            var enemy = EventSystem.current.GetFirstComponentUnderPoint<EnemyView>(_eventData);
-
             if (Input.GetMouseButtonDown(0))
-                if (enemy != null)
-                    enemy.gameObject.SetActive(false);         
-        }
+            {
+                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    EnemyView enemyView = hit.collider.GetComponent<EnemyView>();
+
+                    if (enemyView != null)
+                        enemyView.gameObject.SetActive(false);
+                    else
+                        Debug.Log("Вы нажали на что-то другое");
+                }
+            }
+        }            
     }
 
     private void OnBraintClick()

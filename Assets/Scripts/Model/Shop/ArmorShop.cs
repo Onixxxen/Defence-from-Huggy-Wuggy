@@ -27,13 +27,13 @@ public class ArmorShop : Shop
         {
             _neuron.RemoveNeuron(Price);
             _armor.AddArmor(Improvement);
-            SellArmorItem?.Invoke(_neuron.Count, newPrice, _armor.Count, index);
+            SellArmorItem?.Invoke(_neuron.Count, newPrice, _armor.MaxCount, index);
         }        
     }
 
     public void CurrentArmorRequest(int index)
     {
-        GiveCurrentArmor?.Invoke(index, _armor.Count);
+        GiveCurrentArmor?.Invoke(index, _armor.MaxCount);
     }
 
     public void OpenItemRequest(int index, int price)

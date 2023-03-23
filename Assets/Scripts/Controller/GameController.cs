@@ -61,7 +61,7 @@ public class GameController : MonoBehaviour
         _enemy = new Enemy(Health, Armor);
         _enemyPresenter = new EnemyPresenter();
 
-        _dayChanger = new DayChanger(_enemy);
+        _dayChanger = new DayChanger(_enemy, Health, Armor);
         _dayChangerPresenter = new DayChangerPresenter();
 
         _brainPresenter = new BrainPresenter();
@@ -75,6 +75,6 @@ public class GameController : MonoBehaviour
         _dayChangerPresenter.Init(_dayChanger, dayChangerView);
         brainView.Init(dayChangerView, _healthSlider, _armorSlider, _healthText, _armorText); ;
         _enemyPresenter.Init(_enemy, objectPool, brainView);
-        _brainPresenter.Init(Health, Armor, brainView);
+        _brainPresenter.Init(Health, Armor, brainView, _dayChanger);
     }
 }

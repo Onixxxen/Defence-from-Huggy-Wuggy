@@ -32,16 +32,19 @@ public class Enemy
     public void AttackRequest()
     {
         if (_armor.Count > 0 && _health.Count > 0)
-        {            
+        {
+            Debug.Log($"Armor: {_damage}");
             _armor.TakeDamage(_damage);
             ChangeArmorValue?.Invoke(_armor.Count);
         }
         else if (_armor.Count <= 0 && _health.Count > 0)
         {
+            Debug.Log($"Health: {_damage}");
             _health.TakeDamage(_damage);
             ChangeHealthValue?.Invoke(_health.Count);
         }
-        else if (_armor.Count <= 0 && _health.Count <= 0)
+
+        if (_armor.Count <= 0 && _health.Count <= 0)
         {
             BrainDie?.Invoke();
         }

@@ -75,7 +75,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: c4da62a02383fec4ba58762b0f0171b5, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: 234604e8e36775140bc99d585a127db5, type: 2}
+      objectReference: {fileID: 2100000, guid: 77ed4451c38a46d4a96770744b68dba5, type: 2}
     - target: {fileID: -7511558181221131132, guid: c4da62a02383fec4ba58762b0f0171b5, type: 3}
       propertyPath: m_Materials.Array.data[2]
       value: 
@@ -86,7 +86,7 @@ PrefabInstance:
       objectReference: {fileID: 4691113494323087704, guid: eeaac9539773215499f0b54ae68a3eb9, type: 3}
     - target: {fileID: 919132149155446097, guid: c4da62a02383fec4ba58762b0f0171b5, type: 3}
       propertyPath: m_Name
-      value: KissyMissy
+      value: KillyWilly
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

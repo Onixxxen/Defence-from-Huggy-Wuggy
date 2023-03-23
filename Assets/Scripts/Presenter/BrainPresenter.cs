@@ -8,12 +8,14 @@ public class BrainPresenter : MonoBehaviour
     private Health _health;
     private Armor _armor;
     private BrainView _brainView;
+    private DayChanger _dayChanger;
 
-    public void Init(Health health, Armor armor, BrainView brainView)
+    public void Init(Health health, Armor armor, BrainView brainView, DayChanger dayChanger)
     {
         _health = health;
         _armor = armor;
         _brainView = brainView;
+        _dayChanger = dayChanger;
     }
 
     public void Enable()
@@ -23,6 +25,7 @@ public class BrainPresenter : MonoBehaviour
 
         _armor.GiveArmorValue += OnGiveArmorValue;
         _health.GiveHealthValue += OnGiveHealthValue;
+        _dayChanger.RestoreBrain += OnRestoreBrain;
     }
     public void Disable()
     {
@@ -31,6 +34,7 @@ public class BrainPresenter : MonoBehaviour
 
         _armor.GiveArmorValue -= OnGiveArmorValue;
         _health.GiveHealthValue -= OnGiveHealthValue;
+        _dayChanger.RestoreBrain -= OnRestoreBrain;
     }
 
     private void RequestArmorValue()
@@ -51,5 +55,11 @@ public class BrainPresenter : MonoBehaviour
     private void OnGiveHealthValue(int value)
     {
         _brainView.SetHealthValue(value);
+    }
+
+    private void OnRestoreBrain(int healthValue, int armorValue)
+    {
+        _brainView.SetHealthValue(healthValue);
+        _brainView.SetArmorValue(armorValue);
     }
 }

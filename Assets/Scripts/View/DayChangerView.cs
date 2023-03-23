@@ -30,6 +30,8 @@ public class DayChangerView : MonoBehaviour
 
     public int CurrentMode { get; private set; }
 
+    public float TimeProgress => _timeProgress;
+
     public event Action<int> TryChangeMode;
 
     private void Start()
@@ -55,16 +57,16 @@ public class DayChangerView : MonoBehaviour
 
     private void TryCallChangeMode()
     {
-        if (_timeProgress >= 0.63 && _timeProgress < 0.631f)
+        if (_timeProgress >= 0.57 && _timeProgress < 0.571f)
         {
             TryChangeMode?.Invoke(_clickerMode);
-            _timeProgress = 0.632f;
+            _timeProgress = 0.572f;
         }
 
-        if (_timeProgress >= 0.98f && _timeProgress < 0.981f)
+        if (_timeProgress >= 0.99f && _timeProgress < 0.991f)
         {
             TryChangeMode?.Invoke(_towerDefenceMode);
-            _timeProgress = 0.982f;
+            _timeProgress = 0.992f;
         }
     }
 

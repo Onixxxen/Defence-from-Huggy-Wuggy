@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class ObjectPoolView : MonoBehaviour
 {
@@ -46,5 +45,4 @@ public class ObjectPoolView : MonoBehaviour
     {
         OnGiveCharacteristics?.Invoke(damage, speed);
     }
-
 }

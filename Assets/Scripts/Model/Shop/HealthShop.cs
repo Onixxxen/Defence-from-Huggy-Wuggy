@@ -28,13 +28,13 @@ public class HealthShop : Shop
         {
             _neuron.RemoveNeuron(Price);
             _health.AddHealth(Improvement);
-            SellHealthItem?.Invoke(_neuron.Count, newPrice, _health.Count, index);
+            SellHealthItem?.Invoke(_neuron.Count, newPrice, _health.MaxCount, index);
         }
     }
 
     public void CurrentHealthRequest(int index)
     {
-        GiveCurrentHealth?.Invoke(index, _health.Count);
+        GiveCurrentHealth?.Invoke(index, _health.MaxCount);
     }
 
     public void OpenItemRequest(int index, int price)

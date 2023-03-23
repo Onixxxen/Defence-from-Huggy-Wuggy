@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d088fc291ed38f74b930fd8c239708ec, type: 3}
-  m_Name: HuggyWuggy
+  m_Name: KissyMissy
   m_EditorClassIdentifier: 
-  Template: {fileID: 7954305276507921968, guid: 08bdfa14a7c564d43921856f984137ad, type: 3}
+  Template: {fileID: 7954305276507921968, guid: f1d767cc44b4750449bdff19977254d3, type: 3}
   Name: "\u0425\u0430\u0433\u0433\u0438 \u0412\u0430\u0433\u0433\u0438"
   Damage: 1
   Speed: 7

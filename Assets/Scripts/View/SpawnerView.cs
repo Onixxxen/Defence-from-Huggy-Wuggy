@@ -8,28 +8,33 @@ public class SpawnerView : ObjectPoolView
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private float _secondsBetweenSpawn;
 
+    private DayChangerView _dayChangerView;
     private float _elapsedTime;
 
     private void Start()
     {
         for (int i = 0; i < _enemies.Count; i++)
             Initialize(_enemies[i], _enemies[i].Template);
+
+        _dayChangerView = FindObjectOfType<DayChangerView>();
     }
 
     private void Update()
-    {
-        _elapsedTime += Time.deltaTime;
-
-        //добавить условие если мод равен тауэр дефенс
-        if (_elapsedTime >= _secondsBetweenSpawn)
+    {        
+        if (_dayChangerView.TimeProgress > 0 && _dayChangerView.TimeProgress < 0.55)
         {
-            if (TryGetObject(out EnemyView enemy))
+            _elapsedTime += Time.deltaTime;
+
+            if (_elapsedTime >= _secondsBetweenSpawn)
             {
-                _elapsedTime = 0;
+                if (TryGetObject(out EnemyView enemy))
+                {
+                    _elapsedTime = 0;
 
-                int spawnPointNumber = Random.Range(0, _spawnPoints.Length);
+                    int spawnPointNumber = Random.Range(0, _spawnPoints.Length);
 
-                SetEnemy(enemy, _spawnPoints[spawnPointNumber].position);
+                    SetEnemy(enemy, _spawnPoints[spawnPointNumber].position);
+                }
             }
         }
     }
