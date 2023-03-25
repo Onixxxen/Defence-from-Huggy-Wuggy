@@ -14,6 +14,7 @@ public class ArmorShop : Shop
     public event Action<int, int, int, int> SellArmorItem;
     public event Action<int, int> GiveCurrentArmor;
     public event Action<int> OpenItem;
+    public event Action<int> CloseItem;
     public event Action<int> LockItem;
     public event Action<int> UnlockItem;
 
@@ -26,7 +27,7 @@ public class ArmorShop : Shop
         if (_neuron.Count >= Price)
         {
             _neuron.RemoveNeuron(Price);
-            _armor.AddArmor(Improvement);
+            _armor.AddMaxArmor(Improvement);
             SellArmorItem?.Invoke(_neuron.Count, newPrice, _armor.MaxCount, index);
         }        
     }
@@ -42,9 +43,17 @@ public class ArmorShop : Shop
             OpenItem?.Invoke(index);
     }
 
-    public void LockItemRequest(int index, int price)
+    public void CloseItemRequest(int index, int price)
     {
         if (_neuron.Count < price)
+            CloseItem?.Invoke(index);
+    }
+
+    public void LockItemRequest(int index, int price)
+    {
+        int newPrice = (int)(price * 1.5f);
+
+        if (_neuron.Count < newPrice)
             LockItem?.Invoke(index);
     }
 

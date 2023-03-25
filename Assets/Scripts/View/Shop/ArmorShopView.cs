@@ -7,20 +7,25 @@ public class ArmorShopView : ShopView
     [SerializeField] private List<ArmorItem> _shopItems;
     [SerializeField] protected ArmorItemView _template;
 
+    public List<ArmorItem> ShopItems => _shopItems;
     public List<ArmorItemView> SpawnedItem { get; private set; } = new List<ArmorItemView>();
 
     public event Action<int, int, int> OnSellButtonClick;
     public event Action<int> OnRequsetCurrentArmor;
     public event Action<int, int> OnRequestOpenItem;
+    public event Action<int, int> OnRequestCloseItem;
     public event Action<int, int> OnRequsetLockItem;
     public event Action<int, int> OnRequsetUnlockItem;
 
     private void Awake()
     {
         for (int i = 0; i < _shopItems.Count; i++)
-        {
             AddItem(_shopItems[i], i);
-        }
+    }
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
     }
 
     private void AddItem(ArmorItem shopItem, int index)
@@ -30,6 +35,7 @@ public class ArmorShopView : ShopView
         item.OnArmorSellButton += TrySellArmorItem;
         item.TryGetCurentArmor += TryRequestCurrentArmor;
         item.TryOpenItem += TryRequestOpenItem;
+        item.TryCloseItem += TryRequestCloseItem;
         item.TryLockItem += TryRequestLockItem;
         item.TryUnlockItem += TryRequestUnlockItem;
 
@@ -61,6 +67,11 @@ public class ArmorShopView : ShopView
     private void TryRequestOpenItem(int index, int price)
     {
         OnRequestOpenItem?.Invoke(index, price);
+    }
+
+    private void TryRequestCloseItem(int index, int price)
+    {
+        OnRequestCloseItem?.Invoke(index, price);
     }
 
     private void TryRequestLockItem(int index, int price)

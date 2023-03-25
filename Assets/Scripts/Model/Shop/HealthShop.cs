@@ -15,6 +15,7 @@ public class HealthShop : Shop
     public event Action<int, int, int, int> SellHealthItem;
     public event Action<int, int> GiveCurrentHealth;
     public event Action<int> OpenItem;
+    public event Action<int> CloseItem;
     public event Action<int> LockItem;
     public event Action<int> UnlockItem;
 
@@ -27,7 +28,7 @@ public class HealthShop : Shop
         if (_neuron.Count >= Price)
         {
             _neuron.RemoveNeuron(Price);
-            _health.AddHealth(Improvement);
+            _health.AddMaxHealth(Improvement);
             SellHealthItem?.Invoke(_neuron.Count, newPrice, _health.MaxCount, index);
         }
     }
@@ -43,9 +44,17 @@ public class HealthShop : Shop
             OpenItem?.Invoke(index);
     }
 
-    public void LockItemRequest(int index, int price)
+    public void CloseItemRequest(int index, int price)
     {
         if (_neuron.Count < price)
+            CloseItem?.Invoke(index);
+    }
+
+    public void LockItemRequest(int index, int price)
+    {
+        int newPrice = (int)(price * 1.5f);
+
+        if (_neuron.Count < newPrice)
             LockItem?.Invoke(index);
     }
 

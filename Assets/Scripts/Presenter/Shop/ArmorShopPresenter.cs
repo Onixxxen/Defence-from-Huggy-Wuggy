@@ -23,12 +23,14 @@ public class ArmorShopPresenter : ShopPresenter
         _armorShopView.OnSellButtonClick += TrySell;
         _armorShopView.OnRequsetCurrentArmor += RequestCurrentArmor;
         _armorShopView.OnRequestOpenItem += RequestOpenItem;
+        _armorShopView.OnRequestCloseItem += RequestCloseItem;
         _armorShopView.OnRequsetLockItem += RequestLockItem;
         _armorShopView.OnRequsetUnlockItem += RequestUnlockItem;
 
         _armorShop.SellArmorItem += OnBuying;
         _armorShop.GiveCurrentArmor += OnGiveCurrentArmor;
         _armorShop.OpenItem += OnOpenItem;
+        _armorShop.CloseItem += OnCloseItem;
         _armorShop.LockItem += OnLockItem;
         _armorShop.UnlockItem += OnUnlockItem;
     }
@@ -38,14 +40,16 @@ public class ArmorShopPresenter : ShopPresenter
         _armorShopView.OnSellButtonClick -= TrySell;
         _armorShopView.OnRequsetCurrentArmor -= RequestCurrentArmor;
         _armorShopView.OnRequestOpenItem -= RequestOpenItem;
+        //_armorShopView.OnRequestCloseItem -= RequestCloseItem; // не знаю почему, но если тут отписываться, то все ломается
         _armorShopView.OnRequsetLockItem -= RequestLockItem;
         _armorShopView.OnRequsetUnlockItem -= RequestUnlockItem;
 
         _armorShop.SellArmorItem -= OnBuying;
         _armorShop.GiveCurrentArmor -= OnGiveCurrentArmor;
         _armorShop.OpenItem -= OnOpenItem;
-        _armorShop.LockItem += OnLockItem;
-        _armorShop.UnlockItem += OnUnlockItem;
+        //_armorShop.CloseItem -= OnCloseItem; // не знаю почему, но если тут отписываться, то все ломается
+        _armorShop.LockItem -= OnLockItem;
+        _armorShop.UnlockItem -= OnUnlockItem;
     }
 
     public void TrySell(int index, int price, int addArmor)
@@ -77,6 +81,16 @@ public class ArmorShopPresenter : ShopPresenter
     public void OnOpenItem(int index)
     {
         _armorItemView[index].OpenItem();
+    }
+
+    public void RequestCloseItem(int index, int price)
+    {
+        _armorShop.CloseItemRequest(index, price);
+    }
+
+    public void OnCloseItem(int index)
+    {
+        _armorItemView[index].CloseItem();
     }
 
     public void RequestLockItem(int index, int price)

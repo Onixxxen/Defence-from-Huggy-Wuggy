@@ -13,6 +13,7 @@ public class DevelopmentShop : Shop
     public event Action<int, int, int, int> SellDevelopmentItem;
     public event Action<int, int> GiveNeuronPerClick;
     public event Action<int> OpenItem;
+    public event Action<int> CloseItem;
     public event Action<int> LockItem;
     public event Action<int> UnlockItem;
 
@@ -41,9 +42,17 @@ public class DevelopmentShop : Shop
             OpenItem?.Invoke(index);
     }
 
-    public void LockItemRequest(int index, int price)
+    public void CloseItemRequest(int index, int price)
     {
         if (_neuron.Count < price)
+            CloseItem?.Invoke(index);
+    }
+
+    public void LockItemRequest(int index, int price)
+    {
+        int newPrice = (int)(price * 1.5f);
+
+        if (_neuron.Count < newPrice)
             LockItem?.Invoke(index);          
     }
 

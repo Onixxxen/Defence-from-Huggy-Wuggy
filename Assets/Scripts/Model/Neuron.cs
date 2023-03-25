@@ -20,4 +20,10 @@ public class Neuron : Brain
     {
         _perClick += count;
     }
+
+    public void Reset()
+    {
+        _count = 0;
+        _perClick = 1;
+    }
 }

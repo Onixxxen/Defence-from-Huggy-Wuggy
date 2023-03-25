@@ -40,8 +40,7 @@ public class EnemyView : MonoBehaviour
         if (collider.TryGetComponent(out BrainView brain))
         {
             _agent.isStopped = true;
-            StartCoroutine(Attack());
-        }
+            StartCoroutine(Attack());        }
         else
         {
             StopCoroutine(Attack());

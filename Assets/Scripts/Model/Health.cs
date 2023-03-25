@@ -9,10 +9,22 @@ public class Health : Brain
     public int Count => _count;
 
     public event Action<int> GiveHealthValue;
+    public event Action<int> RecoveryHealth;
+
+    public void AddMaxHealth(int count)
+    {
+        _maxCount += count;
+    }
 
     public void AddHealth(int count)
     {
-        _maxCount += count;
+        _count += count;
+    }
+
+    public void RecoveryHealthRequest()
+    {
+        _count += _maxCount / 5;
+        RecoveryHealth?.Invoke(_count);
     }
 
     public void RestoreHealth()
@@ -28,5 +40,11 @@ public class Health : Brain
     public void HealthValueRequest()
     {
         GiveHealthValue?.Invoke(_maxCount);
+    }
+
+    public void Reset()
+    {
+        _maxCount = 10;
+        _count = _maxCount;
     }
 }

@@ -7,18 +7,25 @@ public class DevelopmentShopView : ShopView
     [SerializeField] private List<DevelopmentItem> _shopItems;
     [SerializeField] private DevelopmentItemView _template;
 
+    public List<DevelopmentItem> ShopItems => _shopItems;
     public List<DevelopmentItemView> SpawnedItem { get; private set; } = new List<DevelopmentItemView>();
 
     public event Action<int, int, int> OnSellButtonClick;
     public event Action<int> OnRequsetNeuronPerClick;
     public event Action<int, int> OnRequestOpenItem;
+    public event Action<int, int> OnRequestCloseItem;
     public event Action<int, int> OnRequsetLockItem;
     public event Action<int, int> OnRequsetUnlockItem;
 
     private void Awake()
     {
         for (int i = 0; i < _shopItems.Count; i++)
-            AddItem(_shopItems[i], i);
+            AddItem(_shopItems[i], i);        
+    }
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
     }
 
     private void AddItem(DevelopmentItem shopItem, int index)
@@ -28,6 +35,7 @@ public class DevelopmentShopView : ShopView
         item.OnDevelopmentSellButton += TrySellDevelopmentItem;
         item.TryGetNeuronPerClick += TryRequestNeuronPerClick;
         item.TryOpenItem += TryRequestOpenItem;
+        item.TryCloseItem += TryRequestCloseItem;
         item.TryLockItem += TryRequestLockItem;
         item.TryUnlockItem += TryRequestUnlockItem;
 
@@ -49,30 +57,36 @@ public class DevelopmentShopView : ShopView
     private void TrySellDevelopmentItem(int index, int price, int addNeuronPerClick)
     {
         OnSellButtonClick?.Invoke(index, price, addNeuronPerClick);
-        //item.OnDevelopmentSellButton -= TrySellDevelopmentItem;
+        //item.OnDevelopmentSellButton -= TrySellDevelopmentItem; // не знаю почему, но если тут отписываться, то все ломается
     }
 
     private void TryRequestNeuronPerClick(int index)
     {
         OnRequsetNeuronPerClick?.Invoke(index);
-        //item.TryGetNeuronPerClick -= TryRequestNeuronPerClick;
+        //item.TryGetNeuronPerClick -= TryRequestNeuronPerClick; // не знаю почему, но если тут отписываться, то все ломается
     }
 
     private void TryRequestOpenItem(int index, int price)
     {
         OnRequestOpenItem?.Invoke(index, price);
-        //item.TryOpenItem -= TryRequestOpenItem;
-    }   
+        //item.TryOpenItem -= TryRequestOpenItem; // не знаю почему, но если тут отписываться, то все ломается
+    }
+
+    private void TryRequestCloseItem(int index, int price)
+    {
+        OnRequestCloseItem?.Invoke(index, price);
+        //item.TryCloseItem -= TryRequestCloseItem; // не знаю почему, но если тут отписываться, то все ломается
+    }
 
     private void TryRequestLockItem(int index, int price)
     {
         OnRequsetLockItem?.Invoke(index, price);
-        //item.TryLockItem -= TryRequestLockItem;
-    }    
+        //item.TryLockItem -= TryRequestLockItem; // не знаю почему, но если тут отписываться, то все ломается
+    }
 
     private void TryRequestUnlockItem(int index, int price)
     {
         OnRequsetUnlockItem?.Invoke(index, price);
-        //item.TryUnlockItem -= TryRequestUnlockItem;
-    }    
+        //item.TryUnlockItem -= TryRequestUnlockItem; // не знаю почему, но если тут отписываться, то все ломается
+    }
 }

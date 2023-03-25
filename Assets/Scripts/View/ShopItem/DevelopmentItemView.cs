@@ -10,6 +10,7 @@ public class DevelopmentItemView : ShopItemView
     public event Action<int, int, int> OnDevelopmentSellButton;
 
     public event Action<int, int> TryOpenItem;
+    public event Action<int, int> TryCloseItem;
     public event Action<int, int> TryLockItem;
     public event Action<int, int> TryUnlockItem;
 
@@ -19,7 +20,7 @@ public class DevelopmentItemView : ShopItemView
 
         TryGetNeuronPerClick?.Invoke(Index);
 
-        if (ClosePanel.activeSelf == true)          
+        if (ClosePanel.activeSelf == true)
             TryOpenItem?.Invoke(Index, _price);
 
         if (LockPanel.activeSelf == true)
@@ -69,6 +70,17 @@ public class DevelopmentItemView : ShopItemView
     public void OpenItem()
     {
         ClosePanel.gameObject.SetActive(false);
+    }
+
+    public void RequestCloseItem()
+    {
+        if (ClosePanel.activeSelf == false)
+            TryCloseItem?.Invoke(Index, _price);
+    }
+
+    public void CloseItem()
+    {
+        ClosePanel.gameObject.SetActive(true);
     }
 
     public void LockItem()

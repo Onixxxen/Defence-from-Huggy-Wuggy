@@ -8,20 +8,25 @@ public class HealthShopView : ShopView
     [SerializeField] private List<HealthItem> _shopItems;
     [SerializeField] protected HealthItemView _template;
 
+    public List<HealthItem> ShopItems => _shopItems;
     public List<HealthItemView> SpawnedItem { get; private set; } = new List<HealthItemView>();
 
     public event Action<int, int, int> OnSellButtonClick;
     public event Action<int> OnRequsetCurrentHealth;
     public event Action<int, int> OnRequestOpenItem;
+    public event Action<int, int> OnRequestCloseItem;
     public event Action<int, int> OnRequsetLockItem;
     public event Action<int, int> OnRequsetUnlockItem;
 
     private void Awake()
     {
         for (int i = 0; i < _shopItems.Count; i++)
-        {
             AddItem(_shopItems[i], i);
-        }
+    }
+
+    private void Start()
+    {
+        gameObject.SetActive(false);
     }
 
     private void AddItem(HealthItem shopItem, int index)
@@ -31,6 +36,7 @@ public class HealthShopView : ShopView
         item.OnHealthSellButton += TrySellHealthItem;
         item.TryGetCurentHealth += TryRequestCurrentHealth;
         item.TryOpenItem += TryRequestOpenItem;
+        item.TryCloseItem += TryRequestCloseItem;
         item.TryLockItem += TryRequestLockItem;
         item.TryUnlockItem += TryRequestUnlockItem;
 
@@ -62,6 +68,11 @@ public class HealthShopView : ShopView
     private void TryRequestOpenItem(int index, int price)
     {
         OnRequestOpenItem?.Invoke(index, price);
+    }
+
+    private void TryRequestCloseItem(int index, int price)
+    {
+        OnRequestCloseItem?.Invoke(index, price);
     }
 
     private void TryRequestLockItem(int index, int price)

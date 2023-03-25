@@ -23,13 +23,17 @@ public class DayChangerView : MonoBehaviour
     [SerializeField] private Scrollbar _timeProgressBar;
     [SerializeField] private TMP_Text _changeDayText;
 
+    [Header("Recovery Button")]
+    [SerializeField] private RecoveryHealthView _recoveryHealthView;
+    [SerializeField] private RecoveryArmorView _recoveryArmorView;
+
     private Vector3 _defaultAngles;
 
     private const int _clickerMode = 1;
     private const int _towerDefenceMode = 2;
 
     public int CurrentMode { get; private set; }
-
+    public TMP_Text ChangeDayText => _changeDayText;
     public float TimeProgress => _timeProgress;
 
     public event Action<int> TryChangeMode;
@@ -83,6 +87,8 @@ public class DayChangerView : MonoBehaviour
     {
         CurrentMode = modeIndex;
 
+        ReloadRecoveryButton();
+
         _clickerCanvas.gameObject.SetActive(false);
         DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 15, 2);             
         _towerDefenceCanvas.gameObject.SetActive(true); 
@@ -97,5 +103,19 @@ public class DayChangerView : MonoBehaviour
         _changeDayText.gameObject.SetActive(true);
         yield return new WaitForSeconds(3);
         _changeDayText.gameObject.SetActive(false);
+    }
+
+    private void ReloadRecoveryButton()
+    {
+        _recoveryHealthView.CooldownSlider.gameObject.SetActive(false);
+        _recoveryHealthView.GetComponent<Button>().interactable = true;
+
+        _recoveryArmorView.CooldownSlider.gameObject.SetActive(false);
+        _recoveryArmorView.GetComponent<Button>().interactable = true;
+    }
+
+    public void ChangeTime(float newTime)
+    {
+        _timeProgress = newTime;
     }
 }

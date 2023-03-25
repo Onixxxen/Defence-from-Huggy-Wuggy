@@ -20,6 +20,8 @@ public class DayChanger
         _armor = armor;
     }
 
+    public int Day => _day;
+
     public event Action<int> ActivateClickerMode;
     public event Action<int, int> ActivateTowerDefenceMode;
     public event Action<int, int> RestoreBrain;
@@ -38,5 +40,10 @@ public class DayChanger
             _armor.RestoreArmor();
             RestoreBrain?.Invoke(_health.Count, _armor.Count);
         }
+    }
+
+    public void Reset()
+    {
+        _day = 0;
     }
 }

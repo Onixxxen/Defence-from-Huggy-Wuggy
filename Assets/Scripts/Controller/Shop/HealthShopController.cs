@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,9 +27,7 @@ public class HealthShopController : ShopController
         var healthShopView = FindObjectOfType<HealthShopView>(true);
 
         for (int i = 0; i < healthShopView.SpawnedItem.Count; i++)
-        {
             _healthItemView.Add(healthShopView.SpawnedItem[i]);
-        }
 
         _healthPresenter.Init(GameController.HealthShop, NeuronCollectorView, healthShopView, _healthItemView);
     }

@@ -16,6 +16,7 @@ public class BrainView : MonoBehaviour
     private TMP_Text _armorText;
 
     private DayChangerView _dayChangerView;
+    private LoseGameView _loseGameView;
 
     private float _normalScale;
 
@@ -28,13 +29,14 @@ public class BrainView : MonoBehaviour
     public event Action OnRequestHealthValue;
     public event Action OnRequestArmorValue;
 
-    public void Init(DayChangerView dayChangerView, Slider healthSlider, Slider armorSlider, TMP_Text healthText, TMP_Text armorText)
+    public void Init(DayChangerView dayChangerView, LoseGameView loseGameView, Slider healthSlider, Slider armorSlider, TMP_Text healthText, TMP_Text armorText)
     {
         _dayChangerView = dayChangerView;
         _healthSlider = healthSlider;
         _armorSlider = armorSlider;
         _healthText = healthText;
         _armorText = armorText;
+        _loseGameView = loseGameView;
     }
 
     private void OnMouseDown()
@@ -116,6 +118,6 @@ public class BrainView : MonoBehaviour
 
     public void BrainDie()
     {
-        gameObject.SetActive(false); // вызывать панель проигрыша
+        _loseGameView.gameObject.SetActive(true);
     }       
 }

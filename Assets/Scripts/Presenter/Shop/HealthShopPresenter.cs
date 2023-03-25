@@ -24,12 +24,14 @@ public class HealthShopPresenter : ShopPresenter
         _healthShopView.OnSellButtonClick += TrySell;
         _healthShopView.OnRequsetCurrentHealth += RequestCurrentHealth;
         _healthShopView.OnRequestOpenItem += RequestOpenItem;
+        _healthShopView.OnRequestCloseItem += RequestCloseItem;
         _healthShopView.OnRequsetLockItem += RequestLockItem;
         _healthShopView.OnRequsetUnlockItem += RequestUnlockItem;
 
         _healthShop.SellHealthItem += OnBuying;
         _healthShop.GiveCurrentHealth += OnGiveCurrentHealth;
         _healthShop.OpenItem += OnOpenItem;
+        _healthShop.CloseItem += OnCloseItem;
         _healthShop.LockItem += OnLockItem;
         _healthShop.UnlockItem += OnUnlockItem;
     }
@@ -39,12 +41,14 @@ public class HealthShopPresenter : ShopPresenter
         _healthShopView.OnSellButtonClick -= TrySell;
         _healthShopView.OnRequsetCurrentHealth -= RequestCurrentHealth;
         _healthShopView.OnRequestOpenItem -= RequestOpenItem;
-        _healthShopView.OnRequsetLockItem += RequestLockItem;
-        _healthShopView.OnRequsetUnlockItem += RequestUnlockItem;
+        // _healthShopView.OnRequestCloseItem -= RequestCloseItem; // не знаю почему, но если тут отписываться, то все ломается
+        _healthShopView.OnRequsetLockItem -= RequestLockItem;
+        _healthShopView.OnRequsetUnlockItem -= RequestUnlockItem;
 
         _healthShop.SellHealthItem -= OnBuying;
         _healthShop.GiveCurrentHealth -= OnGiveCurrentHealth;
         _healthShop.OpenItem -= OnOpenItem;
+        //_healthShop.CloseItem -= OnCloseItem; // не знаю почему, но если тут отписываться, то все ломается
         _healthShop.LockItem -= OnLockItem;
         _healthShop.UnlockItem -= OnUnlockItem;
     }
@@ -78,6 +82,16 @@ public class HealthShopPresenter : ShopPresenter
     public void OnOpenItem(int index)
     {
         _healthItemView[index].OpenItem();
+    }
+
+    public void RequestCloseItem(int index, int price)
+    {
+        _healthShop.CloseItemRequest(index, price);
+    }
+
+    public void OnCloseItem(int index)
+    {
+        _healthItemView[index].CloseItem();
     }
 
     public void RequestLockItem(int index, int price)

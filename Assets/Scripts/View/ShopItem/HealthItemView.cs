@@ -10,6 +10,7 @@ public class HealthItemView : ShopItemView
     public event Action<int, int, int> OnHealthSellButton;
 
     public event Action<int, int> TryOpenItem;
+    public event Action<int, int> TryCloseItem;
     public event Action<int, int> TryLockItem;
     public event Action<int, int> TryUnlockItem;
 
@@ -69,6 +70,17 @@ public class HealthItemView : ShopItemView
     public void OpenItem()
     {
         ClosePanel.gameObject.SetActive(false);
+    }
+
+    public void RequestCloseItem()
+    {
+        if (ClosePanel.activeSelf == false)
+            TryCloseItem?.Invoke(Index, _price);
+    }
+
+    public void CloseItem()
+    {
+        ClosePanel.gameObject.SetActive(true);
     }
 
     public void LockItem()

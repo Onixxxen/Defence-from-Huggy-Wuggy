@@ -23,12 +23,14 @@ public class DevelopmentShopPresenter : ShopPresenter
         _developmentShopView.OnSellButtonClick += TrySell;
         _developmentShopView.OnRequsetNeuronPerClick += RequestNeuronPerClick;
         _developmentShopView.OnRequestOpenItem += RequestOpenItem;
+        _developmentShopView.OnRequestCloseItem += RequestCloseItem;
         _developmentShopView.OnRequsetLockItem += RequestLockItem;
         _developmentShopView.OnRequsetUnlockItem += RequestUnlockItem;
 
         _developmentShop.SellDevelopmentItem += OnBuying;
         _developmentShop.GiveNeuronPerClick += OnGiveNeuronPerClick;
         _developmentShop.OpenItem += OnOpenItem;
+        _developmentShop.CloseItem += OnCloseItem;
         _developmentShop.LockItem += OnLockItem;
         _developmentShop.UnlockItem += OnUnlockItem;
     }
@@ -38,12 +40,14 @@ public class DevelopmentShopPresenter : ShopPresenter
         _developmentShopView.OnSellButtonClick -= TrySell;
         _developmentShopView.OnRequsetNeuronPerClick -= RequestNeuronPerClick;
         _developmentShopView.OnRequestOpenItem -= RequestOpenItem;
+        //_developmentShopView.OnRequestCloseItem -= RequestCloseItem; // не знаю почему, но если тут отписываться, то все ломается
         _developmentShopView.OnRequsetLockItem -= RequestLockItem;
         _developmentShopView.OnRequsetUnlockItem -= RequestUnlockItem;
 
         _developmentShop.SellDevelopmentItem -= OnBuying;
         _developmentShop.GiveNeuronPerClick -= OnGiveNeuronPerClick;
         _developmentShop.OpenItem -= OnOpenItem;
+        //_developmentShop.CloseItem -= OnCloseItem;// не знаю почему, но если тут отписываться, то все ломается
         _developmentShop.LockItem -= OnLockItem;
         _developmentShop.UnlockItem -= OnUnlockItem;
     }
@@ -78,6 +82,16 @@ public class DevelopmentShopPresenter : ShopPresenter
     public void OnOpenItem(int index)
     {
         _developmentItemView[index].OpenItem();
+    }
+
+    public void RequestCloseItem(int index, int price)
+    {
+        _developmentShop.CloseItemRequest(index, price);
+    }
+
+    public void OnCloseItem(int index)
+    {
+        _developmentItemView[index].CloseItem();
     }
 
     public void RequestLockItem(int index, int price)
