@@ -11,7 +11,7 @@ public class DayChangerView : MonoBehaviour
     [SerializeField] private Gradient _directionalLightGradient;
     [SerializeField] private Gradient _ambientLightGradient;
 
-    [SerializeField, Range(1, 3600)] private float _dayTimeInSecond;
+    [SerializeField, Range(0, 3600)] private float _dayTimeInSecond;
     [SerializeField, Range(0, 1f)] private float _timeProgress;
 
     [SerializeField] private Light _directionalLight;
@@ -22,6 +22,7 @@ public class DayChangerView : MonoBehaviour
     [SerializeField] private Canvas _towerDefenceCanvas;
     [SerializeField] private Scrollbar _timeProgressBar;
     [SerializeField] private TMP_Text _changeDayText;
+    [SerializeField] private ObjectPoolView _objectPool;
 
     [Header("Recovery Button")]
     [SerializeField] private RecoveryHealthView _recoveryHealthView;
@@ -33,10 +34,17 @@ public class DayChangerView : MonoBehaviour
     private const int _towerDefenceMode = 2;
 
     public int CurrentMode { get; private set; }
+    public float NormalDayTimeInSecond { get; private set; }
     public TMP_Text ChangeDayText => _changeDayText;
     public float TimeProgress => _timeProgress;
+    public float DayTimeInSecond => _dayTimeInSecond;
 
     public event Action<int> TryChangeMode;
+
+    private void Awake()
+    {
+        NormalDayTimeInSecond = _dayTimeInSecond;
+    }
 
     private void Start()
     {
@@ -78,6 +86,9 @@ public class DayChangerView : MonoBehaviour
     {
         CurrentMode = modeIndex;
 
+        for (int i = 0; i < _objectPool.Pool.Count; i++)
+            _objectPool.Pool[i].gameObject.SetActive(false); ;
+
         _towerDefenceCanvas.gameObject.SetActive(false);      
         DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 5, 2);        
         _clickerCanvas.gameObject.SetActive(true);
@@ -88,7 +99,7 @@ public class DayChangerView : MonoBehaviour
         CurrentMode = modeIndex;
 
         ReloadRecoveryButton();
-
+        
         _clickerCanvas.gameObject.SetActive(false);
         DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 15, 2);             
         _towerDefenceCanvas.gameObject.SetActive(true); 
@@ -101,7 +112,7 @@ public class DayChangerView : MonoBehaviour
     private IEnumerator SetActiveDayText()
     {
         _changeDayText.gameObject.SetActive(true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(4);
         _changeDayText.gameObject.SetActive(false);
     }
 
@@ -117,5 +128,10 @@ public class DayChangerView : MonoBehaviour
     public void ChangeTime(float newTime)
     {
         _timeProgress = newTime;
+    }
+
+    public void ChangeDayTimeInSecond(float newValue)
+    {
+        _dayTimeInSecond = newValue;
     }
 }

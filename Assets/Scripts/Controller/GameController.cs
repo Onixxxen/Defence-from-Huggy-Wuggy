@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour
     private LoseGame _loseGame;
     private LoseGamePresenter _loseGamePresenter;
 
+    private StartScreenView _startScreenView;
+
     public Neuron Neuron { get; private set; }
     public Health Health { get; private set; }
     public Armor Armor { get; private set; }
@@ -85,6 +87,8 @@ public class GameController : MonoBehaviour
         var recoveryHealthView = FindObjectOfType<RecoveryHealthView>(true);
         var recoveryArmorView = FindObjectOfType<RecoveryArmorView>(true);
         var loseGameView = FindObjectOfType<LoseGameView>(true);
+        _startScreenView = FindObjectOfType<StartScreenView>(true);
+        var pauseView = FindObjectOfType<PauseView>(true);
 
         _neuronPresenter.Init(neuronCollectorView, brainView, _neuronCollector);
         _dayChangerPresenter.Init(_dayChanger, dayChangerView);
@@ -93,5 +97,9 @@ public class GameController : MonoBehaviour
         _brainPresenter.Init(Health, Armor, brainView, _dayChanger);
         _recoveryPresenter.Init(recoveryHealthView, recoveryArmorView, Health, Armor, brainView);
         _loseGamePresenter.Init(loseGameView, _loseGame, neuronCollectorView);
+        _startScreenView.Init(dayChangerView);
+        pauseView.Init(_startScreenView);
+
+        _startScreenView.ActivateStartScreen();
     }
 }

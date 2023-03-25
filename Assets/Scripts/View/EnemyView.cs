@@ -12,6 +12,10 @@ public class EnemyView : MonoBehaviour
     private TargetPoint _targetPoint;
 
     private int _speed;
+    private int _normalSpeed;
+
+    public int Speed => _speed;
+    public int NormalSpeed => _normalSpeed;
 
     public event Action TryRequestAttack;
     public event Action<int, int> TryGiveCharacteristics;
@@ -28,9 +32,7 @@ public class EnemyView : MonoBehaviour
     }
 
     private void OnEnable()
-    {
-        _agent.speed = _speed;
-
+    {       
         int endPointNumber = UnityEngine.Random.Range(0, _targetPoint.TargetPoints.Count);
         _agent.destination = _targetPoint.TargetPoints[endPointNumber].position;
     }
@@ -40,7 +42,8 @@ public class EnemyView : MonoBehaviour
         if (collider.TryGetComponent(out BrainView brain))
         {
             _agent.isStopped = true;
-            StartCoroutine(Attack());        }
+            StartCoroutine(Attack());      
+        }
         else
         {
             StopCoroutine(Attack());
@@ -51,6 +54,7 @@ public class EnemyView : MonoBehaviour
     {        
         TryGiveCharacteristics?.Invoke(enemy.Damage, enemy.Speed);
         _speed = enemy.Speed;
+        _normalSpeed = _speed;
     }
 
     private IEnumerator Attack()
@@ -59,4 +63,9 @@ public class EnemyView : MonoBehaviour
         yield return new WaitForSeconds(1);
         StartCoroutine(Attack());
     }   
+
+    public void ChangeSpeed(int newSpeed)
+    {
+        _agent.speed = newSpeed;
+    }
 }

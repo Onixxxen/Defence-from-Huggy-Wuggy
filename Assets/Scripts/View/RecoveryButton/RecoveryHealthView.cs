@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class RecoveryHealthView : MonoBehaviour
 {
     [SerializeField] private Slider _cooldownSlider;
-    [SerializeField] private int _recoveryTime;
+    [SerializeField] private float _recoveryTime;
 
     public Slider CooldownSlider => _cooldownSlider;
 
