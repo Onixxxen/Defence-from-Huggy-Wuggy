@@ -4,6 +4,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG; // Яндекс SDK
 
 public class DayChangerView : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class DayChangerView : MonoBehaviour
     [SerializeField] private Scrollbar _timeProgressBar;
     [SerializeField] private TMP_Text _changeDayText;
     [SerializeField] private ObjectPoolView _objectPool;
+    [SerializeField] private SpawnerView _spawnerView;
 
     [Header("Recovery Button")]
     [SerializeField] private RecoveryHealthView _recoveryHealthView;
@@ -99,9 +101,15 @@ public class DayChangerView : MonoBehaviour
         CurrentMode = modeIndex;
 
         ReloadRecoveryButton();
+        _spawnerView.ChangeSecondBetweenSpawn(_spawnerView.SecondsBetweenSpawn - 0.1f);
         
         _clickerCanvas.gameObject.SetActive(false);
-        DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 15, 2);             
+
+        if (YandexGame.EnvironmentData.isMobile) // Проверка на устройство. Если телефон, то камера отдаляется на большее расстояние
+            DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 20, 2);
+        else
+            DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 15, 2); 
+        
         _towerDefenceCanvas.gameObject.SetActive(true); 
         
         _changeDayText.text = $"ДЕНЬ {day}";

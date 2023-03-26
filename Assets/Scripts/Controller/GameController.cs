@@ -102,4 +102,12 @@ public class GameController : MonoBehaviour
 
         _startScreenView.ActivateStartScreen();
     }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus)
+            _startScreenView.Pause(true);
+        else
+            _startScreenView.Pause(false);
+    }
 }

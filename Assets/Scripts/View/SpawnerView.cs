@@ -11,6 +11,8 @@ public class SpawnerView : ObjectPoolView
     private DayChangerView _dayChangerView;
     private float _elapsedTime;
 
+    public float SecondsBetweenSpawn => _secondsBetweenSpawn;
+
     private void Start()
     {
         for (int i = 0; i < _enemies.Count; i++)
@@ -43,5 +45,10 @@ public class SpawnerView : ObjectPoolView
     {
         enemy.gameObject.SetActive(true);
         enemy.transform.position = spawnPoint;
+    }
+
+    public void ChangeSecondBetweenSpawn(float newValue)
+    {
+        _secondsBetweenSpawn = newValue;
     }
 }

@@ -1,15 +1,31 @@
 using UnityEngine;
 using TMPro;
-using System.Diagnostics;
+using DG.Tweening;
+using System.Collections;
 
 public class NeuronCollectorView : MonoBehaviour
 {
     [SerializeField] private TMP_Text _neuronCount;
 
+    private float _normalScale;
+
     public TMP_Text NeuronCount => _neuronCount;
+
+    private void Start()
+    {
+        _normalScale = transform.localScale.x;
+    }
 
     public void ChangeNeuronView(int count)
     {
         _neuronCount.text = $"{FormatNumberExtension.FormatNumber(count)}";
-    }    
+        StartCoroutine(ChangeNeuronTextScale());
+    }
+
+    private IEnumerator ChangeNeuronTextScale()
+    {
+        transform.DOScale(_normalScale + 0.2f, 0.5f);
+        yield return new WaitForSeconds(0.1f);
+        transform.DOScale(_normalScale, 0.5f);
+    }
 }

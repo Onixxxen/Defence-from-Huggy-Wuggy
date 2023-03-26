@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using YG; // яндекс SDK
 
 public class DayChanger
 {
@@ -29,7 +30,14 @@ public class DayChanger
     public void ChangeDayRequest(int modeIndex)
     {
         if (modeIndex == _clickerMode)
-            ActivateClickerMode?.Invoke(modeIndex);          
+        {
+            ActivateClickerMode?.Invoke(modeIndex);
+
+            YandexGame.NewLeaderboardScores("DayCount", _day); // яндекс SDK
+
+            if (_day % 2 == 0)
+                YandexGame.FullscreenShow(); // яндекс SDK
+        }
 
         if (modeIndex == _towerDefenceMode)
         {
@@ -38,7 +46,7 @@ public class DayChanger
             _enemy.ChangeEnemyDamage(_enemy.Damage * 2);
             _health.RestoreHealth();
             _armor.RestoreArmor();
-            RestoreBrain?.Invoke(_health.Count, _armor.Count);
+            RestoreBrain?.Invoke(_health.Count, _armor.Count);            
         }
     }
 

@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG; // яндекс SDK
 
 public class LoseGameView : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class LoseGameView : MonoBehaviour
     private void Start()
     {
         _resetButton.onClick.AddListener(RequestLoseGame);
+        _continueButton.onClick.AddListener(ContinueGame);
     }
 
     public void RequestLoseGame()
@@ -70,6 +72,13 @@ public class LoseGameView : MonoBehaviour
         for (int i = 0; i < _objectPool.Pool.Count; i++)
             _objectPool.Pool[i].gameObject.SetActive(false);
 
+        _dayChangerView.ChangeTime(0.57f);
+        gameObject.SetActive(false);
+    }
+
+    public void ContinueGame()
+    {
+        YandexGame.RewVideoShow(0);
         _dayChangerView.ChangeTime(0.57f);
         gameObject.SetActive(false);
     }

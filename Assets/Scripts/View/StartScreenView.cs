@@ -56,7 +56,7 @@ public class StartScreenView : MonoBehaviour
         Pause(false);
     }
 
-    private void Pause(bool isActive)
+    public void Pause(bool isActive)
     {
         if (isActive)
         {
