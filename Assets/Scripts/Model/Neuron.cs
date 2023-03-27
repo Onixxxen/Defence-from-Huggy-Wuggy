@@ -1,3 +1,6 @@
+using System;
+using UnityEngine;
+
 public class Neuron : Brain
 {
     private int _count;
@@ -25,5 +28,16 @@ public class Neuron : Brain
     {
         _count = 0;
         _perClick = 1;
+    }
+
+    public void MultiplyNeuronPerClick(int factor)
+    {
+        _perClick *= factor;
+    }
+
+    public void BackNeuronPerClick(int factor)
+    {
+        double convertedPerClick = (double)_perClick / factor;
+        _perClick = (int)Math.Ceiling(convertedPerClick);
     }
 }

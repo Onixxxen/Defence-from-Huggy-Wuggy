@@ -30,13 +30,20 @@ public class DayChangerView : MonoBehaviour
     [SerializeField] private RecoveryHealthView _recoveryHealthView;
     [SerializeField] private RecoveryArmorView _recoveryArmorView;
 
+    [Header("RewardButton")]
+    [SerializeField] private RewardButtonView _rewardButtonView;
+
     private Vector3 _defaultAngles;
 
     private const int _clickerMode = 1;
     private const int _towerDefenceMode = 2;
 
+    private float _randomTime;
+    private float _randomButton;
+    private bool _isSpawned;
+
     public int CurrentMode { get; private set; }
-    public float NormalDayTimeInSecond { get; private set; }
+    public float PreviousDayTimeInSecond { get; private set; }
     public TMP_Text ChangeDayText => _changeDayText;
     public float TimeProgress => _timeProgress;
     public float DayTimeInSecond => _dayTimeInSecond;
@@ -45,7 +52,7 @@ public class DayChangerView : MonoBehaviour
 
     private void Awake()
     {
-        NormalDayTimeInSecond = _dayTimeInSecond;
+        PreviousDayTimeInSecond = _dayTimeInSecond;
     }
 
     private void Start()
@@ -60,6 +67,14 @@ public class DayChangerView : MonoBehaviour
 
         if (_timeProgress >= 1f)
             _timeProgress = 0f;
+
+        if (_isSpawned == false)
+            if (CurrentMode == _clickerMode)
+                TryShowClickerRewardButton(); // не смотри этот метод
+
+        if (_isSpawned == false)
+            if (CurrentMode == _towerDefenceMode)
+                TryShowTowerDefenceRewardButton();
 
         TryCallChangeMode();
 
@@ -88,6 +103,13 @@ public class DayChangerView : MonoBehaviour
     {
         CurrentMode = modeIndex;
 
+        BackDayTimeInSecond();
+        RandomizeInClicker();
+
+        _isSpawned = false;
+        _rewardButtonView.ChangeSlowDownButtonStatus(false);
+        Debug.Log(_rewardButtonView.SlowDownButttonIsSpawned);
+
         for (int i = 0; i < _objectPool.Pool.Count; i++)
             _objectPool.Pool[i].gameObject.SetActive(false); ;
 
@@ -102,7 +124,11 @@ public class DayChangerView : MonoBehaviour
 
         ReloadRecoveryButton();
         _spawnerView.ChangeSecondBetweenSpawn(_spawnerView.SecondsBetweenSpawn - 0.1f);
-        
+        BackDayTimeInSecond();
+        RandomizeInTowerDefence();
+
+        _isSpawned = false;
+
         _clickerCanvas.gameObject.SetActive(false);
 
         if (YandexGame.EnvironmentData.isMobile) // Проверка на устройство. Если телефон, то камера отдаляется на большее расстояние
@@ -139,7 +165,87 @@ public class DayChangerView : MonoBehaviour
     }
 
     public void ChangeDayTimeInSecond(float newValue)
-    {
+    {        
         _dayTimeInSecond = newValue;
+    }
+
+    public void BackDayTimeInSecond()
+    {
+        _dayTimeInSecond = PreviousDayTimeInSecond;
+    }
+
+    public void UpdatePreviousDayTimeInSecond()
+    {
+        PreviousDayTimeInSecond = _dayTimeInSecond;
+    }
+
+    private void RandomizeInClicker()
+    {
+        int randomButton = UnityEngine.Random.Range(0, 3);
+        float randomTime = UnityEngine.Random.Range(0.6f, 0.8f);
+
+        Debug.Log(randomButton);
+        Debug.Log(randomTime);
+
+        _randomButton = randomButton;
+        _randomTime = randomTime;
+    }
+
+    private void RandomizeInTowerDefence()
+    {
+        int randomBonusView = UnityEngine.Random.Range(0, 3);
+
+        Debug.Log(randomBonusView);
+
+        if (randomBonusView == 1)
+        {
+            float randomTime = UnityEngine.Random.Range(0, 0.3f);
+            _randomTime = randomTime;
+            Debug.Log(randomTime);
+        }
+    }
+
+    private void TryShowClickerRewardButton() // ну типо...
+    {
+        if (_timeProgress >= _randomTime && _timeProgress < _randomTime + 0.001f)
+        {
+            if (_randomButton == 1)
+            {
+                for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
+                {
+                    if (_rewardButtonView.RewardButtons[i].Name == "NeuronBonusButton")
+                    {
+                        _rewardButtonView.ActivateRewardButton(_rewardButtonView.RewardButtons[i]);
+                        _isSpawned = true;
+                    }
+                }
+            }
+            else if (_randomButton == 2)
+            {
+                for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
+                {
+                    if (_rewardButtonView.RewardButtons[i].Name == "SlowTimeButton")
+                    {
+                        _rewardButtonView.ActivateRewardButton(_rewardButtonView.RewardButtons[i]);
+                        _isSpawned = true;
+                    }
+                }
+            }
+        }
+    }
+
+    private void TryShowTowerDefenceRewardButton()
+    {
+        if (_timeProgress >= _randomTime && _timeProgress < _randomTime + 0.001f)
+        {
+            for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
+            {
+                if (_rewardButtonView.RewardButtons[i].Name == "SpeedTimeButton")
+                {
+                    _rewardButtonView.ActivateRewardButton(_rewardButtonView.RewardButtons[i]);
+                    _isSpawned = true;
+                }
+            }
+        }
     }
 }

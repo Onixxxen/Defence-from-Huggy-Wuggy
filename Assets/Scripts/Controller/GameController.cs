@@ -27,6 +27,8 @@ public class GameController : MonoBehaviour
 
     private StartScreenView _startScreenView;
 
+    private RewardPresenter _rewardButtonPresenter;
+
     public Neuron Neuron { get; private set; }
     public Health Health { get; private set; }
     public Armor Armor { get; private set; }
@@ -43,6 +45,7 @@ public class GameController : MonoBehaviour
         _brainPresenter.Enable();
         _recoveryPresenter.Enable();
         _loseGamePresenter.Enable();
+        _rewardButtonPresenter.Enable();
     }
 
     private void OnDisable()
@@ -53,6 +56,7 @@ public class GameController : MonoBehaviour
         _brainPresenter.Disable();
         _recoveryPresenter.Disable();
         _loseGamePresenter.Disable();
+        _rewardButtonPresenter.Disable();
     }
 
     private void Awake()
@@ -80,6 +84,8 @@ public class GameController : MonoBehaviour
         _loseGame = new LoseGame(Neuron, Health, Armor, _dayChanger);
         _loseGamePresenter = new LoseGamePresenter();
 
+        _rewardButtonPresenter = new RewardPresenter();
+
         var neuronCollectorView = FindObjectOfType<NeuronCollectorView>(true);
         var brainView = FindObjectOfType<BrainView>(true);
         var dayChangerView = FindObjectOfType<DayChangerView>(true);
@@ -89,6 +95,7 @@ public class GameController : MonoBehaviour
         var loseGameView = FindObjectOfType<LoseGameView>(true);
         _startScreenView = FindObjectOfType<StartScreenView>(true);
         var pauseView = FindObjectOfType<PauseView>(true);
+        var rewardButtonView = FindObjectOfType<RewardView>(true);
 
         _neuronPresenter.Init(neuronCollectorView, brainView, _neuronCollector);
         _dayChangerPresenter.Init(_dayChanger, dayChangerView);
@@ -99,6 +106,7 @@ public class GameController : MonoBehaviour
         _loseGamePresenter.Init(loseGameView, _loseGame, neuronCollectorView);
         _startScreenView.Init(dayChangerView);
         pauseView.Init(_startScreenView);
+        _rewardButtonPresenter.Init(Neuron, rewardButtonView);
 
         _startScreenView.ActivateStartScreen();
     }

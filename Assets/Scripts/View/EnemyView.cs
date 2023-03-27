@@ -7,9 +7,10 @@ using System;
 
 public class EnemyView : MonoBehaviour
 {
-    private BrainView _brain;
     private NavMeshAgent _agent; 
     private TargetPoint _targetPoint;
+
+    private RewardButtonView _rewardButtonView;
 
     private int _speed;
     private int _normalSpeed;
@@ -20,9 +21,9 @@ public class EnemyView : MonoBehaviour
     public event Action TryRequestAttack;
     public event Action<int, int> TryGiveCharacteristics;
 
-    public void Init(BrainView brain)
+    public void Init(RewardButtonView rewardButtonView)
     {
-        _brain = brain;
+        _rewardButtonView = rewardButtonView;
     }
 
     private void Awake()
@@ -42,7 +43,8 @@ public class EnemyView : MonoBehaviour
         if (collider.TryGetComponent(out BrainView brain))
         {
             _agent.isStopped = true;
-            StartCoroutine(Attack());      
+            StartCoroutine(Attack());
+            TryActiveBonusButton();
         }
         else
         {
@@ -57,6 +59,11 @@ public class EnemyView : MonoBehaviour
         _normalSpeed = _speed;
     }
 
+    public void ChangeSpeed(int newSpeed)
+    {
+        _agent.speed = newSpeed;
+    }
+
     private IEnumerator Attack()
     {
         TryRequestAttack?.Invoke();
@@ -64,8 +71,18 @@ public class EnemyView : MonoBehaviour
         StartCoroutine(Attack());
     }   
 
-    public void ChangeSpeed(int newSpeed)
+    private void TryActiveBonusButton()
     {
-        _agent.speed = newSpeed;
+        if (!_rewardButtonView.SlowDownButttonIsSpawned)
+        {
+            int randomButton = UnityEngine.Random.Range(1, 3);
+
+            Debug.Log(randomButton);
+
+            if (randomButton == 1)
+                for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
+                    if (_rewardButtonView.RewardButtons[i].Name == "SlowDownButton")
+                        _rewardButtonView.ActivateRewardButton(_rewardButtonView.RewardButtons[i]);
+        }        
     }
 }

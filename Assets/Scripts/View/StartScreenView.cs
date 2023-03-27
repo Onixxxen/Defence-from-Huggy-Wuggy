@@ -67,7 +67,7 @@ public class StartScreenView : MonoBehaviour
         }
         else
         {
-            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.NormalDayTimeInSecond);
+            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.PreviousDayTimeInSecond);
 
             for (int i = 0; i < _objectPool.Pool.Count; i++)
                 _objectPool.Pool[i].ChangeSpeed(_objectPool.Pool[i].NormalSpeed);

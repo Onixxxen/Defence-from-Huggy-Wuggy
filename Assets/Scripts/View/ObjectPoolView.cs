@@ -5,8 +5,8 @@ using System;
 
 public class ObjectPoolView : MonoBehaviour
 {
-    [SerializeField] private BrainView _brain;
     [SerializeField] private GameObject _container;
+    [SerializeField] private RewardButtonView _rewardButtonView;
 
     private List<EnemyView> _pool = new List<EnemyView>();
 
@@ -24,7 +24,7 @@ public class ObjectPoolView : MonoBehaviour
         spawned.TryGiveCharacteristics += GiveCharacteristics;
 
         spawned.SetCharacteristics(enemy);
-        spawned.Init(_brain);       
+        spawned.Init(_rewardButtonView);       
 
         _pool.Add(spawned);
     }
