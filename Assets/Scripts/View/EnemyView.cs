@@ -1,29 +1,33 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 using UnityEngine.AI;
 using System;
+using YG;
+using YG.Example;
 
 public class EnemyView : MonoBehaviour
 {
+    [SerializeField] private int _damage;
+    [SerializeField] private int _speed;
+
     private NavMeshAgent _agent; 
     private TargetPoint _targetPoint;
 
     private RewardButtonView _rewardButtonView;
+    private SaverData _saverData;
 
-    private int _speed;
-    private int _normalSpeed;
+    private int _normalSpeed => _speed;
 
+    public int Damage => _damage;
     public int Speed => _speed;
     public int NormalSpeed => _normalSpeed;
 
-    public event Action TryRequestAttack;
-    public event Action<int, int> TryGiveCharacteristics;
+    public event Action<int> TryRequestAttack;
 
-    public void Init(RewardButtonView rewardButtonView)
+    public void Init(RewardButtonView rewardButtonView, SaverData saverData)
     {
         _rewardButtonView = rewardButtonView;
+        _saverData = saverData;
     }
 
     private void Awake()
@@ -53,10 +57,9 @@ public class EnemyView : MonoBehaviour
     }
 
     public void SetCharacteristics(Enemies enemy)
-    {        
-        TryGiveCharacteristics?.Invoke(enemy.Damage, enemy.Speed);
+    {
+        _damage = enemy.Damage;
         _speed = enemy.Speed;
-        _normalSpeed = _speed;
     }
 
     public void ChangeSpeed(int newSpeed)
@@ -64,9 +67,17 @@ public class EnemyView : MonoBehaviour
         _agent.speed = newSpeed;
     }
 
+    public void ChangeDamage(int newDamage)
+    {
+        _damage *= newDamage;
+
+        if (YandexGame.savesData.TowerDefenceLoaded)
+            _saverData.SaveEnemyDamage(_damage);
+    }
+
     private IEnumerator Attack()
     {
-        TryRequestAttack?.Invoke();
+        TryRequestAttack?.Invoke(_damage);
         yield return new WaitForSeconds(1);
         StartCoroutine(Attack());
     }   
@@ -77,12 +88,15 @@ public class EnemyView : MonoBehaviour
         {
             int randomButton = UnityEngine.Random.Range(1, 3);
 
-            Debug.Log(randomButton);
-
             if (randomButton == 1)
                 for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
                     if (_rewardButtonView.RewardButtons[i].Name == "SlowDownButton")
                         _rewardButtonView.ActivateRewardButton(_rewardButtonView.RewardButtons[i]);
         }        
+    }
+
+    public void LoadEnemyData()
+    {
+        _damage = YandexGame.savesData.SavedEnemyDamage;
     }
 }

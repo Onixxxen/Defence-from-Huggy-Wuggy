@@ -1,15 +1,20 @@
 using System;
 using UnityEngine;
+using YG;
+using YG.Example;
 
 public class HealthShop : Shop
 {
-    private Health _health = new Health();
-    private Neuron _neuron = new Neuron();
+    private Health _health;
+    private Neuron _neuron;
 
-    public HealthShop(Health health, Neuron neuron)
+    private SaverData _saverData;
+
+    public HealthShop(Health health, Neuron neuron, SaverData saverData)
     {
         _health = health;
         _neuron = neuron;
+        _saverData = saverData;
     }
 
     public event Action<int, int, int, int> SellHealthItem;
@@ -29,6 +34,9 @@ public class HealthShop : Shop
         {
             _neuron.RemoveNeuron(Price);
             _health.AddMaxHealth(Improvement);
+
+            _saverData.SaveHealthItemPrices(index, newPrice);
+
             SellHealthItem?.Invoke(_neuron.Count, newPrice, _health.MaxCount, index);
         }
     }
@@ -40,6 +48,8 @@ public class HealthShop : Shop
 
     public void OpenItemRequest(int index, int price)
     {
+        _saverData.SaveHealthOpenStatus(index, _neuron.Count >= price);
+
         if (_neuron.Count >= price)
             OpenItem?.Invoke(index);
     }

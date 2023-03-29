@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Sport
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 46dcfceb6a2fdcc4aa4f5ceb29755285, type: 3}
-  Name: "\u0417\u0430\u043D\u044F\u0442\u044C\u0441\u044F \u0441\u043F\u043E\u0440\u0442\u043E\u043C"
+  RuName: "\u0417\u0430\u043D\u044F\u0442\u044C\u0441\u044F \u0441\u043F\u043E\u0440\u0442\u043E\u043C"
+  EnName: Go to the gym
+  TrName: "Spor yap\u0131n"
+  UkName: "\u0417\u0430\u0439\u043D\u044F\u0442\u0438\u0441\u044F \u0441\u043F\u043E\u0440\u0442\u043E\u043C"
   Price: 30000
   AddHealth: 50

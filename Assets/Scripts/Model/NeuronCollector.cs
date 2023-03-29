@@ -1,7 +1,8 @@
 using System;
 using UnityEngine;
+using YG.Example;
 
-public class NeuronCollector : Neuron
+public class NeuronCollector
 {
     public event Action<int> NeuronCountChanged;
 

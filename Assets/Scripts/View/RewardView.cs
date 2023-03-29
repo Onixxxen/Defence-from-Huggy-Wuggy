@@ -55,6 +55,7 @@ public class RewardView : MonoBehaviour
     private void ContinueGame()
     {
         _loseGameView.DayChangerView.ChangeTime(0.57f);
+        _loseGameView.DayChangerView.BackDayTimeInSecond();
         _loseGameView.gameObject.SetActive(false);
     }
 

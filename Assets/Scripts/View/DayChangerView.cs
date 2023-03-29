@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using YG; // ßíäåêñ SDK
+using YG.Example;
 
 public class DayChangerView : MonoBehaviour
 {
@@ -22,9 +23,10 @@ public class DayChangerView : MonoBehaviour
     [SerializeField] private Canvas _clickerCanvas;
     [SerializeField] private Canvas _towerDefenceCanvas;
     [SerializeField] private Scrollbar _timeProgressBar;
-    [SerializeField] private TMP_Text _changeDayText;
+    [SerializeField] private ChangeDayTextView _changeDayTextView;
     [SerializeField] private ObjectPoolView _objectPool;
     [SerializeField] private SpawnerView _spawnerView;
+    [SerializeField] private StartScreenView _startScreenView;
 
     [Header("Recovery Button")]
     [SerializeField] private RecoveryHealthView _recoveryHealthView;
@@ -32,6 +34,9 @@ public class DayChangerView : MonoBehaviour
 
     [Header("RewardButton")]
     [SerializeField] private RewardButtonView _rewardButtonView;
+
+    [Header("Saving")]
+    [SerializeField] private SaverData _saverData;
 
     private Vector3 _defaultAngles;
 
@@ -44,7 +49,6 @@ public class DayChangerView : MonoBehaviour
 
     public int CurrentMode { get; private set; }
     public float PreviousDayTimeInSecond { get; private set; }
-    public TMP_Text ChangeDayText => _changeDayText;
     public float TimeProgress => _timeProgress;
     public float DayTimeInSecond => _dayTimeInSecond;
 
@@ -84,6 +88,14 @@ public class DayChangerView : MonoBehaviour
         _directionalLight.transform.localEulerAngles = new Vector3(x: 360f * _timeProgress + 20, y: _defaultAngles.x, _defaultAngles.z);
     }
 
+    
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus)
+            _saverData.SaveTime(_timeProgress);
+    }
+    
+
     private void TryCallChangeMode()
     {
         if (_timeProgress >= 0.57 && _timeProgress < 0.571f)
@@ -92,10 +104,10 @@ public class DayChangerView : MonoBehaviour
             _timeProgress = 0.572f;
         }
 
-        if (_timeProgress >= 0.99f && _timeProgress < 0.991f)
+        if (_timeProgress >= 0f && _timeProgress < 0.001f)
         {
             TryChangeMode?.Invoke(_towerDefenceMode);
-            _timeProgress = 0.992f;
+            _timeProgress = 0.002f;
         }
     }
 
@@ -108,7 +120,6 @@ public class DayChangerView : MonoBehaviour
 
         _isSpawned = false;
         _rewardButtonView.ChangeSlowDownButtonStatus(false);
-        Debug.Log(_rewardButtonView.SlowDownButttonIsSpawned);
 
         for (int i = 0; i < _objectPool.Pool.Count; i++)
             _objectPool.Pool[i].gameObject.SetActive(false); ;
@@ -138,16 +149,16 @@ public class DayChangerView : MonoBehaviour
         
         _towerDefenceCanvas.gameObject.SetActive(true); 
         
-        _changeDayText.text = $"ÄÅÍÜ {day}";
+        _changeDayTextView.ChangeDayText(day);
 
         StartCoroutine(SetActiveDayText());
     }
 
     private IEnumerator SetActiveDayText()
     {
-        _changeDayText.gameObject.SetActive(true);
+        _changeDayTextView.gameObject.SetActive(true);
         yield return new WaitForSeconds(4);
-        _changeDayText.gameObject.SetActive(false);
+        _changeDayTextView.gameObject.SetActive(false);
     }
 
     private void ReloadRecoveryButton()
@@ -184,9 +195,6 @@ public class DayChangerView : MonoBehaviour
         int randomButton = UnityEngine.Random.Range(0, 3);
         float randomTime = UnityEngine.Random.Range(0.6f, 0.8f);
 
-        Debug.Log(randomButton);
-        Debug.Log(randomTime);
-
         _randomButton = randomButton;
         _randomTime = randomTime;
     }
@@ -195,13 +203,10 @@ public class DayChangerView : MonoBehaviour
     {
         int randomBonusView = UnityEngine.Random.Range(0, 3);
 
-        Debug.Log(randomBonusView);
-
         if (randomBonusView == 1)
         {
             float randomTime = UnityEngine.Random.Range(0, 0.3f);
             _randomTime = randomTime;
-            Debug.Log(randomTime);
         }
     }
 
@@ -247,5 +252,26 @@ public class DayChangerView : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void LoadTimeData()
+    {
+        _timeProgress = YandexGame.savesData.SavedTime;
+
+        if (_timeProgress >= 0.57 && _timeProgress < 0.999f)
+            TryChangeMode?.Invoke(_clickerMode);
+
+        if (_timeProgress >= 0 && _timeProgress < 0.57f)
+        {
+            if (YandexGame.EnvironmentData.isMobile)
+                _startScreenView.ChangeCameraNormalSie(20);
+            else
+                _startScreenView.ChangeCameraNormalSie(15);
+
+            YandexGame.savesData.TowerDefenceLoaded = false;
+            TryChangeMode?.Invoke(_towerDefenceMode);
+        }
+
+        YandexGame.savesData.TowerDefenceLoaded = true;
     }
 }

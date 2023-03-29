@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
+using YG;
+using YG.Example;
 
 public class HealthShopView : ShopView
 {
     [SerializeField] private List<HealthItem> _shopItems;
-    [SerializeField] protected HealthItemView _template;
-
+    [SerializeField] private HealthItemView _template;
+    [SerializeField] private SaverData _saverData;
     public List<HealthItem> ShopItems => _shopItems;
     public List<HealthItemView> SpawnedItem { get; private set; } = new List<HealthItemView>();
 
@@ -17,6 +18,12 @@ public class HealthShopView : ShopView
     public event Action<int, int> OnRequestCloseItem;
     public event Action<int, int> OnRequsetLockItem;
     public event Action<int, int> OnRequsetUnlockItem;
+
+    private void OnEnable()
+    {
+        for (int i = 0; i < _shopItems.Count; i++)
+            SpawnedItem[i].SetName(_shopItems[i]);
+    }
 
     private void Awake()
     {

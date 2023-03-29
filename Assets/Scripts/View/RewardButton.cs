@@ -45,6 +45,7 @@ public class RewardButton : MonoBehaviour
 
     private IEnumerator TryDestroyButton(int duration)
     {
+        GetComponent<Button>().interactable = false;
         _progressSlider.DOValue(_progressSlider.maxValue, duration);
 
         yield return new WaitUntil(SliderIsFull);

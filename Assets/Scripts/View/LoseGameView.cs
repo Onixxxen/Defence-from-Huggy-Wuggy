@@ -26,6 +26,7 @@ public class LoseGameView : MonoBehaviour
     {
         TryGetDayCount?.Invoke();
         _mainUI.SetActive(false);
+        _dayChangerView.ChangeDayTimeInSecond(1000000);
     }
 
     private void OnDisable()
@@ -36,6 +37,12 @@ public class LoseGameView : MonoBehaviour
     private void Start()
     {
         _resetButton.onClick.AddListener(RequestLoseGame);
+    }
+
+    private void OnApplicationFocus(bool focus)
+    {
+        if (!focus)
+            RequestLoseGame();
     }
 
     public void RequestLoseGame()
@@ -73,6 +80,7 @@ public class LoseGameView : MonoBehaviour
             _objectPool.Pool[i].gameObject.SetActive(false);
 
         _dayChangerView.ChangeTime(0.57f);
+        _dayChangerView.BackDayTimeInSecond();
         gameObject.SetActive(false);
     }
 }

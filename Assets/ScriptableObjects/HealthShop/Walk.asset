@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Walk
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 4037c6fe41b15514f82cfa0217ac8587, type: 3}
-  Name: "\u041F\u0440\u043E\u0433\u0443\u043B\u044F\u0442\u044C\u0441\u044F"
+  RuName: "\u041F\u0440\u043E\u0433\u0443\u043B\u044F\u0442\u044C\u0441\u044F"
+  EnName: Go for a walk
+  TrName: "Y\xFCr\xFCy\xFC\u015Fe \xE7\u0131k"
+  UkName: "\u041F\u0440\u043E\u0433\u0443\u043B\u044F\u0442\u0438\u0441\u044F"
   Price: 2000000
   AddHealth: 500

@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Concert
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 9fa2f6de8b0dd5742b0a70c806c35567, type: 3}
-  Name: "\u0421\u0445\u043E\u0434\u0438\u0442\u044C \u043D\u0430 \u043A\u043E\u043D\u0446\u0435\u0440\u0442
+  RuName: "\u0421\u0445\u043E\u0434\u0438\u0442\u044C \u043D\u0430 \u043A\u043E\u043D\u0446\u0435\u0440\u0442
     \u043B\u044E\u0431\u0438\u043C\u043E\u0433\u043E \u0438\u0441\u043F\u043E\u043B\u043D\u0438\u0442\u0435\u043B\u044F"
+  EnName: Go to a concert by a favorite artist
+  TrName: "En sevdi\u011Finiz sanat\xE7\u0131n\u0131n konserine gidin"
+  UkName: "\u0421\u0445\u043E\u0434\u0438\u0442\u0438 \u043D\u0430 \u043A\u043E\u043D\u0446\u0435\u0440\u0442
+    \u0443\u043B\u044E\u0431\u043B\u0435\u043D\u043E\u0433\u043E \u0432\u0438\u043A\u043E\u043D\u0430\u0432\u0446\u044F"
   Price: 1000000
   AddNeuronPerClick: 1000

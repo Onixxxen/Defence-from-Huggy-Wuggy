@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using YG;
 
 public class BrainView : MonoBehaviour
 {
@@ -26,8 +27,8 @@ public class BrainView : MonoBehaviour
     private Camera _camera;
 
     public event Action ChangeNeuronCount;
-    public event Action OnRequestHealthValue;
-    public event Action OnRequestArmorValue;
+    //public event Action OnRequestHealthValue;
+    //public event Action OnRequestArmorValue;
 
     public void Init(DayChangerView dayChangerView, LoseGameView loseGameView, Slider healthSlider, Slider armorSlider, TMP_Text healthText, TMP_Text armorText)
     {
@@ -51,8 +52,8 @@ public class BrainView : MonoBehaviour
     private void Start()
     {
         _normalScale = transform.localScale.x;
-        OnRequestHealthValue?.Invoke();
-        OnRequestArmorValue?.Invoke();  
+        //OnRequestHealthValue?.Invoke();
+        //OnRequestArmorValue?.Invoke();
         _camera = Camera.main;
     }
 
@@ -113,6 +114,18 @@ public class BrainView : MonoBehaviour
 
     public void ChangeHealthValue(int healthValue)
     {
+        _healthSlider.DOValue(healthValue, 1);
+    }
+
+    public void ChangeArmorCount(int armorValue, int maxValue)
+    {
+        _armorSlider.maxValue = maxValue;
+        _armorSlider.DOValue(armorValue, 1);
+    }
+
+    public void ChangeHealthCount(int healthValue, int maxValue)
+    {
+        _healthSlider.maxValue = maxValue;
         _healthSlider.DOValue(healthValue, 1);
     }
 

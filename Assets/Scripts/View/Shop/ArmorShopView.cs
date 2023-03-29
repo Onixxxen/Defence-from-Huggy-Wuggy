@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
+using YG.Example;
 
 public class ArmorShopView : ShopView
 {
     [SerializeField] private List<ArmorItem> _shopItems;
     [SerializeField] protected ArmorItemView _template;
+    [SerializeField] private SaverData _saverData;
 
     public List<ArmorItem> ShopItems => _shopItems;
     public List<ArmorItemView> SpawnedItem { get; private set; } = new List<ArmorItemView>();
@@ -16,6 +19,12 @@ public class ArmorShopView : ShopView
     public event Action<int, int> OnRequestCloseItem;
     public event Action<int, int> OnRequsetLockItem;
     public event Action<int, int> OnRequsetUnlockItem;
+
+    private void OnEnable()
+    {
+        for (int i = 0; i < _shopItems.Count; i++)
+            SpawnedItem[i].SetName(_shopItems[i]);
+    }
 
     private void Awake()
     {
@@ -41,7 +50,7 @@ public class ArmorShopView : ShopView
 
         item.Render(shopItem, index);
 
-        SpawnedItem.Add(item);
+        SpawnedItem.Add(item);                
     }
 
     public void UpdateCurrentArmor(int currentArmor)

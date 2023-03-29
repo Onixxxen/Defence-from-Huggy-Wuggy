@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: YouTube
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 3240d2b967fb42541af8306cc3ea443f, type: 3}
-  Name: "\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043C\u0435\u044C\u0448\u0435
+  RuName: "\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043C\u0435\u043D\u044C\u0448\u0435
+    \u044E\u0442\u0443\u0431\u0430"
+  EnName: Watch less youtube
+  TrName: Daha az YouTube izleyin
+  UkName: "\u0414\u0438\u0432\u0438\u0442\u0438\u0441\u044F \u043C\u0435\u043D\u0448\u0435
     \u044E\u0442\u0443\u0431\u0430"
   Price: 2000
   AddArmor: 10

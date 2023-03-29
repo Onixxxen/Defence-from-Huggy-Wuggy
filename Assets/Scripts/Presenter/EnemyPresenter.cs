@@ -19,7 +19,6 @@ public class EnemyPresenter
     public void Enable() 
     {
         _objectPoolView.OnRequestAttack += RequestAttack;
-        _objectPoolView.OnGiveCharacteristics += TryGetCharacteristics;
 
         _enemyModel.ChangeArmorValue += OnChangeArmorValue;
         _enemyModel.ChangeHealthValue += OnChangeHealthValue;
@@ -29,16 +28,15 @@ public class EnemyPresenter
     public void Disable() 
     {
         _objectPoolView.OnRequestAttack -= RequestAttack;
-        _objectPoolView.OnGiveCharacteristics -= TryGetCharacteristics;
 
         _enemyModel.ChangeArmorValue -= OnChangeArmorValue;
         _enemyModel.ChangeHealthValue -= OnChangeHealthValue;
         _enemyModel.BrainDie -= OnBrainDie;
     }
 
-    private void RequestAttack()
+    private void RequestAttack(int damage)
     {
-        _enemyModel.AttackRequest();
+        _enemyModel.AttackRequest(damage);
     }
 
     private void OnChangeArmorValue(int armorValue)
@@ -49,15 +47,10 @@ public class EnemyPresenter
     private void OnChangeHealthValue(int healthValue)
     {
         _brainView?.ChangeHealthValue(healthValue);
-    }
+    }    
 
     private void OnBrainDie()
     {
         _brainView?.BrainDie();
-    }
-
-    private void TryGetCharacteristics(int damage, int speed)
-    {
-        _enemyModel?.GetCharacteristics(damage, speed);
     }
 }

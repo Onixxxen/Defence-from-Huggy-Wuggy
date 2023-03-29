@@ -56,8 +56,6 @@ public class RecoveryArmorView : MonoBehaviour
     {
         int randomButton = UnityEngine.Random.Range(1, 5);
 
-        Debug.Log(randomButton);
-
         if (randomButton == 1)
             for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
                 if (_rewardButtonView.RewardButtons[i].Name == "SkipArmorCooldownButton")

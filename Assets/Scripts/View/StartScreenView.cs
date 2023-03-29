@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 using UnityEngine.Pool;
+using YG;
 
 public class StartScreenView : MonoBehaviour
 {
@@ -34,7 +35,7 @@ public class StartScreenView : MonoBehaviour
             else
                 CloseStartScreen();
         }
-    }
+    }     
 
     public void ActivateStartScreen()
     {
@@ -72,5 +73,10 @@ public class StartScreenView : MonoBehaviour
             for (int i = 0; i < _objectPool.Pool.Count; i++)
                 _objectPool.Pool[i].ChangeSpeed(_objectPool.Pool[i].NormalSpeed);
         }
+    }
+
+    public void ChangeCameraNormalSie(int size)
+    {
+        _cameraNormalSize = size;
     }
 }

@@ -1,11 +1,17 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using YG;
+using YG.Example;
 
 public class DevelopmentShopView : ShopView
 {
     [SerializeField] private List<DevelopmentItem> _shopItems;
     [SerializeField] private DevelopmentItemView _template;
+    [SerializeField] private TMP_Text _count;
+    [SerializeField] private TMP_Text _perClickText;
+    [SerializeField] private SaverData _saverData;
 
     public List<DevelopmentItem> ShopItems => _shopItems;
     public List<DevelopmentItemView> SpawnedItem { get; private set; } = new List<DevelopmentItemView>();
@@ -16,6 +22,12 @@ public class DevelopmentShopView : ShopView
     public event Action<int, int> OnRequestCloseItem;
     public event Action<int, int> OnRequsetLockItem;
     public event Action<int, int> OnRequsetUnlockItem;
+
+    private void OnEnable()
+    {
+        for (int i = 0; i < _shopItems.Count; i++)
+            SpawnedItem[i].SetName(_shopItems[i]);
+    }
 
     private void Awake()
     {
@@ -46,12 +58,14 @@ public class DevelopmentShopView : ShopView
 
     public void UpdateNeuronPerClick(int neuronPerClick)
     {
-        CurrentValue.text = $"{FormatNumberExtension.FormatNumber(neuronPerClick)}/клик";
+        _count.text = $"{neuronPerClick}";
+        CurrentValue.text = $"{FormatNumberExtension.FormatNumber(neuronPerClick)}{_perClickText.text}";
     }
 
     public void SetNeuronPerClick(int neuronPerClick)
     {
-        CurrentValue.text = $"{FormatNumberExtension.FormatNumber(neuronPerClick)}/клик";
+        _count.text = $"{neuronPerClick}";
+        CurrentValue.text = $"{FormatNumberExtension.FormatNumber(neuronPerClick)}{_perClickText.text}";
     }
 
     private void TrySellDevelopmentItem(int index, int price, int addNeuronPerClick)

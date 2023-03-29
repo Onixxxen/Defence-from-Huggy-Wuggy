@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Sleep
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: a592a0a7a2169ca41ac9e5fb93a2b909, type: 3}
-  Name: "\u0421\u043F\u0430\u0442\u044C"
+  RuName: "\u0421\u043F\u0430\u0442\u044C"
+  EnName: Sleep
+  TrName: Uyku
+  UkName: "\u0421\u043F\u0430\u0442\u0438"
   Price: 100
   AddHealth: 1

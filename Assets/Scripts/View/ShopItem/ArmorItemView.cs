@@ -1,9 +1,12 @@
 using System;
+using UnityEngine;
+using YG;
 
 public class ArmorItemView : ShopItemView
 {
     private int _price;
     private ArmorItemView[] _items;
+    private SettingLanguageView _settingLanguage;
 
     public event Action<int> TryGetCurentArmor;
     public event Action<int, int, int> OnArmorSellButton;
@@ -26,10 +29,15 @@ public class ArmorItemView : ShopItemView
             TryUnlockItem?.Invoke(Index, _price);
     }
 
+    private void Awake()
+    {
+        _settingLanguage = FindObjectOfType<SettingLanguageView>(true);
+    }
+
     private void Start()
     {
         _price = PriceValue;
-        _items = FindObjectsOfType<ArmorItemView>();
+        _items = FindObjectsOfType<ArmorItemView>(true);
 
         TryGetCurentArmor?.Invoke(Index);
         TryOpenItem?.Invoke(Index, _price);
@@ -51,13 +59,25 @@ public class ArmorItemView : ShopItemView
 
     public void Render(ArmorItem item, int index)
     {
+        SetName(item);
         Index = index;
         Icon.sprite = item.Icon;
-        Name.text = item.Name;
         Improvement.text = $"+{FormatNumberExtension.FormatNumber(item.AddArmor)}";
         Price.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
         PriceValue = item.Price;
         ImprovementValue = item.AddArmor;
+    }
+
+    public void SetName(ArmorItem item)
+    {
+        if (_settingLanguage.CurrentLanguage == "ru")
+            Name.text = item.RuName;
+        else if (_settingLanguage.CurrentLanguage == "en")
+            Name.text = item.EnName;
+        else if (_settingLanguage.CurrentLanguage == "tr")
+            Name.text = item.TrName;
+        else if (_settingLanguage.CurrentLanguage == "uk")
+            Name.text = item.UkName;
     }
 
     public void UpdateValues(int price)
@@ -90,5 +110,12 @@ public class ArmorItemView : ShopItemView
     public void UnlockItem()
     {
         LockPanel.gameObject.SetActive(false);
+    }
+
+    public void LoadArmorItemPriceData()
+    {
+        PriceValue = YandexGame.savesData.SavedArmorItemPrices[Index];
+        ClosePanel.gameObject.SetActive(!YandexGame.savesData.ArmorItemOpenStatus[Index]);
+        UpdateValues(PriceValue);
     }
 }

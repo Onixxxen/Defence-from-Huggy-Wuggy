@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Memory
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 27874166aa3f364418b37015d4cdbb16, type: 3}
-  Name: "\u0422\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0430\u043C\u044F\u0442\u044C"
+  RuName: "\u0422\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u0430\u0442\u044C \u043F\u0430\u043C\u044F\u0442\u044C"
+  EnName: Train your memory
+  TrName: "Haf\u0131zan\u0131z\u0131 e\u011Fitin"
+  UkName: "\u0422\u0440\u0435\u043D\u0443\u0432\u0430\u0442\u0438 \u043F\u0430\u043C'\u044F\u0442\u044C"
   Price: 200000000
   AddHealth: 5000

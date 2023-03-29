@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using YG; // яндекс SDK
+using YG.Example;
 
 public class DayChanger
 {
@@ -11,14 +12,17 @@ public class DayChanger
 
     private Enemy _enemy;
 
+    private SaverData _saverData;
+
     private const int _clickerMode = 1;
     private const int _towerDefenceMode = 2;
 
-    public DayChanger(Enemy enemy, Health health, Armor armor)
+    public DayChanger(Enemy enemy, Health health, Armor armor, SaverData saverData)
     {
         _enemy = enemy;
         _health = health;
         _armor = armor;
+        _saverData = saverData;
     }
 
     public int Day => _day;
@@ -26,6 +30,7 @@ public class DayChanger
     public event Action<int> ActivateClickerMode;
     public event Action<int, int> ActivateTowerDefenceMode;
     public event Action<int, int> RestoreBrain;
+    public event Action<int> ChangeEnemyDamage;
 
     public void ChangeDayRequest(int modeIndex)
     {
@@ -41,17 +46,28 @@ public class DayChanger
 
         if (modeIndex == _towerDefenceMode)
         {
-            _day++;
+            if (YandexGame.savesData.TowerDefenceLoaded)
+            {
+                _day++;
+                _saverData.SaveDayCount(_day);
+                _health.RestoreHealth();
+                _armor.RestoreArmor();
+                RestoreBrain?.Invoke(_health.Count, _armor.Count);
+            }
+
             ActivateTowerDefenceMode?.Invoke(_day, modeIndex);
-            _enemy.ChangeEnemyDamage(_enemy.Damage * 2);
-            _health.RestoreHealth();
-            _armor.RestoreArmor();
-            RestoreBrain?.Invoke(_health.Count, _armor.Count);            
-        }
+            ChangeEnemyDamage?.Invoke(2);            
+        }        
     }
 
     public void Reset()
     {
         _day = 0;
+        _saverData.SaveDayCount(_day);
+    }
+
+    public void LoadDayData()
+    {
+        _day = YandexGame.savesData.SavedDay;
     }
 }

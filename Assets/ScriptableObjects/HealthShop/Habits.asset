@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Habits
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: 29620a930417fbb4e974abf290044895, type: 3}
-  Name: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0440\u0438\u0432\u044B\u0447\u043A\u0438"
+  RuName: "\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C \u043F\u0440\u0438\u0432\u044B\u0447\u043A\u0438"
+  EnName: Change Habits
+  TrName: "Al\u0131\u015Fkanl\u0131klar\u0131 De\u011Fi\u015Ftir"
+  UkName: "\u0417\u043C\u0456\u043D\u0438\u0442\u0438 \u0437\u0432\u0438\u0447\u043A\u0438"
   Price: 1000000000
   AddHealth: 15000

@@ -2,18 +2,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
+using YG.Example;
 
 public class ObjectPoolView : MonoBehaviour
 {
     [SerializeField] private GameObject _container;
     [SerializeField] private RewardButtonView _rewardButtonView;
+    [SerializeField] private SaverData _saverData;
 
     private List<EnemyView> _pool = new List<EnemyView>();
 
     public List<EnemyView> Pool => _pool;
 
-    public event Action OnRequestAttack;
-    public event Action<int, int> OnGiveCharacteristics;
+    public event Action<int> OnRequestAttack;
 
     public void Initialize(Enemies enemy, EnemyView prefab)
     {
@@ -21,10 +22,9 @@ public class ObjectPoolView : MonoBehaviour
         spawned.gameObject.SetActive(false);
 
         spawned.TryRequestAttack += TryAttack;
-        spawned.TryGiveCharacteristics += GiveCharacteristics;
 
         spawned.SetCharacteristics(enemy);
-        spawned.Init(_rewardButtonView);       
+        spawned.Init(_rewardButtonView, _saverData);       
 
         _pool.Add(spawned);
     }
@@ -36,13 +36,8 @@ public class ObjectPoolView : MonoBehaviour
         return result != null;
     }
 
-    public void TryAttack()
+    public void TryAttack(int damage)
     {
-        OnRequestAttack?.Invoke();
-    }
-
-    private void GiveCharacteristics(int damage, int speed)
-    {
-        OnGiveCharacteristics?.Invoke(damage, speed);
+        OnRequestAttack?.Invoke(damage);
     }
 }

@@ -1,9 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
-public class BrainPresenter : MonoBehaviour
+public class BrainPresenter
 {
     private Health _health;
     private Armor _armor;
@@ -20,20 +18,24 @@ public class BrainPresenter : MonoBehaviour
 
     public void Enable()
     {
-        _brainView.OnRequestHealthValue += RequestHealthValue;
-        _brainView.OnRequestArmorValue += RequestArmorValue;
+        //_brainView.OnRequestHealthValue += RequestHealthValue;
+        //_brainView.OnRequestArmorValue += RequestArmorValue;
 
         _armor.GiveArmorValue += OnGiveArmorValue;
         _health.GiveHealthValue += OnGiveHealthValue;
+        _armor.GiveArmorCount += OnGiveArmorCount;
+        _health.GiveHealthCount += OnGiveHealthCount;
         _dayChanger.RestoreBrain += OnRestoreBrain;
     }
     public void Disable()
     {
-        _brainView.OnRequestHealthValue -= RequestHealthValue;
-        _brainView.OnRequestArmorValue -= RequestArmorValue;
+        //_brainView.OnRequestHealthValue -= RequestHealthValue;
+        //_brainView.OnRequestArmorValue -= RequestArmorValue;
 
         _armor.GiveArmorValue -= OnGiveArmorValue;
         _health.GiveHealthValue -= OnGiveHealthValue;
+        _armor.GiveArmorCount -= OnGiveArmorCount;
+        _health.GiveHealthCount -= OnGiveHealthCount;
         _dayChanger.RestoreBrain -= OnRestoreBrain;
     }
 
@@ -55,6 +57,17 @@ public class BrainPresenter : MonoBehaviour
     private void OnGiveHealthValue(int value)
     {
         _brainView.SetHealthValue(value);
+    }
+    
+
+    private void OnGiveArmorCount(int value, int maxValue)
+    {
+        _brainView.ChangeArmorCount(value, maxValue);
+    }
+
+    private void OnGiveHealthCount(int value, int maxValue)
+    {
+        _brainView.ChangeHealthCount(value, maxValue);
     }
 
     private void OnRestoreBrain(int healthValue, int armorValue)

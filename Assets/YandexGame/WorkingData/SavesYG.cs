@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+
 namespace YG
 {
     [System.Serializable]
@@ -10,30 +12,23 @@ namespace YG
         public string language = "ru";
         public bool promptDone;
 
-        // Тестовые сохранения для демо сцены
-        // Можно удалить этот код, но тогда удалите и демо (папка Example)
-        public int money = 1;                       // Можно задать полям значения по умолчанию
-        public string newPlayerName = "Hello!";
-        public bool[] openLevels = new bool[3];
+        public int SavedDay = 0;
+        public int SavedNeuron = 0;
+        public int SavedNeuronPerClick = 1;
+        public int SavedMaxHealth = 10;
+        public int SavedMaxArmor = 10;
+        public int SavedEnemyDamage = 1;
+        public float SavedTime = 0.57f;
+        public bool TowerDefenceLoaded = false;
+        public int SavedHealthCount = 10;
+        public int SavedArmorCount = 10;
 
-        // Ваши сохранения
+        public int[] SavedDevelopmentItemPrices = new int[11];
+        public int[] SavedHealthItemPrices = new int[10];        
+        public int[] SavedArmorItemPrices = new int[10];
 
-        // ...
-
-        // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
-        // Пока выявленное ограничение - это расширение массива
-
-
-        // Вы можете выполнить какие то действия при загрузке сохранений
-        public SavesYG()
-        {
-            // Допустим, задать значения по умолчанию для отдельных элементов массива
-
-            openLevels[1] = true;
-
-            // Длина массива в проекте должна быть задана один раз!
-            // Если после публикации игры изменить длину массива, то после обновления игры у пользователей сохранения могут поломаться
-            // Если всё же необходимо увеличить длину массива, сдвиньте данное поле массива в самую нижнюю строку кода
-        }
+        public bool[] DevelopmentItemOpenStatus = new bool[11];
+        public bool[] HealthItemOpenStatus = new bool[10];
+        public bool[] ArmorItemOpenStatus = new bool[10];
     }
 }

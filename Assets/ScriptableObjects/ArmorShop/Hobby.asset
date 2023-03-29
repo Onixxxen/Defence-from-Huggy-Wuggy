@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Hobby
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: c8c2981c0a2fd8e4ea993e30351ca23e, type: 3}
-  Name: "\u0417\u0430\u043D\u044F\u0442\u044C\u0441\u044F \u043B\u044E\u0431\u0438\u043C\u044B\u043C
+  RuName: "\u0417\u0430\u043D\u044F\u0442\u044C\u0441\u044F \u043B\u044E\u0431\u0438\u043C\u044B\u043C
     \u0445\u043E\u0431\u0431\u0438"
+  EnName: Take up a favorite hobby
+  TrName: "Sevdi\u011Finiz bir hobiyle u\u011Fra\u015F\u0131n"
+  UkName: "\u0417\u0430\u0439\u043D\u044F\u0442\u0438\u0441\u044F \u0443\u043B\u044E\u0431\u043B\u0435\u043D\u0438\u043C
+    \u0445\u043E\u0431\u0456"
   Price: 40000000
   AddArmor: 1000

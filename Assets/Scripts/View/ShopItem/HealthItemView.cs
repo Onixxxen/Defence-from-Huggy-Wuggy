@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using YG;
 
 public class HealthItemView : ShopItemView
 {
     private int _price;
     private HealthItemView[] _items;
+    private SettingLanguageView _settingLanguage;
 
     public event Action<int> TryGetCurentHealth;    
     public event Action<int, int, int> OnHealthSellButton;
@@ -27,10 +29,15 @@ public class HealthItemView : ShopItemView
             TryUnlockItem?.Invoke(Index, _price);
     }
 
+    private void Awake()
+    {
+        _settingLanguage = FindObjectOfType<SettingLanguageView>(true);
+    }
+
     private void Start()
     {
         _price = PriceValue;
-        _items = FindObjectsOfType<HealthItemView>();
+        _items = FindObjectsOfType<HealthItemView>(true);        
 
         TryGetCurentHealth?.Invoke(Index);
         TryOpenItem?.Invoke(Index, _price);
@@ -52,13 +59,25 @@ public class HealthItemView : ShopItemView
 
     public void Render(HealthItem item, int index)
     {
+        SetName(item);
         Index = index;
         Icon.sprite = item.Icon;
-        Name.text = item.Name;
         Improvement.text = $"+{FormatNumberExtension.FormatNumber(item.AddHealth)}";
         Price.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
         PriceValue = item.Price;
         ImprovementValue = item.AddHealth;
+    }
+
+    public void SetName(HealthItem item)
+    {
+        if (_settingLanguage.CurrentLanguage == "ru")
+            Name.text = item.RuName;
+        else if (_settingLanguage.CurrentLanguage == "en")
+            Name.text = item.EnName;
+        else if (_settingLanguage.CurrentLanguage == "tr")
+            Name.text = item.TrName;
+        else if (_settingLanguage.CurrentLanguage == "uk")
+            Name.text = item.UkName;
     }
 
     public void UpdateValues(int price)
@@ -91,5 +110,12 @@ public class HealthItemView : ShopItemView
     public void UnlockItem()
     {
         LockPanel.gameObject.SetActive(false);
+    }
+
+    public void LoadHealthItemPriceData()
+    {
+        PriceValue = YandexGame.savesData.SavedHealthItemPrices[Index];
+        ClosePanel.gameObject.SetActive(!YandexGame.savesData.HealthItemOpenStatus[Index]);
+        UpdateValues(PriceValue);
     }
 }

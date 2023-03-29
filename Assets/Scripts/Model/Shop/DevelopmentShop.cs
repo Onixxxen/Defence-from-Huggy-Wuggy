@@ -1,13 +1,18 @@
 using System;
+using YG;
 using UnityEngine;
+using YG.Example;
 
 public class DevelopmentShop : Shop
 {
-    private Neuron _neuron = new Neuron();
+    private Neuron _neuron;
 
-    public DevelopmentShop(Neuron neuron)
+    private SaverData _saverData;
+
+    public DevelopmentShop(Neuron neuron, SaverData saverData)
     {
         _neuron = neuron;
+        _saverData = saverData;
     }
 
     public event Action<int, int, int, int> SellDevelopmentItem;
@@ -27,6 +32,9 @@ public class DevelopmentShop : Shop
         {
             _neuron.RemoveNeuron(Price);
             _neuron.ChangeNeuronPerClick(Improvement);
+
+            _saverData.SaveDevelopmentItemPrices(index, newPrice);
+
             SellDevelopmentItem?.Invoke(_neuron.Count, newPrice, _neuron.PerClick, index);
         }
     }
@@ -38,8 +46,10 @@ public class DevelopmentShop : Shop
 
     public void OpenItemRequest(int index, int price)
     {
+        _saverData.SaveDevelopmentOpenStatus(index, _neuron.Count >= price);
+
         if (_neuron.Count >= price)
-            OpenItem?.Invoke(index);
+            OpenItem?.Invoke(index);        
     }
 
     public void CloseItemRequest(int index, int price)

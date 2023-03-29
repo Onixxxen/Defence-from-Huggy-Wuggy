@@ -1,14 +1,19 @@
 using System;
+using YG;
+using YG.Example;
 
 public class ArmorShop : Shop
 {
-    private Armor _armor = new Armor();
-    private Neuron _neuron = new Neuron();
+    private Armor _armor;
+    private Neuron _neuron;
 
-    public ArmorShop(Armor armor, Neuron neuron)
+    private SaverData _saverData;
+
+    public ArmorShop(Armor armor, Neuron neuron, SaverData saverData)
     {
         _armor = armor;
         _neuron = neuron;
+        _saverData = saverData;
     }
 
     public event Action<int, int, int, int> SellArmorItem;
@@ -28,6 +33,9 @@ public class ArmorShop : Shop
         {
             _neuron.RemoveNeuron(Price);
             _armor.AddMaxArmor(Improvement);
+
+            _saverData.SaveArmorItemPrices(index, newPrice);
+
             SellArmorItem?.Invoke(_neuron.Count, newPrice, _armor.MaxCount, index);
         }        
     }
@@ -39,6 +47,8 @@ public class ArmorShop : Shop
 
     public void OpenItemRequest(int index, int price)
     {
+        _saverData.SaveArmorOpenStatus(index, _neuron.Count >= price);
+
         if (_neuron.Count >= price)
             OpenItem?.Invoke(index);
     }

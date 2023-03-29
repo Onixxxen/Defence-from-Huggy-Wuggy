@@ -22,8 +22,8 @@ public class SpawnerView : ObjectPoolView
     }
 
     private void Update()
-    {        
-        if (_dayChangerView.TimeProgress > 0 && _dayChangerView.TimeProgress < 0.55)
+    {    
+        if (_dayChangerView.TimeProgress > 0.01 && _dayChangerView.TimeProgress < 0.55)
         {
             _elapsedTime += Time.deltaTime;
 

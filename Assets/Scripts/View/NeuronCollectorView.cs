@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using DG.Tweening;
 using System.Collections;
+using System;
 
 public class NeuronCollectorView : MonoBehaviour
 {
@@ -11,9 +12,12 @@ public class NeuronCollectorView : MonoBehaviour
 
     public TMP_Text NeuronCount => _neuronCount;
 
+    public event Action TryGetNeuronCount;
+
     private void Start()
     {
         _normalScale = transform.localScale.x;
+        TryGetNeuronCount?.Invoke();
     }
 
     public void ChangeNeuronView(int count)

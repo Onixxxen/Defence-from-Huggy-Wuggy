@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: KissyMissy
   m_EditorClassIdentifier: 
   Template: {fileID: 7954305276507921968, guid: f1d767cc44b4750449bdff19977254d3, type: 3}
-  Name: "\u0425\u0430\u0433\u0433\u0438 \u0412\u0430\u0433\u0433\u0438"
+  Name: "\u041A\u0438\u0441\u0441\u0438 \u041C\u0438\u0441\u0441\u0438"
   Damage: 1
   Speed: 7

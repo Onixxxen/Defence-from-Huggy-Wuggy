@@ -6,6 +6,8 @@ public class DevelopmentShopController : ShopController
     private DevelopmentShopPresenter _developmentPresenter;
     private List<DevelopmentItemView> _developmentItemView = new List<DevelopmentItemView>();
 
+    public List<DevelopmentItemView> DevelopmentItemView => _developmentItemView;
+
     private void OnEnable()
     {
         if (_developmentPresenter != null)
@@ -14,7 +16,8 @@ public class DevelopmentShopController : ShopController
 
     private void OnDisable()
     {
-        _developmentPresenter.Disable();
+        if (_developmentPresenter != null)
+            _developmentPresenter.Disable();
     }
 
     private void Start()

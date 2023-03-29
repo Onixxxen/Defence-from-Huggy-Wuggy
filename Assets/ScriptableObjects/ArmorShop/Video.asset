@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Video
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: c503e834aabf4784a9651aa4cbb2117f, type: 3}
-  Name: "\u0421\u043E\u043A\u0440\u0430\u0442\u0438\u0442\u044C \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440
+  RuName: "\u0421\u043E\u043A\u0440\u0430\u0442\u0438\u0442\u044C \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440
     \u0432\u0438\u0434\u0435\u043E\u0436\u0430\u0431"
+  EnName: Watch less video memes
+  TrName: Daha az video mem
+  UkName: "\u0421\u043A\u043E\u0440\u043E\u0442\u0438\u0442\u0438 \u043F\u0435\u0440\u0435\u0433\u043B\u044F\u0434
+    \u0432\u0456\u0434\u0435\u043E\u0436\u0430\u0431"
   Price: 10000
   AddArmor: 20

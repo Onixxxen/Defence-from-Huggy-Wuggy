@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: TikTok
   m_EditorClassIdentifier: 
   Icon: {fileID: 21300000, guid: ad65ded2dd1574947a29a96c15f277b9, type: 3}
-  Name: "\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043C\u0435\u043D\u044C\u0448\u0435
+  RuName: "\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043C\u0435\u043D\u044C\u0448\u0435
     \u0442\u0438\u043A\u0442\u043E\u043A\u043E\u0432"
+  EnName: Watch less TikTok
+  TrName: Daha az TikTok
+  UkName: "\u0414\u0438\u0432\u0438\u0442\u0438\u0441\u044F \u043C\u0435\u043D\u0448\u0435
+    \u0442\u0456\u043A\u0442\u043E\u043A\u0456\u0432"
   Price: 100
   AddArmor: 1

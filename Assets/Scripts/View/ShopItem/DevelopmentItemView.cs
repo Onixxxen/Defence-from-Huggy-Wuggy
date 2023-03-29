@@ -1,10 +1,12 @@
 using System;
 using UnityEngine;
+using YG;
 
 public class DevelopmentItemView : ShopItemView
 {
     private int _price;
     private DevelopmentItemView[] _items;
+    private SettingLanguageView _settingLanguage;
 
     public event Action<int> TryGetNeuronPerClick;    
     public event Action<int, int, int> OnDevelopmentSellButton;
@@ -27,10 +29,15 @@ public class DevelopmentItemView : ShopItemView
             TryUnlockItem?.Invoke(Index, _price);
     }
 
+    private void Awake()
+    {
+        _settingLanguage = FindObjectOfType<SettingLanguageView>(true);
+    }
+
     private void Start()
     {
         _price = PriceValue;
-        _items = FindObjectsOfType<DevelopmentItemView>();
+        _items = FindObjectsOfType<DevelopmentItemView>(true);
 
         TryGetNeuronPerClick?.Invoke(Index);
         TryOpenItem?.Invoke(Index, _price);
@@ -52,13 +59,25 @@ public class DevelopmentItemView : ShopItemView
 
     public void Render(DevelopmentItem item, int index)
     {
+        SetName(item);
         Index = index;
-        Icon.sprite = item.Icon;
-        Name.text = item.Name;
+        Icon.sprite = item.Icon;        
         Improvement.text = $"+{FormatNumberExtension.FormatNumber(item.AddNeuronPerClick)}";
         Price.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
         PriceValue = item.Price;
-        ImprovementValue = item.AddNeuronPerClick;
+        ImprovementValue = item.AddNeuronPerClick;          
+    }
+
+    public void SetName(DevelopmentItem item)
+    {
+        if (_settingLanguage.CurrentLanguage == "ru")
+            Name.text = item.RuName;
+        else if (_settingLanguage.CurrentLanguage == "en")
+            Name.text = item.EnName;
+        else if (_settingLanguage.CurrentLanguage == "tr")
+            Name.text = item.TrName;
+        else if (_settingLanguage.CurrentLanguage == "uk")
+            Name.text = item.UkName;
     }
 
     public void UpdateValues(int price)
@@ -91,5 +110,12 @@ public class DevelopmentItemView : ShopItemView
     public void UnlockItem()
     {
         LockPanel.gameObject.SetActive(false);
+    }
+
+    public void LoadDevelopmentItemPriceData()
+    {
+        PriceValue = YandexGame.savesData.SavedDevelopmentItemPrices[Index];
+        ClosePanel.gameObject.SetActive(!YandexGame.savesData.DevelopmentItemOpenStatus[Index]);
+        UpdateValues(PriceValue);
     }
 }

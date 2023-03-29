@@ -1,6 +1,9 @@
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
+using YG.Example;
 
 public class GameController : MonoBehaviour
 {
@@ -15,6 +18,7 @@ public class GameController : MonoBehaviour
 
     private DayChanger _dayChanger;
     private DayChangerPresenter _dayChangerPresenter;
+    private DayChangerView _dayChangerView;
 
     private Enemy _enemy;
     private EnemyPresenter _enemyPresenter;
@@ -28,6 +32,11 @@ public class GameController : MonoBehaviour
     private StartScreenView _startScreenView;
 
     private RewardPresenter _rewardButtonPresenter;
+
+    private const int _clickerMode = 1;
+    private const int _towerDefenceMode = 2;
+
+    public DayChanger DayChanger => _dayChanger;
 
     public Neuron Neuron { get; private set; }
     public Health Health { get; private set; }
@@ -61,21 +70,23 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        Neuron = new Neuron();
-        Health = new Health();
-        Armor = new Armor();
+        var saverData = FindObjectOfType<SaverData>();
 
-        _neuronCollector = new NeuronCollector(Neuron);        
-        _neuronPresenter = new NeuronCollectorPresenter();        
+        Neuron = new Neuron(saverData);
+        Health = new Health(saverData);
+        Armor = new Armor(saverData);
 
-        DevelopmentShop = new DevelopmentShop(Neuron);
-        HealthShop = new HealthShop(Health, Neuron);
-        ArmorShop = new ArmorShop(Armor, Neuron);
+        _neuronCollector = new NeuronCollector(Neuron);
+        _neuronPresenter = new NeuronCollectorPresenter();
 
-        _enemy = new Enemy(Health, Armor);
+        DevelopmentShop = new DevelopmentShop(Neuron, saverData);
+        HealthShop = new HealthShop(Health, Neuron, saverData);
+        ArmorShop = new ArmorShop(Armor, Neuron, saverData);
+
+        _enemy = new Enemy(Health, Armor, saverData);
         _enemyPresenter = new EnemyPresenter();
 
-        _dayChanger = new DayChanger(_enemy, Health, Armor);
+        _dayChanger = new DayChanger(_enemy, Health, Armor, saverData);
         _dayChangerPresenter = new DayChangerPresenter();
 
         _brainPresenter = new BrainPresenter();
@@ -88,7 +99,7 @@ public class GameController : MonoBehaviour
 
         var neuronCollectorView = FindObjectOfType<NeuronCollectorView>(true);
         var brainView = FindObjectOfType<BrainView>(true);
-        var dayChangerView = FindObjectOfType<DayChangerView>(true);
+        _dayChangerView = FindObjectOfType<DayChangerView>(true);
         var objectPool = FindObjectOfType<ObjectPoolView>(true);
         var recoveryHealthView = FindObjectOfType<RecoveryHealthView>(true);
         var recoveryArmorView = FindObjectOfType<RecoveryArmorView>(true);
@@ -97,14 +108,14 @@ public class GameController : MonoBehaviour
         var pauseView = FindObjectOfType<PauseView>(true);
         var rewardButtonView = FindObjectOfType<RewardView>(true);
 
-        _neuronPresenter.Init(neuronCollectorView, brainView, _neuronCollector);
-        _dayChangerPresenter.Init(_dayChanger, dayChangerView);
-        brainView.Init(dayChangerView, loseGameView, _healthSlider, _armorSlider, _healthText, _armorText); ;
+        _neuronPresenter.Init(neuronCollectorView, brainView, _neuronCollector, Neuron);
+        _dayChangerPresenter.Init(_dayChanger, _dayChangerView, objectPool);
+        brainView.Init(_dayChangerView, loseGameView, _healthSlider, _armorSlider, _healthText, _armorText); ;
         _enemyPresenter.Init(_enemy, objectPool, brainView);
         _brainPresenter.Init(Health, Armor, brainView, _dayChanger);
         _recoveryPresenter.Init(recoveryHealthView, recoveryArmorView, Health, Armor, brainView);
         _loseGamePresenter.Init(loseGameView, _loseGame, neuronCollectorView);
-        _startScreenView.Init(dayChangerView);
+        _startScreenView.Init(_dayChangerView);
         pauseView.Init(_startScreenView);
         _rewardButtonPresenter.Init(Neuron, rewardButtonView);
 
@@ -117,5 +128,5 @@ public class GameController : MonoBehaviour
             _startScreenView.Pause(true);
         else
             _startScreenView.Pause(false);
-    }
+    }    
 }

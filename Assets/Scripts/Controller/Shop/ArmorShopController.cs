@@ -5,6 +5,8 @@ public class ArmorShopController : ShopController
     private ArmorShopPresenter _armorPresenter;
     private List<ArmorItemView> _armorItemView = new List<ArmorItemView>();
 
+    public List<ArmorItemView> ArmorItemView => _armorItemView;
+
     private void OnEnable()
     {
         if (_armorPresenter != null)
@@ -13,7 +15,8 @@ public class ArmorShopController : ShopController
 
     private void OnDisable()
     {
-        _armorPresenter.Disable();
+        if (_armorPresenter != null)
+            _armorPresenter.Disable();
     }
 
     private void Start()
