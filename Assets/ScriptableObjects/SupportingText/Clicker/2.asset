@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fe03cb4b574be0489d934a9fe41375a, type: 3}
+  m_Name: 2
+  m_EditorClassIdentifier: 
+  RuText: "\u0411\u041E\u041B\u042C\u0428\u0415 \u041D\u0415\u0419\u0420\u041E\u041D\u041E\u0412
+    \u0411\u041E\u0413\u0423 \u041D\u0415\u0419\u0420\u041E\u041D\u041E\u0412"
+  EnText: MORE NEURONS TO THE GOD OF NEURONS
+  TrText: "N\xD6RON TANRISINA DAHA FAZLA N\xD6RON"
+  UkText: "\u0411\u0406\u041B\u042C\u0428\u0415 \u041D\u0415\u0419\u0420\u041E\u041D\u0406\u0412
+    \u0411\u041E\u0413\u0423 \u041D\u0415\u0419\u0420\u041E\u041D\u0406\u0412"

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9d705432a591f4b8b8f22e437627d9, type: 3}
+  m_Name: 4
+  m_EditorClassIdentifier: 
+  RuText: "\u0412\u041E\u0422 \u042D\u0422\u041E \u041C\u041E\u0429\u042C"
+  EnText: THAT'S THE POWER
+  TrText: "\u0130\u015ETE G\xDC\xC7 BU"
+  UkText: "\u041E\u0421\u042C \u0426\u0415 \u041C\u041E\u0429\u0406\u0421\u0422\u042C"

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fe03cb4b574be0489d934a9fe41375a, type: 3}
+  m_Name: 9
+  m_EditorClassIdentifier: 
+  RuText: "\u0414\u0410 \u0422\u042B \u0421\u041F\u041E\u0421\u041E\u0411\u0415\u041D
+    \u041D\u0410 \u0412\u0421\u0415"
+  EnText: YOU'RE CAPABLE OF ANYTHING
+  TrText: "HER \u015EEYI YAPABILIRSIN"
+  UkText: "\u0422\u0410 \u0422\u0418 \u0417\u0414\u0410\u0422\u0415\u041D \u041D\u0410
+    \u0412\u0421\u0415"

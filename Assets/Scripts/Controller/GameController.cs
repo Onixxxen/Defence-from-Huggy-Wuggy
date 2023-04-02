@@ -110,10 +110,11 @@ public class GameController : MonoBehaviour
         var pauseButtonView = FindObjectOfType<PauseButtonView>(true);
         var rewardView = FindObjectOfType<RewardView>(true);
         var rewardButtonView = FindObjectOfType<RewardButtonView>(true);
+        var supportingTextView = FindObjectOfType<SupportingTextView>(true);
 
         _neuronPresenter.Init(neuronCollectorView, brainView, _neuronCollector, Neuron);
         _dayChangerPresenter.Init(_dayChanger, _dayChangerView, objectPool);
-        brainView.Init(_dayChangerView, loseGameView, _healthSlider, _armorSlider, _healthText, _armorText); ;
+        brainView.Init(_dayChangerView, loseGameView, supportingTextView, _healthSlider, _armorSlider, _healthText, _armorText); ;
         _enemyPresenter.Init(_enemy, objectPool, brainView);
         _brainPresenter.Init(Health, Armor, brainView, _dayChanger);
         _recoveryPresenter.Init(recoveryHealthView, recoveryArmorView, Health, Armor, brainView);

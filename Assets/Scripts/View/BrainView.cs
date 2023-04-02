@@ -1,4 +1,3 @@
-using Assets.Scripts.Extensions;
 using DG.Tweening;
 using System;
 using System.Collections;
@@ -6,7 +5,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using YG;
 
 public class BrainView : MonoBehaviour
 {
@@ -19,6 +17,8 @@ public class BrainView : MonoBehaviour
     private DayChangerView _dayChangerView;
     private LoseGameView _loseGameView;
 
+    private SupportingTextView _supportingTextView;
+
     private float _normalScale;
 
     private const int _clickerMode = 1;
@@ -29,14 +29,15 @@ public class BrainView : MonoBehaviour
     public event Action ChangeNeuronCount;
     public event Action OnRestoreBrain;
 
-    public void Init(DayChangerView dayChangerView, LoseGameView loseGameView, Slider healthSlider, Slider armorSlider, TMP_Text healthText, TMP_Text armorText)
+    public void Init(DayChangerView dayChangerView, LoseGameView loseGameView, SupportingTextView supportingTextView, Slider healthSlider, Slider armorSlider, TMP_Text healthText, TMP_Text armorText)
     {
         _dayChangerView = dayChangerView;
+        _loseGameView = loseGameView;
+        _supportingTextView = supportingTextView;
         _healthSlider = healthSlider;
         _armorSlider = armorSlider;
         _healthText = healthText;
         _armorText = armorText;
-        _loseGameView = loseGameView;
     }
 
     private void OnMouseDown()
@@ -71,9 +72,14 @@ public class BrainView : MonoBehaviour
                     EnemyView enemyView = hit.collider.GetComponent<EnemyView>();
 
                     if (enemyView != null)
+                    {
                         enemyView.gameObject.SetActive(false);
+                        TryShowSupportingText(_towerDefenceMode);
+                    }
                     else
+                    {
                         Debug.Log("¬ы нажали на что-то другое");
+                    }
                 }
             }
         }            
@@ -82,6 +88,7 @@ public class BrainView : MonoBehaviour
     private void OnBraintClick()
     {
         ChangeNeuronCount?.Invoke();
+        TryShowSupportingText(_clickerMode);
         StartCoroutine(ChangeBrainScale());
     }
 
@@ -90,6 +97,22 @@ public class BrainView : MonoBehaviour
         transform.DOScale(_normalScale - 1, 0.5f);
         yield return new WaitForSeconds(0.1f);
         transform.DOScale(_normalScale, 0.5f);
+    }
+
+    private void TryShowSupportingText(int mode)
+    {
+        if (mode == _clickerMode)
+        {
+            int showText = UnityEngine.Random.Range(1, 20);
+            if (showText == 1)
+                _supportingTextView.ShowSupportingText(_clickerMode);
+        }
+        else if (mode == _towerDefenceMode)
+        {
+            int showText = UnityEngine.Random.Range(1, 5);
+            if (showText == 1)
+                _supportingTextView.ShowSupportingText(_towerDefenceMode);
+        }
     }
 
     public void SetArmorValue(int value) // ¬место этого делать ChangeArmorCount(различие - тот будет делать плавно)
