@@ -13,16 +13,21 @@ public class SettingLanguageView : MonoBehaviour
     [Header("Current Language Panel")]
     [SerializeField] private GameObject _currentLanguagePanel;
 
+    [Header("Setting Panel")]
+    [SerializeField] private GameObject _settingPanel;
+
     private TranslateView[] _translateView;
     private string _currentLanguage = "ru";
 
     public string CurrentLanguage => _currentLanguage;
+    public GameObject SettingPanel => _settingPanel;
 
     private void Start()
     {
         _translateView = FindObjectsOfType<TranslateView>(true);
 
-        CheckYandexLanguage();
+        //CheckYandexLanguage();
+        //_settingPanel.SetActive(false);
 
         _ruLanguageButton.onClick.AddListener(SetRussianLanguage);
         _enLanguageButton.onClick.AddListener(SetEnglishLanguage);
@@ -37,6 +42,7 @@ public class SettingLanguageView : MonoBehaviour
 
         ChangeCurrentLanguage(_ruLanguageButton.transform);
         _currentLanguage = "ru";
+        SaveLanguage();
     }
 
     private void SetEnglishLanguage()
@@ -46,6 +52,7 @@ public class SettingLanguageView : MonoBehaviour
 
         ChangeCurrentLanguage(_enLanguageButton.transform);
         _currentLanguage = "en";
+        SaveLanguage();
     }
 
     private void SetTurkeyLanguage()
@@ -55,6 +62,7 @@ public class SettingLanguageView : MonoBehaviour
 
         ChangeCurrentLanguage(_trLanguageButton.transform);
         _currentLanguage = "tr";
+        SaveLanguage();
     }
 
     private void SetUkrainianLanguage()
@@ -64,6 +72,7 @@ public class SettingLanguageView : MonoBehaviour
 
         ChangeCurrentLanguage(_ukLanguageButton.transform);
         _currentLanguage = "uk";
+        SaveLanguage();
     }
 
     private void ChangeCurrentLanguage(Transform button)
@@ -72,15 +81,46 @@ public class SettingLanguageView : MonoBehaviour
         _currentLanguagePanel.transform.position = button.position;
     }
 
-    private void CheckYandexLanguage()
+    private void SaveLanguage()
     {
-        if (YandexGame.EnvironmentData.language == "ru")
+        if (YandexGame.savesData.LanguageLoaded)
+            YandexGame.savesData.SavedLanguage = _currentLanguage;
+    }
+
+    public void CheckYandexLanguage()
+    {
+        if (YandexGame.SDKEnabled)
+        {
+            if (YandexGame.EnvironmentData.language == "ru")
+                SetRussianLanguage();
+            else if (YandexGame.EnvironmentData.language == "en")
+                SetEnglishLanguage();
+            else if (YandexGame.EnvironmentData.language == "tr")
+                SetTurkeyLanguage();
+            else if (YandexGame.EnvironmentData.language == "uk")
+                SetUkrainianLanguage();
+
+            Debug.Log("СДК успел");
+        }
+        else
+        {
+            Debug.Log("СДК не успел и язык тоже");
+        }
+    }    
+
+    public void LoadLanguageData()
+    {
+        YandexGame.savesData.LanguageLoaded = false;
+
+        if (YandexGame.savesData.SavedLanguage == "ru")
             SetRussianLanguage();
-        else if (YandexGame.EnvironmentData.language == "en")
+        else if (YandexGame.savesData.SavedLanguage == "en")
             SetEnglishLanguage();
-        else if (YandexGame.EnvironmentData.language == "tr")
+        else if (YandexGame.savesData.SavedLanguage == "tr")
             SetTurkeyLanguage();
-        else if (YandexGame.EnvironmentData.language == "uk")
+        else if (YandexGame.savesData.SavedLanguage == "uk")
             SetUkrainianLanguage();
+
+        YandexGame.savesData.LanguageLoaded = true;
     }
 }

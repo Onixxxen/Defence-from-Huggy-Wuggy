@@ -18,8 +18,7 @@ public class BrainPresenter
 
     public void Enable()
     {
-        //_brainView.OnRequestHealthValue += RequestHealthValue;
-        //_brainView.OnRequestArmorValue += RequestArmorValue;
+        _brainView.OnRestoreBrain += RequestRestoreBrain;
 
         _armor.GiveArmorValue += OnGiveArmorValue;
         _health.GiveHealthValue += OnGiveHealthValue;
@@ -29,8 +28,7 @@ public class BrainPresenter
     }
     public void Disable()
     {
-        //_brainView.OnRequestHealthValue -= RequestHealthValue;
-        //_brainView.OnRequestArmorValue -= RequestArmorValue;
+        _brainView.OnRestoreBrain -= RequestRestoreBrain;
 
         _armor.GiveArmorValue -= OnGiveArmorValue;
         _health.GiveHealthValue -= OnGiveHealthValue;
@@ -49,6 +47,12 @@ public class BrainPresenter
         _health.HealthValueRequest();
     }
 
+    private void RequestRestoreBrain()
+    {
+        _health.RestoreHealth();
+        _armor.RestoreArmor();
+    }
+
     private void OnGiveArmorValue(int value)
     {
         _brainView.SetArmorValue(value);
@@ -57,8 +61,7 @@ public class BrainPresenter
     private void OnGiveHealthValue(int value)
     {
         _brainView.SetHealthValue(value);
-    }
-    
+    }    
 
     private void OnGiveArmorCount(int value, int maxValue)
     {

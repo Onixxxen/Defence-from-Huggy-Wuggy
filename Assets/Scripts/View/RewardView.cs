@@ -12,6 +12,7 @@ public class RewardView : MonoBehaviour
     [SerializeField] private RecoveryArmorView _recoveryArmorView;
     [SerializeField] private RecoveryHealthView _recoveryHealthView;
     [SerializeField] private RewardButtonView _rewardButtonView;
+    [SerializeField] private BrainView _brainView;
 
     [Header("Settings")]
     [SerializeField] private int _bonusTime = 30;
@@ -39,6 +40,8 @@ public class RewardView : MonoBehaviour
             SkipHealthCooldown();
         else if (id == 6)
             SkipArmorCooldown();
+        else if (id == 7)
+            RecoveryBrain();
     }
 
     private IEnumerator MultiplyNeuronPerClick(int factor)
@@ -61,24 +64,22 @@ public class RewardView : MonoBehaviour
 
     private IEnumerator ChangeDayTimeInSecond()
     {
-        _dayChangerView.UpdatePreviousDayTimeInSecond();
-
         if (_dayChangerView.CurrentMode == _clickerMode)
         {
             _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.DayTimeInSecond * 2);
-
             ActivateSlider("SlowTimeButton", _bonusTime);
 
             yield return new WaitForSeconds(_bonusTime);
+
             _dayChangerView.BackDayTimeInSecond();
         }
         else if (_dayChangerView.CurrentMode == _towerDefenceMode)
         {
-            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.DayTimeInSecond / 2);
-
+            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.DayTimeInSecond / 3);
             ActivateSlider("SpeedTimeButton", _bonusTime);
 
             yield return new WaitForSeconds(_bonusTime);
+
             _dayChangerView.BackDayTimeInSecond();
         }
     }
@@ -108,6 +109,12 @@ public class RewardView : MonoBehaviour
         _recoveryHealthView.CooldownSlider.DOPause();
         ActivateSlider("SkipArmorCooldownButton", 1);
         _recoveryArmorView.CooldownSlider.DOValue(_recoveryArmorView.CooldownSlider.minValue, 1);
+    }
+
+    private void RecoveryBrain()
+    {
+        ActivateSlider("RecoveryBrainButton", 1);
+        _brainView.RestoreBrain();
     }
 
     private void ActivateSlider(string nameButton, int duration)

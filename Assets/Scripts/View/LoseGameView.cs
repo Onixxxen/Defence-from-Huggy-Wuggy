@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using YG;
 
 public class LoseGameView : MonoBehaviour
 {
@@ -47,8 +48,8 @@ public class LoseGameView : MonoBehaviour
 
     public void RequestLoseGame()
     {
-        gameObject.SetActive(true);
         TryActiveLoseGame?.Invoke();
+        gameObject.SetActive(false);
     }
 
     public void SetDayCount(int day)
@@ -81,6 +82,7 @@ public class LoseGameView : MonoBehaviour
 
         _dayChangerView.ChangeTime(0.57f);
         _dayChangerView.BackDayTimeInSecond();
-        gameObject.SetActive(false);
+        YandexGame.savesData.ResetData();
+        //gameObject.SetActive(false);
     }
 }

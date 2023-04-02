@@ -6,6 +6,7 @@ using YG.Example;
 public class DayChanger
 {
     private int _day;
+    private int _maxDay;
 
     private Health _health;
     private Armor _armor;
@@ -38,7 +39,15 @@ public class DayChanger
         {
             ActivateClickerMode?.Invoke(modeIndex);
 
-            YandexGame.NewLeaderboardScores("DayCount", _day); // яндекс SDK
+            if (_maxDay <= _day)
+            {
+                _maxDay = _day;
+
+                if (YandexGame.savesData.ClickerLoaded)
+                    _saverData.SaveMaxDayCount(_maxDay);
+
+                YandexGame.NewLeaderboardScores("DayCount", _maxDay); // яндекс SDK
+            }
 
             if (_day % 2 == 0)
                 YandexGame.FullscreenShow(); // яндекс SDK
@@ -48,7 +57,8 @@ public class DayChanger
         {
             if (YandexGame.savesData.TowerDefenceLoaded)
             {
-                _day++;
+                _day++;                
+
                 _saverData.SaveDayCount(_day);
                 _health.RestoreHealth();
                 _armor.RestoreArmor();
@@ -69,5 +79,6 @@ public class DayChanger
     public void LoadDayData()
     {
         _day = YandexGame.savesData.SavedDay;
+        _maxDay = YandexGame.savesData.SavedMaxDay;
     }
 }

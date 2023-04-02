@@ -105,7 +105,7 @@ MonoBehaviour:
   pauseType: 0
   pauseMethod: 1
   openingADValues:
-    timeScale: 0
+    timeScale: 1
   closingADValues:
     timeScale: 1
     audioPause: 0
@@ -114,10 +114,34 @@ MonoBehaviour:
   customEvents:
     OpenAd:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: PauseView, Assembly-CSharp
+          m_MethodName: Pause
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
     CloseAd:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: PauseView, Assembly-CSharp
+          m_MethodName: Pause
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &8204689627284330306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,3 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a91a714f27429a14b8f0d86c94432090, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loseGameView: {fileID: 0}
+  _dayChangerView: {fileID: 0}
+  _objectPool: {fileID: 0}
+  _recoveryArmorView: {fileID: 0}
+  _recoveryHealthView: {fileID: 0}
+  _rewardButtonView: {fileID: 0}
+  _bonusTime: 30

@@ -8,12 +8,14 @@ public class RewardButtonView : MonoBehaviour
     [SerializeField] private DayChangerView _dayChangerView;
 
     private bool _slowDownButttonIsSpawned;
+    private bool _recoveryBrainButtonIsSpawned;
 
     private List<RewardButton> _spawnedButton = new List<RewardButton>();
 
     public List<RewardButton> SpawnedButton => _spawnedButton;
     public List<RewardButton> RewardButtons => _rewardButtons;
     public bool SlowDownButttonIsSpawned => _slowDownButttonIsSpawned;
+    public bool RecoveryBrainButtonIsSpawned => _recoveryBrainButtonIsSpawned;
 
     public void ActivateRewardButton(RewardButton rewardButton)
     {
@@ -21,14 +23,22 @@ public class RewardButtonView : MonoBehaviour
 
         _spawnedButton.Add(button);
 
-        button.Init(this);
+        button.Init(this, _dayChangerView);
 
         if (rewardButton.Name == "SlowDownButton")
             _slowDownButttonIsSpawned = true;
+
+        if (rewardButton.Name == "RecoveryBrainButton")
+            _recoveryBrainButtonIsSpawned = true;
     }
 
     public void ChangeSlowDownButtonStatus(bool isActive)
     {
         _slowDownButttonIsSpawned = isActive;
+    }
+
+    public void ChangeRecoveryBrainButtonStatus(bool isActive)
+    {
+        _recoveryBrainButtonIsSpawned = isActive;
     }
 }

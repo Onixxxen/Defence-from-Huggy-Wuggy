@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPresenter
@@ -22,6 +19,7 @@ public class EnemyPresenter
 
         _enemyModel.ChangeArmorValue += OnChangeArmorValue;
         _enemyModel.ChangeHealthValue += OnChangeHealthValue;
+        _enemyModel.ResetDamageValue += OnResetDamage;
         _enemyModel.BrainDie += OnBrainDie;
     }
 
@@ -31,6 +29,7 @@ public class EnemyPresenter
 
         _enemyModel.ChangeArmorValue -= OnChangeArmorValue;
         _enemyModel.ChangeHealthValue -= OnChangeHealthValue;
+        _enemyModel.ResetDamageValue -= OnResetDamage;
         _enemyModel.BrainDie -= OnBrainDie;
     }
 
@@ -52,5 +51,11 @@ public class EnemyPresenter
     private void OnBrainDie()
     {
         _brainView?.BrainDie();
+    }
+
+    private void OnResetDamage()
+    {
+        for (int i = 0; i < _objectPoolView.Pool.Count; i++)
+            _objectPoolView.Pool[i].ResetDamage();
     }
 }

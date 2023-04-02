@@ -88,13 +88,12 @@ public class DayChangerView : MonoBehaviour
         _directionalLight.transform.localEulerAngles = new Vector3(x: 360f * _timeProgress + 20, y: _defaultAngles.x, _defaultAngles.z);
     }
 
-    
+
     private void OnApplicationFocus(bool focus)
     {
         if (!focus)
             _saverData.SaveTime(_timeProgress);
     }
-    
 
     private void TryCallChangeMode()
     {
@@ -120,12 +119,15 @@ public class DayChangerView : MonoBehaviour
 
         _isSpawned = false;
         _rewardButtonView.ChangeSlowDownButtonStatus(false);
+        _rewardButtonView.ChangeRecoveryBrainButtonStatus(false);
+
+        _startScreenView.ChangeCameraNormalSie(5);
 
         for (int i = 0; i < _objectPool.Pool.Count; i++)
             _objectPool.Pool[i].gameObject.SetActive(false); ;
 
-        _towerDefenceCanvas.gameObject.SetActive(false);      
-        DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 5, 2);        
+        _towerDefenceCanvas.gameObject.SetActive(false);
+        DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 5, 2);
         _clickerCanvas.gameObject.SetActive(true);
     }
 
@@ -142,13 +144,18 @@ public class DayChangerView : MonoBehaviour
 
         _clickerCanvas.gameObject.SetActive(false);
 
+        if (YandexGame.EnvironmentData.isMobile)
+            _startScreenView.ChangeCameraNormalSie(20);
+        else
+            _startScreenView.ChangeCameraNormalSie(15);
+
         if (YandexGame.EnvironmentData.isMobile) // Проверка на устройство. Если телефон, то камера отдаляется на большее расстояние
             DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 20, 2);
         else
-            DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 15, 2); 
-        
-        _towerDefenceCanvas.gameObject.SetActive(true); 
-        
+            DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 15, 2);
+
+        _towerDefenceCanvas.gameObject.SetActive(true);
+
         _changeDayTextView.ChangeDayText(day);
 
         StartCoroutine(SetActiveDayText());
@@ -173,10 +180,11 @@ public class DayChangerView : MonoBehaviour
     public void ChangeTime(float newTime)
     {
         _timeProgress = newTime;
+        _saverData.SaveTime(_timeProgress);
     }
 
     public void ChangeDayTimeInSecond(float newValue)
-    {        
+    {
         _dayTimeInSecond = newValue;
     }
 
@@ -192,7 +200,7 @@ public class DayChangerView : MonoBehaviour
 
     private void RandomizeInClicker()
     {
-        int randomButton = UnityEngine.Random.Range(0, 3);
+        int randomButton = UnityEngine.Random.Range(1, 10);
         float randomTime = UnityEngine.Random.Range(0.6f, 0.8f);
 
         _randomButton = randomButton;
@@ -201,11 +209,11 @@ public class DayChangerView : MonoBehaviour
 
     private void RandomizeInTowerDefence()
     {
-        int randomBonusView = UnityEngine.Random.Range(0, 3);
+        int randomBonusView = UnityEngine.Random.Range(1, 10);
 
         if (randomBonusView == 1)
         {
-            float randomTime = UnityEngine.Random.Range(0, 0.3f);
+            float randomTime = UnityEngine.Random.Range(0.1f, 0.3f);
             _randomTime = randomTime;
         }
     }
@@ -259,7 +267,10 @@ public class DayChangerView : MonoBehaviour
         _timeProgress = YandexGame.savesData.SavedTime;
 
         if (_timeProgress >= 0.57 && _timeProgress < 0.999f)
+        {
+            YandexGame.savesData.ClickerLoaded = false;
             TryChangeMode?.Invoke(_clickerMode);
+        }
 
         if (_timeProgress >= 0 && _timeProgress < 0.57f)
         {
@@ -273,5 +284,6 @@ public class DayChangerView : MonoBehaviour
         }
 
         YandexGame.savesData.TowerDefenceLoaded = true;
+        YandexGame.savesData.ClickerLoaded = true;
     }
 }

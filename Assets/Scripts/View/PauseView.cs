@@ -1,27 +1,49 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PauseView : MonoBehaviour
 {
-    private StartScreenView _startScreenView;
+    private ObjectPoolView _objectPool;
+    private DayChangerView _dayChangerView;
+    private RecoveryArmorView _recoveryArmorView;
+    private RecoveryHealthView _recoveryHealthView;
+    private RewardButtonView _rewardButtonView;
 
-    public void Init(StartScreenView startScreenView)
+    public void Init(ObjectPoolView objectPoolView, DayChangerView dayChangerView, RecoveryArmorView recoveryArmorView, RecoveryHealthView recoveryHealthView, RewardButtonView rewardButtonView)
     {
-        _startScreenView = startScreenView;
+        _objectPool = objectPoolView;
+        _dayChangerView = dayChangerView;
+        _recoveryArmorView = recoveryArmorView;
+        _recoveryHealthView = recoveryHealthView;
+        _rewardButtonView = rewardButtonView;
     }
 
-    private void Start()
+    public void Pause(bool isActive)
     {
-        GetComponent<Button>().onClick.AddListener(Pause);
-    }
-
-    public void Pause()
-    {
-        if (_startScreenView.Camera.orthographicSize == _startScreenView.CameraNormalSize)
+        if (isActive)
         {
-            _startScreenView.ActivateStartScreen();
+            _dayChangerView.ChangeDayTimeInSecond(1000000);
+            _recoveryArmorView.TryPauseCooldown();
+            _recoveryHealthView.TryPauseCooldown();
+
+            for (int i = 0; i < _objectPool.Pool.Count; i++)
+                _objectPool.Pool[i].ChangeSpeed(0);
+
+            if (_rewardButtonView.SpawnedButton.Count > 0)
+                for (int i = 0; i < _rewardButtonView.SpawnedButton.Count; i++)
+                    _rewardButtonView.SpawnedButton[i].TryPauseLifetime();
+        }
+        else
+        {
+            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.PreviousDayTimeInSecond);
+            _recoveryArmorView.TryContinueCooldown();
+            _recoveryHealthView.TryContinueCooldown();
+
+            for (int i = 0; i < _objectPool.Pool.Count; i++)
+                _objectPool.Pool[i].ChangeSpeed(_objectPool.Pool[i].NormalSpeed);
+
+            if (_rewardButtonView.SpawnedButton.Count > 0)
+                for (int i = 0; i < _rewardButtonView.SpawnedButton.Count; i++)
+                    _rewardButtonView.SpawnedButton[i].TryContinueLifetime();
         }
     }
 }

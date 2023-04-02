@@ -17,7 +17,7 @@ public class Enemy
 
     public event Action<int> ChangeArmorValue;
     public event Action<int> ChangeHealthValue;
-    public event Action<int> ChangeDamageValue;
+    public event Action ResetDamageValue;
     public event Action BrainDie;
 
     public Enemy(Health health, Armor armor, SaverData saverData)
@@ -48,12 +48,8 @@ public class Enemy
         }
     }   
     
-    public void ChangeEnemyDamage(int newValue)
+    public void Reset()
     {
-        _damage = newValue;
-        ChangeDamageValue?.Invoke(_damage);
-
-        if (YandexGame.savesData.TowerDefenceLoaded)
-            _saverData.SaveEnemyDamage(_damage);
+        ResetDamageValue?.Invoke();
     }
 }

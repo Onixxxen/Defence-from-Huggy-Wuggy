@@ -75,6 +75,14 @@ public class EnemyView : MonoBehaviour
             _saverData.SaveEnemyDamage(_damage);
     }
 
+    public void ResetDamage()
+    {
+        _damage = 1;
+
+        if (YandexGame.savesData.TowerDefenceLoaded)
+            _saverData.SaveEnemyDamage(_damage);
+    }
+
     private IEnumerator Attack()
     {
         TryRequestAttack?.Invoke(_damage);
@@ -86,11 +94,21 @@ public class EnemyView : MonoBehaviour
     {
         if (!_rewardButtonView.SlowDownButttonIsSpawned)
         {
-            int randomButton = UnityEngine.Random.Range(1, 3);
+            int randomButton = UnityEngine.Random.Range(1, 20); // желательно проверить
 
             if (randomButton == 1)
                 for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
                     if (_rewardButtonView.RewardButtons[i].Name == "SlowDownButton")
+                        _rewardButtonView.ActivateRewardButton(_rewardButtonView.RewardButtons[i]);
+        }  
+
+        if (!_rewardButtonView.RecoveryBrainButtonIsSpawned)
+        {
+            int randomButton = UnityEngine.Random.Range(1, 20);
+
+            if (randomButton == 1)
+                for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
+                    if (_rewardButtonView.RewardButtons[i].Name == "RecoveryBrainButton")
                         _rewardButtonView.ActivateRewardButton(_rewardButtonView.RewardButtons[i]);
         }        
     }

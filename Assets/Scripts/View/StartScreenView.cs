@@ -1,11 +1,7 @@
 using DG.Tweening;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.EventSystems;
-using UnityEngine.Pool;
-using YG;
 
 public class StartScreenView : MonoBehaviour
 {
@@ -17,35 +13,46 @@ public class StartScreenView : MonoBehaviour
     private float _cameraNormalSize;
 
     private DayChangerView _dayChangerView;
+    private PauseView _pauseView;
 
     public Camera Camera => _camera;
     public float CameraNormalSize => _cameraNormalSize;
 
-    public void Init(DayChangerView dayChangerView)
+    public void Init(DayChangerView dayChangerView, PauseView pauseView)
     {
         _dayChangerView = dayChangerView;
+        _pauseView = pauseView;
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (IsPointerOverUIObject())
                 return;
-            else
-                CloseStartScreen();
+
+            CloseStartScreen();
         }
-    }     
+    }
+
+    private bool IsPointerOverUIObject()
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current);
+        eventData.position = Input.mousePosition;
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        return results.Count > 0;
+    }
 
     public void ActivateStartScreen()
     {
+        _pauseView.Pause(true);
         _camera = Camera.main;
         _cameraNormalSize = _camera.orthographicSize;
         DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 15, 2);
         gameObject.SetActive(true);
         _commonCanvas.gameObject.SetActive(false);
         _gameModeCanvas.gameObject.SetActive(false);
-        Pause(true);
     }
 
     public void CloseStartScreen()
@@ -54,25 +61,7 @@ public class StartScreenView : MonoBehaviour
         _commonCanvas.gameObject.SetActive(true);
         _gameModeCanvas.gameObject.SetActive(true);
         gameObject.SetActive(false);
-        Pause(false);
-    }
-
-    public void Pause(bool isActive)
-    {
-        if (isActive)
-        {
-            _dayChangerView.ChangeDayTimeInSecond(1000000);
-
-            for (int i = 0; i < _objectPool.Pool.Count; i++)
-                _objectPool.Pool[i].ChangeSpeed(0);
-        }
-        else
-        {
-            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.PreviousDayTimeInSecond);
-
-            for (int i = 0; i < _objectPool.Pool.Count; i++)
-                _objectPool.Pool[i].ChangeSpeed(_objectPool.Pool[i].NormalSpeed);
-        }
+        _pauseView.Pause(false);
     }
 
     public void ChangeCameraNormalSie(int size)

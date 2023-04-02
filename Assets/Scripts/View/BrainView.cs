@@ -27,8 +27,7 @@ public class BrainView : MonoBehaviour
     private Camera _camera;
 
     public event Action ChangeNeuronCount;
-    //public event Action OnRequestHealthValue;
-    //public event Action OnRequestArmorValue;
+    public event Action OnRestoreBrain;
 
     public void Init(DayChangerView dayChangerView, LoseGameView loseGameView, Slider healthSlider, Slider armorSlider, TMP_Text healthText, TMP_Text armorText)
     {
@@ -52,8 +51,6 @@ public class BrainView : MonoBehaviour
     private void Start()
     {
         _normalScale = transform.localScale.x;
-        //OnRequestHealthValue?.Invoke();
-        //OnRequestArmorValue?.Invoke();
         _camera = Camera.main;
     }
 
@@ -95,13 +92,13 @@ public class BrainView : MonoBehaviour
         transform.DOScale(_normalScale, 0.5f);
     }
 
-    public void SetArmorValue(int value)
+    public void SetArmorValue(int value) // Вместо этого делать ChangeArmorCount(различие - тот будет делать плавно)
     {
         _armorSlider.maxValue = value;
         _armorSlider.value = _armorSlider.maxValue;
     }
 
-    public void SetHealthValue(int value)
+    public void SetHealthValue(int value) // Вместо этого делать ChangeHealthCount(различие - тот будет делать плавно)
     {
         _healthSlider.maxValue = value;
         _healthSlider.value = _healthSlider.maxValue;
@@ -127,6 +124,13 @@ public class BrainView : MonoBehaviour
     {
         _healthSlider.maxValue = maxValue;
         _healthSlider.DOValue(healthValue, 1);
+    }
+
+    public void RestoreBrain()
+    {
+        _healthSlider.DOValue(_healthSlider.maxValue, 1);
+        _armorSlider.DOValue(_armorSlider.maxValue, 1);
+        OnRestoreBrain?.Invoke();
     }
 
     public void BrainDie()

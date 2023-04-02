@@ -1,7 +1,4 @@
-using System;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace YG.Example
 {
@@ -13,6 +10,7 @@ namespace YG.Example
         [SerializeField] private ArmorShopView _armorShopView;
         [SerializeField] private DayChangerView _dayChangerView;
         [SerializeField] private ObjectPoolView _objectPoolView;
+        [SerializeField] private SettingLanguageView _settingLanguageView;
 
         private void OnEnable() => YandexGame.GetDataEvent += GetLoad;
         private void OnDisable() => YandexGame.GetDataEvent -= GetLoad;
@@ -26,6 +24,12 @@ namespace YG.Example
         public void SaveDayCount(int dayCount)
         {
             YandexGame.savesData.SavedDay = dayCount;
+            YandexGame.SaveProgress();
+        }
+
+        public void SaveMaxDayCount(int maxDayCount)
+        {
+            YandexGame.savesData.SavedMaxDay = maxDayCount;
             YandexGame.SaveProgress();
         }
 
@@ -114,11 +118,16 @@ namespace YG.Example
 
         public void GetLoad()
         {
+            Debug.Log("Стартуем ))))))))))");
+            _settingLanguageView.CheckYandexLanguage();
+            _settingLanguageView.SettingPanel.SetActive(false);
+
             _gameController.Neuron.LoadNeuronData();
             _gameController.Health.LoadHealthData();
             _gameController.Armor.LoadArmorData();
             _gameController.DayChanger.LoadDayData();
             _dayChangerView.LoadTimeData();
+            _settingLanguageView.LoadLanguageData();
 
             for (int i = 0; i < _objectPoolView.Pool.Count; i++)
                 _objectPoolView.Pool[i].LoadEnemyData();
@@ -134,6 +143,8 @@ namespace YG.Example
             for (int i = 0; i < _armorShopView.SpawnedItem.Count; i++)
                 if (YandexGame.savesData.SavedArmorItemPrices[i] != 0)
                     _armorShopView.SpawnedItem[i].LoadArmorItemPriceData();
+            
+            Debug.Log("Я все загрузил");
         }
     }
 }

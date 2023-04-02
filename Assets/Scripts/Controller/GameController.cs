@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     private LoseGamePresenter _loseGamePresenter;
 
     private StartScreenView _startScreenView;
+    private PauseView _pauseView;
 
     private RewardPresenter _rewardButtonPresenter;
 
@@ -92,7 +93,7 @@ public class GameController : MonoBehaviour
         _brainPresenter = new BrainPresenter();
         _recoveryPresenter = new RecoveryPresenter();
 
-        _loseGame = new LoseGame(Neuron, Health, Armor, _dayChanger);
+        _loseGame = new LoseGame(Neuron, Health, Armor, _enemy, _dayChanger);
         _loseGamePresenter = new LoseGamePresenter();
 
         _rewardButtonPresenter = new RewardPresenter();
@@ -105,8 +106,10 @@ public class GameController : MonoBehaviour
         var recoveryArmorView = FindObjectOfType<RecoveryArmorView>(true);
         var loseGameView = FindObjectOfType<LoseGameView>(true);
         _startScreenView = FindObjectOfType<StartScreenView>(true);
-        var pauseView = FindObjectOfType<PauseView>(true);
-        var rewardButtonView = FindObjectOfType<RewardView>(true);
+        _pauseView = FindObjectOfType<PauseView>(true);
+        var pauseButtonView = FindObjectOfType<PauseButtonView>(true);
+        var rewardView = FindObjectOfType<RewardView>(true);
+        var rewardButtonView = FindObjectOfType<RewardButtonView>(true);
 
         _neuronPresenter.Init(neuronCollectorView, brainView, _neuronCollector, Neuron);
         _dayChangerPresenter.Init(_dayChanger, _dayChangerView, objectPool);
@@ -115,9 +118,10 @@ public class GameController : MonoBehaviour
         _brainPresenter.Init(Health, Armor, brainView, _dayChanger);
         _recoveryPresenter.Init(recoveryHealthView, recoveryArmorView, Health, Armor, brainView);
         _loseGamePresenter.Init(loseGameView, _loseGame, neuronCollectorView);
-        _startScreenView.Init(_dayChangerView);
-        pauseView.Init(_startScreenView);
-        _rewardButtonPresenter.Init(Neuron, rewardButtonView);
+        _startScreenView.Init(_dayChangerView, _pauseView);
+        _pauseView.Init(objectPool, _dayChangerView, recoveryArmorView, recoveryHealthView, rewardButtonView);
+        pauseButtonView.Init(_startScreenView);
+        _rewardButtonPresenter.Init(Neuron, rewardView);
 
         _startScreenView.ActivateStartScreen();
     }
@@ -125,8 +129,8 @@ public class GameController : MonoBehaviour
     private void OnApplicationFocus(bool focus)
     {
         if (!focus)
-            _startScreenView.Pause(true);
+            _pauseView.Pause(true);
         else
-            _startScreenView.Pause(false);
+            _pauseView.Pause(false);
     }    
 }

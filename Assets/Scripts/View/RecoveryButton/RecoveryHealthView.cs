@@ -29,12 +29,13 @@ public class RecoveryHealthView : MonoBehaviour
     public void BlockRecoveryButton()
     {
         StartCoroutine(RecoveryHealthCooldown());
-        TryActiveBonusButton();
+        //TryActiveBonusButton();
     }
 
     private IEnumerator RecoveryHealthCooldown()
     {
-        _cooldownSlider.value = _cooldownSlider.maxValue;
+        if (_cooldownSlider.value == _cooldownSlider.minValue)
+            _cooldownSlider.value = _cooldownSlider.maxValue;
 
         _cooldownSlider.gameObject.SetActive(true);
         GetComponent<Button>().interactable = false;
@@ -52,9 +53,21 @@ public class RecoveryHealthView : MonoBehaviour
         return _cooldownSlider.value == _cooldownSlider.minValue;
     }
 
+    public void TryPauseCooldown()
+    {
+        if (_cooldownSlider.gameObject.activeInHierarchy)
+            _cooldownSlider.DOPause();
+    }
+
+    public void TryContinueCooldown()
+    {
+        if (_cooldownSlider.gameObject.activeInHierarchy)
+            StartCoroutine(RecoveryHealthCooldown());
+    }
+
     private void TryActiveBonusButton()
     {
-        int randomButton = UnityEngine.Random.Range(1, 5);
+        int randomButton = UnityEngine.Random.Range(1, 10);
 
         if (randomButton == 1)
             for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)
