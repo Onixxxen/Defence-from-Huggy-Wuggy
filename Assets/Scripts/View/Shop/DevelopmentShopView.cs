@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using YG;
-using YG.Example;
 
 public class DevelopmentShopView : ShopView
 {
@@ -11,7 +9,6 @@ public class DevelopmentShopView : ShopView
     [SerializeField] private DevelopmentItemView _template;
     [SerializeField] private TMP_Text _count;
     [SerializeField] private TMP_Text _perClickText;
-    [SerializeField] private SaverData _saverData;
 
     public List<DevelopmentItem> ShopItems => _shopItems;
     public List<DevelopmentItemView> SpawnedItem { get; private set; } = new List<DevelopmentItemView>();

@@ -19,6 +19,8 @@ public class BrainView : MonoBehaviour
 
     private SupportingTextView _supportingTextView;
 
+    private BrainAttackView _brainAttackView;
+
     private float _normalScale;
 
     private const int _clickerMode = 1;
@@ -53,6 +55,7 @@ public class BrainView : MonoBehaviour
     {
         _normalScale = transform.localScale.x;
         _camera = Camera.main;
+        _brainAttackView = GetComponentInChildren<BrainAttackView>();
     }
 
     private void Update()
@@ -64,25 +67,12 @@ public class BrainView : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit))
+                if (!_brainAttackView.BulletIsCreated)
                 {
-                    EnemyView enemyView = hit.collider.GetComponent<EnemyView>();
-
-                    if (enemyView != null)
-                    {
-                        enemyView.gameObject.SetActive(false);
-                        TryShowSupportingText(_towerDefenceMode);
-                    }
-                    else
-                    {
-                        Debug.Log("Вы нажали на что-то другое");
-                    }
+                    _brainAttackView.Shot();
                 }
             }
-        }            
+        }
     }
 
     private void OnBraintClick()
@@ -99,7 +89,7 @@ public class BrainView : MonoBehaviour
         transform.DOScale(_normalScale, 0.5f);
     }
 
-    private void TryShowSupportingText(int mode)
+    public void TryShowSupportingText(int mode)
     {
         if (mode == _clickerMode)
         {
@@ -159,5 +149,5 @@ public class BrainView : MonoBehaviour
     public void BrainDie()
     {
         _loseGameView.gameObject.SetActive(true);
-    }       
+    }
 }

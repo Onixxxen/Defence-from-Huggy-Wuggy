@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using YG;
-using YG.Example;
 
 public class ArmorShopView : ShopView
 {
     [SerializeField] private List<ArmorItem> _shopItems;
     [SerializeField] protected ArmorItemView _template;
-    [SerializeField] private SaverData _saverData;
 
     public List<ArmorItem> ShopItems => _shopItems;
     public List<ArmorItemView> SpawnedItem { get; private set; } = new List<ArmorItemView>();
