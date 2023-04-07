@@ -49,8 +49,10 @@ public class DayChanger
                 YandexGame.NewLeaderboardScores("DayCount", _maxDay); // яндекс SDK
             }
 
+            /*
             if (_day % 2 == 0)
                 YandexGame.FullscreenShow(); // яндекс SDK
+            */
         }
 
         if (modeIndex == _towerDefenceMode)

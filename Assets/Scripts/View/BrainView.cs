@@ -67,10 +67,7 @@ public class BrainView : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if (!_brainAttackView.BulletIsCreated)
-                {
-                    _brainAttackView.Shot();
-                }
+                _brainAttackView.Shot();
             }
         }
     }
@@ -99,7 +96,7 @@ public class BrainView : MonoBehaviour
         }
         else if (mode == _towerDefenceMode)
         {
-            int showText = UnityEngine.Random.Range(1, 5);
+            int showText = UnityEngine.Random.Range(1, 3);
             if (showText == 1)
                 _supportingTextView.ShowSupportingText(_towerDefenceMode);
         }

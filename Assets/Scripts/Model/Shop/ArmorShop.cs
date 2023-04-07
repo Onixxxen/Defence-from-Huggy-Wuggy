@@ -27,7 +27,8 @@ public class ArmorShop : Shop
     {
         Price = price;
         Improvement = addArmor;
-        int newPrice = (int)(Price * 1.5f);
+        //int newPrice = (int)(Price * 1.5f);
+        int newPrice = Price;
 
         if (_neuron.Count >= Price)
         {
