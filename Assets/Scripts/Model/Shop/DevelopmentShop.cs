@@ -26,8 +26,8 @@ public class DevelopmentShop : Shop
     {
         Price = price;
         Improvement = addNeuronPerClick;
-        //int newPrice = (int)(Price * 1.5f);
-        int newPrice = Price;
+        int newPrice = (int)(Price * 1.2f);
+        //int newPrice = Price;
 
         if (_neuron.Count >= Price)
         {

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class RecoveryArmorView : MonoBehaviour
 {
     [SerializeField] private Slider _cooldownSlider;
+    [SerializeField] private BrainEffectView _brainEffectView;
     [SerializeField] private int _recoveryTime;
 
     [Header("RewardButton")]
@@ -24,6 +25,7 @@ public class RecoveryArmorView : MonoBehaviour
     private void RecoveryArmor()
     {
         TryRecoveryArmor?.Invoke();
+        _brainEffectView.StartRecoveryArmorEffect();
     }
 
     public void BlockRecoveryButton()

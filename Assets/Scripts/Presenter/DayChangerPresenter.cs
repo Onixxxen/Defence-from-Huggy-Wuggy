@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using YG;
 
@@ -39,9 +38,9 @@ public class DayChangerPresenter
         _dayChanger.ChangeDayRequest(modeIndex);
     }
 
-    private void OnActivateClickerMode(int modeIndex)
+    private void OnActivateClickerMode(int day, int modeIndex)
     {
-        _dayChangerView.ActivateClickerMode(modeIndex);
+        _dayChangerView.ActivateClickerMode(day, modeIndex);
     }
 
     private void OnActivateTowerDefenceMode(int day, int modeIndex)
@@ -49,7 +48,7 @@ public class DayChangerPresenter
         _dayChangerView.ActivateTowerDefenceMode(day, modeIndex);
     }
 
-    private void OnChangeEnemyDamage(int factor)
+    private void OnChangeEnemyDamage(float factor)
     {
         for (int i = 0; i < _objectPoolView.Pool.Count; i++)
             _objectPoolView.Pool[i].ChangeDamage(factor);

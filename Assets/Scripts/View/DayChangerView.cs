@@ -24,6 +24,7 @@ public class DayChangerView : MonoBehaviour
     [SerializeField] private Canvas _towerDefenceCanvas;
     [SerializeField] private Scrollbar _timeProgressBar;
     [SerializeField] private ChangeDayTextView _changeDayTextView;
+    [SerializeField] private CurrentDayView _currentDayView;
     [SerializeField] private ObjectPoolView _objectPool;
     [SerializeField] private SpawnerView _spawnerView;
     [SerializeField] private StartScreenView _startScreenView;
@@ -110,7 +111,7 @@ public class DayChangerView : MonoBehaviour
         }
     }
 
-    public void ActivateClickerMode(int modeIndex)
+    public void ActivateClickerMode(int day, int modeIndex)
     {
         CurrentMode = modeIndex;
 
@@ -118,13 +119,13 @@ public class DayChangerView : MonoBehaviour
         RandomizeInClicker();
 
         _isSpawned = false;
-        _rewardButtonView.ChangeSlowDownButtonStatus(false);
-        _rewardButtonView.ChangeRecoveryBrainButtonStatus(false);
 
         _startScreenView.ChangeCameraNormalSie(5);
 
         for (int i = 0; i < _objectPool.Pool.Count; i++)
-            _objectPool.Pool[i].gameObject.SetActive(false); ;
+            _objectPool.Pool[i].gameObject.SetActive(false);
+
+        _currentDayView.UpdateDayText(day);
 
         _towerDefenceCanvas.gameObject.SetActive(false);
         DOTween.To(x => _camera.orthographicSize = x, _camera.orthographicSize, 5, 2);
@@ -157,15 +158,7 @@ public class DayChangerView : MonoBehaviour
         _towerDefenceCanvas.gameObject.SetActive(true);
 
         _changeDayTextView.ChangeDayText(day);
-
-        StartCoroutine(SetActiveDayText());
-    }
-
-    private IEnumerator SetActiveDayText()
-    {
-        _changeDayTextView.gameObject.SetActive(true);
-        yield return new WaitForSeconds(4);
-        _changeDayTextView.gameObject.SetActive(false);
+        _currentDayView.UpdateDayText(day);
     }
 
     private void ReloadRecoveryButton()
@@ -200,7 +193,7 @@ public class DayChangerView : MonoBehaviour
 
     private void RandomizeInClicker()
     {
-        int randomButton = UnityEngine.Random.Range(1, 10);
+        int randomButton = UnityEngine.Random.Range(1, 6);
         float randomTime = UnityEngine.Random.Range(0.6f, 0.8f);
 
         _randomButton = randomButton;
@@ -209,7 +202,7 @@ public class DayChangerView : MonoBehaviour
 
     private void RandomizeInTowerDefence()
     {
-        int randomBonusView = UnityEngine.Random.Range(1, 10);
+        int randomBonusView = UnityEngine.Random.Range(1, 6);
 
         if (randomBonusView == 1)
         {

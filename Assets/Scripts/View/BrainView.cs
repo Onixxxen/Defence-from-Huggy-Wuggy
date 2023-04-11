@@ -74,6 +74,7 @@ public class BrainView : MonoBehaviour
 
     private void OnBraintClick()
     {
+        GetComponentInChildren<BrainEffectView>().StartNeuronEffect();
         ChangeNeuronCount?.Invoke();
         TryShowSupportingText(_clickerMode);
         StartCoroutine(ChangeBrainScale());
@@ -90,13 +91,13 @@ public class BrainView : MonoBehaviour
     {
         if (mode == _clickerMode)
         {
-            int showText = UnityEngine.Random.Range(1, 20);
+            int showText = UnityEngine.Random.Range(1, 40);
             if (showText == 1)
                 _supportingTextView.ShowSupportingText(_clickerMode);
         }
         else if (mode == _towerDefenceMode)
         {
-            int showText = UnityEngine.Random.Range(1, 3);
+            int showText = UnityEngine.Random.Range(1, 5);
             if (showText == 1)
                 _supportingTextView.ShowSupportingText(_towerDefenceMode);
         }

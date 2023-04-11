@@ -28,8 +28,8 @@ public class HealthShop : Shop
     {        
         Price = price;
         Improvement = addHealth;
-        //int newPrice = (int)(Price * 1.5f);
-        int newPrice = Price;
+        int newPrice = (int)(Price * 1.2f);
+        //int newPrice = Price;
 
         if (_neuron.Count >= Price)
         {

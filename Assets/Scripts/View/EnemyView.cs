@@ -17,6 +17,7 @@ public class EnemyView : MonoBehaviour
     private SaverData _saverData;
 
     private int _normalSpeed => _speed;
+    private float _floatDamage;
 
     public int Damage => _damage;
     public int Speed => _speed;
@@ -59,6 +60,7 @@ public class EnemyView : MonoBehaviour
     public void SetCharacteristics(Enemies enemy)
     {
         _damage = enemy.Damage;
+        _floatDamage = enemy.Damage;
         _speed = enemy.Speed;
     }
 
@@ -67,9 +69,10 @@ public class EnemyView : MonoBehaviour
         _agent.speed = newSpeed;
     }
 
-    public void ChangeDamage(int newDamage)
+    public void ChangeDamage(float newDamage)
     {
-        _damage *= newDamage;
+        _floatDamage *= newDamage;
+        _damage = (int)_floatDamage;
 
         if (YandexGame.savesData.TowerDefenceLoaded)
             _saverData.SaveEnemyDamage(_damage);
@@ -83,7 +86,7 @@ public class EnemyView : MonoBehaviour
             _saverData.SaveEnemyDamage(_damage);
     }
 
-    private IEnumerator Attack()
+    public IEnumerator Attack()
     {
         TryRequestAttack?.Invoke(_damage);
         yield return new WaitForSeconds(1);
@@ -104,7 +107,7 @@ public class EnemyView : MonoBehaviour
 
         if (!_rewardButtonView.RecoveryBrainButtonIsSpawned)
         {
-            int randomButton = UnityEngine.Random.Range(1, 20);
+            int randomButton = UnityEngine.Random.Range(1, 10);
 
             if (randomButton == 1)
                 for (int i = 0; i < _rewardButtonView.RewardButtons.Count; i++)

@@ -13,6 +13,12 @@ public class RewardButton : MonoBehaviour
     [SerializeField] private Slider _progressSlider;
     [SerializeField] private Slider _lifetime;
 
+    [Header("Reward Text")]
+    [SerializeField] private string RuText;
+    [SerializeField] private string EnText;
+    [SerializeField] private string TrText;
+    [SerializeField] private string UkText;
+
     private RewardButtonView _view;
     private DayChangerView _dayChangerView;
 
@@ -48,6 +54,7 @@ public class RewardButton : MonoBehaviour
 
     public void ActivateSlider(int duration)
     {
+        ActivateRewardText();
         StartCoroutine(TryDestroyButton(duration));
     }
 
@@ -90,6 +97,18 @@ public class RewardButton : MonoBehaviour
                 _view.SpawnedButton.Remove(this);
 
         Destroy(gameObject);
+    }
+
+    private void ActivateRewardText()
+    {
+        if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "ru")
+            _view.RewardTextView.ActivateRewardText(RuText);
+        else if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "en")
+            _view.RewardTextView.ActivateRewardText(EnText);
+        else if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "tr")
+            _view.RewardTextView.ActivateRewardText(TrText);
+        else if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "uk")
+            _view.RewardTextView.ActivateRewardText(UkText);
     }
 
     public void TryPauseLifetime()
