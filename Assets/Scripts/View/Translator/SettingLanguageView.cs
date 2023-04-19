@@ -16,6 +16,10 @@ public class SettingLanguageView : MonoBehaviour
     [Header("Setting Panel")]
     [SerializeField] private GameObject _settingPanel;
 
+    [Header("Setting Panel")]
+    [SerializeField] private TutorialView _tutorialView;
+
+
     private TranslateView[] _translateView;
     private string _currentLanguage = "ru";
 
@@ -43,6 +47,7 @@ public class SettingLanguageView : MonoBehaviour
         ChangeCurrentLanguage(_ruLanguageButton.transform);
         _currentLanguage = "ru";
         SaveLanguage();
+        SetTutorualLanguage();
     }
 
     private void SetEnglishLanguage()
@@ -53,6 +58,7 @@ public class SettingLanguageView : MonoBehaviour
         ChangeCurrentLanguage(_enLanguageButton.transform);
         _currentLanguage = "en";
         SaveLanguage();
+        SetTutorualLanguage();
     }
 
     private void SetTurkeyLanguage()
@@ -63,6 +69,7 @@ public class SettingLanguageView : MonoBehaviour
         ChangeCurrentLanguage(_trLanguageButton.transform);
         _currentLanguage = "tr";
         SaveLanguage();
+        SetTutorualLanguage();
     }
 
     private void SetUkrainianLanguage()
@@ -73,6 +80,7 @@ public class SettingLanguageView : MonoBehaviour
         ChangeCurrentLanguage(_ukLanguageButton.transform);
         _currentLanguage = "uk";
         SaveLanguage();
+        SetTutorualLanguage();
     }
 
     private void ChangeCurrentLanguage(Transform button)
@@ -83,8 +91,13 @@ public class SettingLanguageView : MonoBehaviour
 
     private void SaveLanguage()
     {
-        if (YandexGame.savesData.LanguageLoaded)
+        if (YandexGame.savesData.IsLanguageLoaded)
             YandexGame.savesData.SavedLanguage = _currentLanguage;
+    }
+
+    private void SetTutorualLanguage()
+    {
+        _tutorialView.ChangeCurrentDialog(_currentLanguage);
     }
 
     public void CheckYandexLanguage()
@@ -110,7 +123,7 @@ public class SettingLanguageView : MonoBehaviour
 
     public void LoadLanguageData()
     {
-        YandexGame.savesData.LanguageLoaded = false;
+        YandexGame.savesData.IsLanguageLoaded = false;
 
         if (YandexGame.savesData.SavedLanguage == "ru")
             SetRussianLanguage();
@@ -121,6 +134,6 @@ public class SettingLanguageView : MonoBehaviour
         else if (YandexGame.savesData.SavedLanguage == "uk")
             SetUkrainianLanguage();
 
-        YandexGame.savesData.LanguageLoaded = true;
+        YandexGame.savesData.IsLanguageLoaded = true;
     }
 }

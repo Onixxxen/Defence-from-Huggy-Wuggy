@@ -1,12 +1,17 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using YG;
 
 public class DevelopmentItemView : ShopItemView
 {
+    [SerializeField] private DevelopmentSellButton _tutorialSellButton;
+
     private int _price;
     private DevelopmentItemView[] _items;
     private SettingLanguageView _settingLanguage;
+
+    public DevelopmentSellButton TutorialSellButton => _tutorialSellButton;
 
     public event Action<int> TryGetNeuronPerClick;    
     public event Action<int, int, int> OnDevelopmentSellButton;
@@ -43,6 +48,7 @@ public class DevelopmentItemView : ShopItemView
         TryOpenItem?.Invoke(Index, _price);
 
         SellButton.onClick.AddListener(SellItem);
+        _tutorialSellButton.GetComponent<Button>().onClick.AddListener(SellItem);
     }
 
     public void SellItem()
@@ -52,6 +58,7 @@ public class DevelopmentItemView : ShopItemView
         int addNeuronPerClick = ImprovementValue;
 
         OnDevelopmentSellButton?.Invoke(Index, _price, addNeuronPerClick);
+        Instantiate(BuyEffect, SellButton.transform.position, Quaternion.identity);
 
         for (int i = 0; i < _items.Length; i++)
             _items[i].TryLockItem?.Invoke(_items[i].Index, _items[i]._price);
@@ -64,6 +71,7 @@ public class DevelopmentItemView : ShopItemView
         Icon.sprite = item.Icon;        
         Improvement.text = $"+{FormatNumberExtension.FormatNumber(item.AddNeuronPerClick)}";
         Price.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
+        ClosePrice.text = $"{FormatNumberExtension.FormatNumber(item.Price)}"; 
         PriceValue = item.Price;
         ImprovementValue = item.AddNeuronPerClick;          
     }
@@ -84,6 +92,7 @@ public class DevelopmentItemView : ShopItemView
     {
         PriceValue = price;
         Price.text = $"{FormatNumberExtension.FormatNumber(price)}";
+        ClosePrice.text = $"{FormatNumberExtension.FormatNumber(price)}";
     }
 
     public void OpenItem()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158d3274e4e87b648bbac2bb819590c1, type: 3}
   m_Name: Meme
   m_EditorClassIdentifier: 
-  Icon: {fileID: 21300000, guid: e03c67493f39fdc4e95a4485d348c26b, type: 3}
+  Icon: {fileID: 21300000, guid: 06dcc44ba916b6e4185e176e13785f36, type: 3}
   RuName: "\u0421\u043C\u043E\u0442\u0440\u0435\u0442\u044C \u043C\u0435\u043D\u044C\u0448\u0435
     \u043C\u0435\u043C\u0447\u0438\u043A\u043E\u0432"
   EnName: Watch less memes

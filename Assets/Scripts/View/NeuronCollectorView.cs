@@ -32,4 +32,9 @@ public class NeuronCollectorView : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
         transform.DOScale(_normalScale, 0.5f);
     }
+
+    public bool NeuronIsCollected(int count)
+    {
+        return Convert.ToInt32(_neuronCount.text) >= count;
+    }
 }

@@ -6,9 +6,12 @@ public class ArmorShopView : ShopView
 {
     [SerializeField] private List<ArmorItem> _shopItems;
     [SerializeField] protected ArmorItemView _template;
+    [SerializeField] private TutorialView _tutorial;
 
     public List<ArmorItem> ShopItems => _shopItems;
     public List<ArmorItemView> SpawnedItem { get; private set; } = new List<ArmorItemView>();
+
+    private bool _isTutorialButtonAdded = false;
 
     public event Action<int, int, int> OnSellButtonClick;
     public event Action<int> OnRequsetCurrentArmor;
@@ -46,6 +49,9 @@ public class ArmorShopView : ShopView
         item.TryUnlockItem += TryRequestUnlockItem;
 
         item.Render(shopItem, index);
+
+        if (!_isTutorialButtonAdded)
+            AddTutorialButton(item);
 
         SpawnedItem.Add(item);                
     }
@@ -88,5 +94,11 @@ public class ArmorShopView : ShopView
     private void TryRequestUnlockItem(int index, int price)
     {
         OnRequsetUnlockItem?.Invoke(index, price);
+    }
+
+    private void AddTutorialButton(ArmorItemView armorItem)
+    {
+        _tutorial.InitArmorSellButton(armorItem.TutorialSellButton);
+        _isTutorialButtonAdded = true;
     }
 }

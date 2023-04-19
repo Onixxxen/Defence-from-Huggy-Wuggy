@@ -1,12 +1,17 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using YG;
 
 public class ArmorItemView : ShopItemView
 {
+    [SerializeField] private ArmorSellButton _tutorialSellButton;
+
     private int _price;
     private ArmorItemView[] _items;
     private SettingLanguageView _settingLanguage;
+
+    public ArmorSellButton TutorialSellButton => _tutorialSellButton;
 
     public event Action<int> TryGetCurentArmor;
     public event Action<int, int, int> OnArmorSellButton;
@@ -43,6 +48,7 @@ public class ArmorItemView : ShopItemView
         TryOpenItem?.Invoke(Index, _price);
 
         SellButton.onClick.AddListener(SellItem);
+        _tutorialSellButton.GetComponent<Button>().onClick.AddListener(SellItem);
     }
 
     public void SellItem()
@@ -52,6 +58,7 @@ public class ArmorItemView : ShopItemView
         int addArmor = ImprovementValue;
 
         OnArmorSellButton?.Invoke(Index, _price, addArmor);
+        Instantiate(BuyEffect, SellButton.transform.position, Quaternion.identity);
 
         for (int i = 0; i < _items.Length; i++)
             _items[i].TryLockItem?.Invoke(_items[i].Index, _items[i]._price);
@@ -64,6 +71,7 @@ public class ArmorItemView : ShopItemView
         Icon.sprite = item.Icon;
         Improvement.text = $"+{FormatNumberExtension.FormatNumber(item.AddArmor)}";
         Price.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
+        ClosePrice.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
         PriceValue = item.Price;
         ImprovementValue = item.AddArmor;
     }
@@ -84,6 +92,7 @@ public class ArmorItemView : ShopItemView
     {
         PriceValue = price;
         Price.text = $"{FormatNumberExtension.FormatNumber(price)}";
+        ClosePrice.text = $"{FormatNumberExtension.FormatNumber(price)}";
     }
 
     public void OpenItem()

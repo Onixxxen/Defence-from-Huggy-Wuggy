@@ -13,17 +13,27 @@ public class RewardButton : MonoBehaviour
     [SerializeField] private Slider _progressSlider;
     [SerializeField] private Slider _lifetime;
 
+    [Header("Reward Text")]
+    [SerializeField] private string RuText;
+    [SerializeField] private string EnText;
+    [SerializeField] private string TrText;
+    [SerializeField] private string UkText;
+
     private RewardButtonView _view;
     private DayChangerView _dayChangerView;
+    private SpawnerView _spawnerView;
+    private SoundSettingsView _soundSettingsView;
 
     public string Name => _name;
     public int Reward => _reward;
     public Slider ProgressSlider => _progressSlider;
 
-    public void Init(RewardButtonView view, DayChangerView dayChangerView)
+    public void Init(RewardButtonView view, DayChangerView dayChangerView, SpawnerView spawnerView, SoundSettingsView soundSettingsView)
     {
         _view = view;
         _dayChangerView = dayChangerView;
+        _spawnerView = spawnerView;
+        _soundSettingsView = soundSettingsView;
     }
 
     private void Awake()
@@ -43,11 +53,14 @@ public class RewardButton : MonoBehaviour
     private void ActivateReward(int rewardID)
     {
         _dayChangerView.UpdatePreviousDayTimeInSecond();
+        _spawnerView.UpdatePreviousSecondBetweenSpawn();
+        _soundSettingsView.UpdateSoundVolume();
         YandexGame.RewVideoShow(rewardID);
     }
 
     public void ActivateSlider(int duration)
     {
+        ActivateRewardText();
         StartCoroutine(TryDestroyButton(duration));
     }
 
@@ -90,6 +103,18 @@ public class RewardButton : MonoBehaviour
                 _view.SpawnedButton.Remove(this);
 
         Destroy(gameObject);
+    }
+
+    private void ActivateRewardText()
+    {
+        if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "ru")
+            _view.RewardTextView.ActivateRewardText(RuText);
+        else if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "en")
+            _view.RewardTextView.ActivateRewardText(EnText);
+        else if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "tr")
+            _view.RewardTextView.ActivateRewardText(TrText);
+        else if (_view.RewardTextView.SettingLanguageView.CurrentLanguage == "uk")
+            _view.RewardTextView.ActivateRewardText(UkText);
     }
 
     public void TryPauseLifetime()

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class RecoveryHealthView : MonoBehaviour
 {
     [SerializeField] private Slider _cooldownSlider;
+    [SerializeField] private BrainEffectView _brainEffectView;
     [SerializeField] private float _recoveryTime;
 
     [Header("RewardButton")]
@@ -24,6 +25,7 @@ public class RecoveryHealthView : MonoBehaviour
     private void RecoveryHealth()
     {
         TryRecoveryHealth?.Invoke();
+        _brainEffectView.StartRecoveryHealthEffect();
     }
 
     public void BlockRecoveryButton()

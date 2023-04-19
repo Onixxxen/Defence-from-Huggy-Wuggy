@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Drawing;
 using TMPro;
 using UnityEngine;
@@ -33,6 +34,8 @@ public class GameController : MonoBehaviour
     private PauseView _pauseView;
 
     private RewardPresenter _rewardButtonPresenter;
+
+    private SettingLanguageView _settingLanguage;
 
     private const int _clickerMode = 1;
     private const int _towerDefenceMode = 2;
@@ -111,6 +114,10 @@ public class GameController : MonoBehaviour
         var rewardView = FindObjectOfType<RewardView>(true);
         var rewardButtonView = FindObjectOfType<RewardButtonView>(true);
         var supportingTextView = FindObjectOfType<SupportingTextView>(true);
+        var spawnerView = FindObjectOfType<SpawnerView>(true);
+        var soundSetttingView = FindObjectOfType<SoundSettingsView>(true);
+        var tutorialView = FindObjectOfType<TutorialView>(true);
+        _settingLanguage = FindObjectOfType<SettingLanguageView>(true);
 
         _neuronPresenter.Init(neuronCollectorView, brainView, _neuronCollector, Neuron);
         _dayChangerPresenter.Init(_dayChanger, _dayChangerView, objectPool);
@@ -120,18 +127,35 @@ public class GameController : MonoBehaviour
         _recoveryPresenter.Init(recoveryHealthView, recoveryArmorView, Health, Armor, brainView);
         _loseGamePresenter.Init(loseGameView, _loseGame, neuronCollectorView);
         _startScreenView.Init(_dayChangerView, _pauseView);
-        _pauseView.Init(objectPool, _dayChangerView, recoveryArmorView, recoveryHealthView, rewardButtonView);
+        _pauseView.Init(objectPool, spawnerView, _dayChangerView, recoveryArmorView, recoveryHealthView, rewardButtonView, soundSetttingView);
         pauseButtonView.Init(_startScreenView);
         _rewardButtonPresenter.Init(Neuron, rewardView);
 
-        _startScreenView.ActivateStartScreen();
+        if (!YandexGame.savesData.IsTutorialCompleted)
+            StartCoroutine(StartTutorial(tutorialView));
+        else
+            _startScreenView.ActivateStartScreen();
     }
 
     private void OnApplicationFocus(bool focus)
     {
-        if (!focus)
+        if (!focus && !_pauseView.IsPause)
+        {
+            _pauseView.SoundSettingsView.UpdateSoundVolume();
             _pauseView.Pause(true);
-        else
+        }
+        else if (focus)
+        {
             _pauseView.Pause(false);
-    }    
+        }
+    }
+
+    private IEnumerator StartTutorial(TutorialView tutorialView)
+    {
+        _startScreenView.ActivateStartScreen();
+        yield return new WaitForSeconds(0.1f);
+        _startScreenView.CloseStartScreen();
+
+        StartCoroutine(tutorialView.RunTutorialDialog());
+    }
 }

@@ -20,6 +20,8 @@ public class BrainView : MonoBehaviour
     private SupportingTextView _supportingTextView;
 
     private BrainAttackView _brainAttackView;
+    private BrainEffectView _brainEffectView;
+    private BrainSoundView _brainSoundView;
 
     private float _normalScale;
 
@@ -56,6 +58,8 @@ public class BrainView : MonoBehaviour
         _normalScale = transform.localScale.x;
         _camera = Camera.main;
         _brainAttackView = GetComponentInChildren<BrainAttackView>();
+        _brainEffectView = GetComponentInChildren<BrainEffectView>();
+        _brainSoundView = GetComponentInChildren<BrainSoundView>();
     }
 
     private void Update()
@@ -74,6 +78,8 @@ public class BrainView : MonoBehaviour
 
     private void OnBraintClick()
     {
+        _brainEffectView.StartNeuronEffect();
+        _brainSoundView.PlayBrainClickSound();
         ChangeNeuronCount?.Invoke();
         TryShowSupportingText(_clickerMode);
         StartCoroutine(ChangeBrainScale());
@@ -82,6 +88,7 @@ public class BrainView : MonoBehaviour
     private IEnumerator ChangeBrainScale()
     {
         transform.DOScale(_normalScale - 1, 0.5f);
+        //transform.DOScale(_normalScale - 1, 0.5f).OnComplete(() => transform.DOScale(_normalScale, 0.5f));
         yield return new WaitForSeconds(0.1f);
         transform.DOScale(_normalScale, 0.5f);
     }
@@ -90,13 +97,13 @@ public class BrainView : MonoBehaviour
     {
         if (mode == _clickerMode)
         {
-            int showText = UnityEngine.Random.Range(1, 20);
+            int showText = UnityEngine.Random.Range(1, 40);
             if (showText == 1)
                 _supportingTextView.ShowSupportingText(_clickerMode);
         }
         else if (mode == _towerDefenceMode)
         {
-            int showText = UnityEngine.Random.Range(1, 3);
+            int showText = UnityEngine.Random.Range(1, 5);
             if (showText == 1)
                 _supportingTextView.ShowSupportingText(_towerDefenceMode);
         }

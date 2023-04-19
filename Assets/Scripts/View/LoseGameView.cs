@@ -12,6 +12,7 @@ public class LoseGameView : MonoBehaviour
     [SerializeField] private Button _continueButton;
     [SerializeField] private GameObject _mainUI;
     [SerializeField] private ObjectPoolView _objectPool;
+    [SerializeField] private PanelChangerView _panelChangerView;
 
     [Header("Shops")]
     [SerializeField] private DevelopmentShopView _developmentShopView;
@@ -25,6 +26,7 @@ public class LoseGameView : MonoBehaviour
 
     private void OnEnable()
     {
+        _panelChangerView.OpenPanel();
         TryGetDayCount?.Invoke();
         _mainUI.SetActive(false);
         _dayChangerView.ChangeDayTimeInSecond(1000000);
@@ -49,7 +51,8 @@ public class LoseGameView : MonoBehaviour
     public void RequestLoseGame()
     {
         TryActiveLoseGame?.Invoke();
-        gameObject.SetActive(false);
+        _panelChangerView.ClosePanel();
+        //gameObject.SetActive(false);
     }
 
     public void SetDayCount(int day)
@@ -83,6 +86,5 @@ public class LoseGameView : MonoBehaviour
         _dayChangerView.ChangeTime(0.57f);
         _dayChangerView.BackDayTimeInSecond();
         YandexGame.savesData.ResetData();
-        //gameObject.SetActive(false);
     }
 }

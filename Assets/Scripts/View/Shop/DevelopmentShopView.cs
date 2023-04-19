@@ -9,9 +9,12 @@ public class DevelopmentShopView : ShopView
     [SerializeField] private DevelopmentItemView _template;
     [SerializeField] private TMP_Text _count;
     [SerializeField] private TMP_Text _perClickText;
+    [SerializeField] private TutorialView _tutorial;
 
     public List<DevelopmentItem> ShopItems => _shopItems;
     public List<DevelopmentItemView> SpawnedItem { get; private set; } = new List<DevelopmentItemView>();
+
+    private bool _isTutorialButtonAdded = false;
 
     public event Action<int, int, int> OnSellButtonClick;
     public event Action<int> OnRequsetNeuronPerClick;
@@ -49,6 +52,9 @@ public class DevelopmentShopView : ShopView
         item.TryUnlockItem += TryRequestUnlockItem;
 
         item.Render(shopItem, index);
+
+        if (!_isTutorialButtonAdded)
+            AddTutorialButton(item);
 
         SpawnedItem.Add(item);
     }
@@ -99,5 +105,11 @@ public class DevelopmentShopView : ShopView
     {
         OnRequsetUnlockItem?.Invoke(index, price);
         //item.TryUnlockItem -= TryRequestUnlockItem; // не знаю почему, но если тут отписываться, то все ломается
+    }
+
+    private void AddTutorialButton(DevelopmentItemView developmentItem)
+    {
+        _tutorial.InitDevelopmentSellButton(developmentItem.TutorialSellButton);
+        _isTutorialButtonAdded = true;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
 public class SpawnerView : ObjectPoolView
 {
@@ -9,6 +10,7 @@ public class SpawnerView : ObjectPoolView
     [SerializeField] private float _secondsBetweenSpawn;
 
     private DayChangerView _dayChangerView;
+    private float _previousSecondBetweenSpawn;
     private float _elapsedTime;
 
     public float SecondsBetweenSpawn => _secondsBetweenSpawn;
@@ -49,6 +51,22 @@ public class SpawnerView : ObjectPoolView
 
     public void ChangeSecondBetweenSpawn(float newValue)
     {
+        _previousSecondBetweenSpawn = _secondsBetweenSpawn;
         _secondsBetweenSpawn = newValue;
+    }
+
+    public void BackSecondBetweenSpawn()
+    {
+        _secondsBetweenSpawn = _previousSecondBetweenSpawn;
+    }
+
+    public void UpdatePreviousSecondBetweenSpawn()
+    {
+        _previousSecondBetweenSpawn = _secondsBetweenSpawn;
+    }
+
+    public void LoadSpawnerData()
+    {
+        _secondsBetweenSpawn = YandexGame.savesData.SavedSecondBetweenSpawn;
     }
 }

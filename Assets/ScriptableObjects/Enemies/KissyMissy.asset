@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d088fc291ed38f74b930fd8c239708ec, type: 3}
   m_Name: KissyMissy
   m_EditorClassIdentifier: 
-  Template: {fileID: 7954305276507921968, guid: f1d767cc44b4750449bdff19977254d3, type: 3}
+  Template: {fileID: 2206479891493169894, guid: ce2d86a5f407b744bbd78e99a689407b, type: 3}
   Name: "\u041A\u0438\u0441\u0441\u0438 \u041C\u0438\u0441\u0441\u0438"
   Damage: 1
   Speed: 3
+  EnemySound: {fileID: 4364643727001807336, guid: 514f6dab0affa9f4aafb6991b4deaefb, type: 3}

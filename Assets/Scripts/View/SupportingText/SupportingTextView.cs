@@ -9,6 +9,7 @@ public class SupportingTextView : MonoBehaviour
     [SerializeField] private List<DefenceSupportingText> _defenceSupportingTexts;
     [SerializeField] private TMP_Text _supportingText;
     [SerializeField] private SettingLanguageView _settingLanguage;
+    [SerializeField] private GameObject _effect;
 
     private const int _clickerMode = 1;
     private const int _towerDefenceMode = 2;
@@ -45,7 +46,8 @@ public class SupportingTextView : MonoBehaviour
                 _supportingText.text = _defenceSupportingTexts[textNumber].UkText;
         }
 
-        _supportingText.gameObject.SetActive(true);        
+        _supportingText.gameObject.SetActive(true);
+        Instantiate(_effect, transform.position, Quaternion.identity);
         StartCoroutine(SupportingTextAnimation());
     }
 

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class RewardButtonView : MonoBehaviour
@@ -6,6 +8,9 @@ public class RewardButtonView : MonoBehaviour
     [SerializeField] private GameObject _container;
     [SerializeField] private List<RewardButton> _rewardButtons;
     [SerializeField] private DayChangerView _dayChangerView;
+    [SerializeField] private SpawnerView _spawnerView;
+    [SerializeField] private RewardTextView _rewardTextView;
+    [SerializeField] private SoundSettingsView _soundSettingsView;
 
     private bool _slowDownButttonIsSpawned;
     private bool _recoveryBrainButtonIsSpawned;
@@ -14,6 +19,7 @@ public class RewardButtonView : MonoBehaviour
 
     public List<RewardButton> SpawnedButton => _spawnedButton;
     public List<RewardButton> RewardButtons => _rewardButtons;
+    public RewardTextView RewardTextView => _rewardTextView;
     public bool SlowDownButttonIsSpawned => _slowDownButttonIsSpawned;
     public bool RecoveryBrainButtonIsSpawned => _recoveryBrainButtonIsSpawned;
 
@@ -23,7 +29,7 @@ public class RewardButtonView : MonoBehaviour
 
         _spawnedButton.Add(button);
 
-        button.Init(this, _dayChangerView);
+        button.Init(this, _dayChangerView, _spawnerView, _soundSettingsView);
 
         if (rewardButton.Name == "SlowDownButton")
             _slowDownButttonIsSpawned = true;

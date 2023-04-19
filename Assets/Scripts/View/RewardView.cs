@@ -42,6 +42,9 @@ public class RewardView : MonoBehaviour
             SkipArmorCooldown();
         else if (id == 7)
             RecoveryBrain();
+
+        for (int i = 0; i < _objectPool.Pool.Count; i++)
+            _objectPool.Pool[i].StopCoroutine(_objectPool.Pool[i].Attack());
     }
 
     private IEnumerator MultiplyNeuronPerClick(int factor)
@@ -66,7 +69,7 @@ public class RewardView : MonoBehaviour
     {
         if (_dayChangerView.CurrentMode == _clickerMode)
         {
-            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.DayTimeInSecond * 2);
+            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.DayTimeInSecond * 4);
             ActivateSlider("SlowTimeButton", _bonusTime);
 
             yield return new WaitForSeconds(_bonusTime);
@@ -75,7 +78,7 @@ public class RewardView : MonoBehaviour
         }
         else if (_dayChangerView.CurrentMode == _towerDefenceMode)
         {
-            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.DayTimeInSecond / 3);
+            _dayChangerView.ChangeDayTimeInSecond(_dayChangerView.DayTimeInSecond / 4);
             ActivateSlider("SpeedTimeButton", _bonusTime);
 
             yield return new WaitForSeconds(_bonusTime);
@@ -87,7 +90,7 @@ public class RewardView : MonoBehaviour
     private IEnumerator ChangeEnemySpeed()
     {
         for (int i = 0; i < _objectPool.Pool.Count; i++)
-            _objectPool.Pool[i].ChangeSpeed(_objectPool.Pool[i].Speed / 2);
+            _objectPool.Pool[i].ChangeSpeed(_objectPool.Pool[i].Speed / 3);
 
         ActivateSlider("SlowDownButton", _bonusTime);
 
@@ -95,6 +98,8 @@ public class RewardView : MonoBehaviour
 
         for (int i = 0; i < _objectPool.Pool.Count; i++)
             _objectPool.Pool[i].ChangeSpeed(_objectPool.Pool[i].NormalSpeed);
+
+        _rewardButtonView.ChangeSlowDownButtonStatus(false);
     }
 
     private void SkipHealthCooldown()
@@ -114,6 +119,7 @@ public class RewardView : MonoBehaviour
     private void RecoveryBrain()
     {
         ActivateSlider("RecoveryBrainButton", 1);
+        _rewardButtonView.ChangeRecoveryBrainButtonStatus(false);
         _brainView.RestoreBrain();
     }
 

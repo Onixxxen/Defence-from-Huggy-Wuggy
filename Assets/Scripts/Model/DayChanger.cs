@@ -28,36 +28,36 @@ public class DayChanger
 
     public int Day => _day;
 
-    public event Action<int> ActivateClickerMode;
+    public event Action<int, int> ActivateClickerMode;
     public event Action<int, int> ActivateTowerDefenceMode;
     public event Action<int, int> RestoreBrain;
-    public event Action<int> ChangeEnemyDamage;
+    public event Action<float> ChangeEnemyDamage;
 
     public void ChangeDayRequest(int modeIndex)
     {
         if (modeIndex == _clickerMode)
         {
-            ActivateClickerMode?.Invoke(modeIndex);
+            ActivateClickerMode?.Invoke(_day, modeIndex);
 
             if (_maxDay <= _day)
             {
                 _maxDay = _day;
 
-                if (YandexGame.savesData.ClickerLoaded)
+                if (YandexGame.savesData.IsClickerLoaded)
                     _saverData.SaveMaxDayCount(_maxDay);
 
                 YandexGame.NewLeaderboardScores("DayCount", _maxDay); // яндекс SDK
             }
 
-            /*
+            
             if (_day % 2 == 0)
                 YandexGame.FullscreenShow(); // яндекс SDK
-            */
+            
         }
 
         if (modeIndex == _towerDefenceMode)
         {
-            if (YandexGame.savesData.TowerDefenceLoaded)
+            if (YandexGame.savesData.IsTowerDefenceLoaded)
             {
                 _day++;                
 
@@ -68,7 +68,7 @@ public class DayChanger
             }
 
             ActivateTowerDefenceMode?.Invoke(_day, modeIndex);
-            ChangeEnemyDamage?.Invoke(2);            
+            ChangeEnemyDamage?.Invoke((float)1.6);            
         }        
     }
 

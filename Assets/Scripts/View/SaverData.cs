@@ -11,6 +11,8 @@ namespace YG.Example
         [SerializeField] private DayChangerView _dayChangerView;
         [SerializeField] private ObjectPoolView _objectPoolView;
         [SerializeField] private SettingLanguageView _settingLanguageView;
+        [SerializeField] private SpawnerView _spawnerView;
+        [SerializeField] private TutorialView _tutorialView;
 
         private void OnEnable() => YandexGame.GetDataEvent += GetLoad;
         private void OnDisable() => YandexGame.GetDataEvent -= GetLoad;
@@ -81,6 +83,12 @@ namespace YG.Example
             YandexGame.SaveProgress();
         }
 
+        public void SaveSecondBetweebSpawn(float second)
+        {
+            YandexGame.savesData.SavedSecondBetweenSpawn = second;
+            YandexGame.SaveProgress();
+        }
+
         public void SaveDevelopmentItemPrices(int index, int price)
         {
             YandexGame.savesData.SavedDevelopmentItemPrices[index] = price;
@@ -114,11 +122,20 @@ namespace YG.Example
             YandexGame.savesData.ArmorItemOpenStatus[index] = status;
         }
 
+        public void SaveTutorialCompletedStatus(bool status)
+        {
+            YandexGame.savesData.IsTutorialCompleted = status;
+        }
+
+        public void SaveTutorialStage(int stage)
+        {
+            YandexGame.savesData.SavedTutorialStage = stage;
+        }
+
         public void Load() => YandexGame.LoadProgress();
 
         public void GetLoad()
         {
-            Debug.Log("Стартуем ))))))))))");
             _settingLanguageView.CheckYandexLanguage();
             _settingLanguageView.SettingPanel.SetActive(false);
 
@@ -126,8 +143,10 @@ namespace YG.Example
             _gameController.Health.LoadHealthData();
             _gameController.Armor.LoadArmorData();
             _gameController.DayChanger.LoadDayData();
+            _spawnerView.LoadSpawnerData();
             _dayChangerView.LoadTimeData();
             _settingLanguageView.LoadLanguageData();
+            _tutorialView.LoadTutorialData();
 
             for (int i = 0; i < _objectPoolView.Pool.Count; i++)
                 _objectPoolView.Pool[i].LoadEnemyData();
@@ -143,8 +162,6 @@ namespace YG.Example
             for (int i = 0; i < _armorShopView.SpawnedItem.Count; i++)
                 if (YandexGame.savesData.SavedArmorItemPrices[i] != 0)
                     _armorShopView.SpawnedItem[i].LoadArmorItemPriceData();
-            
-            Debug.Log("Я все загрузил");
         }
     }
 }

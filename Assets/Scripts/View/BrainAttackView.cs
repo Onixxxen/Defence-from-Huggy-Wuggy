@@ -6,12 +6,15 @@ public class BrainAttackView : MonoBehaviour
     [SerializeField] private Transform _spawnTransform;
     [SerializeField] private float _angleInDegrees;
     [SerializeField] private BrainView _brainView;
+    [SerializeField] private AudioSource _brainAttack;
+    [SerializeField] private AudioSource _boom;
 
     private float g = Physics.gravity.y;
     private bool _bulletIsCreated;
 
     public bool BulletIsCreated => _bulletIsCreated;
     public BrainView BrainView => _brainView;
+    public AudioSource Boom => _boom;
 
     private void Update()
     {
@@ -41,6 +44,10 @@ public class BrainAttackView : MonoBehaviour
             Bullet newBullet = Instantiate(_bullet, _spawnTransform.position, Quaternion.identity);
             newBullet.GetComponent<Rigidbody>().velocity = _spawnTransform.forward * v;
             newBullet.Init(this);
+
+            if (!_brainAttack.isPlaying)
+                _brainAttack.Play();
+
             ChangeBuletStatus(true);
         }
 

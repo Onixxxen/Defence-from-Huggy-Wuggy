@@ -52,6 +52,7 @@ public class HealthItemView : ShopItemView
         int addHealth = ImprovementValue;
 
         OnHealthSellButton?.Invoke(Index, _price, addHealth);
+        Instantiate(BuyEffect, SellButton.transform.position, Quaternion.identity);
 
         for (int i = 0; i < _items.Length; i++)
             _items[i].TryLockItem?.Invoke(_items[i].Index, _items[i]._price);
@@ -64,6 +65,7 @@ public class HealthItemView : ShopItemView
         Icon.sprite = item.Icon;
         Improvement.text = $"+{FormatNumberExtension.FormatNumber(item.AddHealth)}";
         Price.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
+        ClosePrice.text = $"{FormatNumberExtension.FormatNumber(item.Price)}";
         PriceValue = item.Price;
         ImprovementValue = item.AddHealth;
     }
@@ -84,6 +86,7 @@ public class HealthItemView : ShopItemView
     {
         PriceValue = price;
         Price.text = $"{FormatNumberExtension.FormatNumber(price)}";
+        ClosePrice.text = $"{FormatNumberExtension.FormatNumber(price)}";
     }
 
     public void OpenItem()

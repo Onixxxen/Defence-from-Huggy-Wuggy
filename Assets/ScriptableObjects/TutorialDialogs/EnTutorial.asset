@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a9fd2b9ead42e4e8388da693dbc6cc, type: 3}
+  m_Name: EnTutorial
+  m_EditorClassIdentifier: 
+  DialogStageOne:
+  - Hi. It's me, the brain. Yeah the one you see on your screen. I'm still very small
+    and underdeveloped. Well, that's not surprising
+  - Pretty soon I'll have the Huggy Wuggy, Kissy Missy and Killy Willy crowds all
+    over me
+  - I hope you can clean me up and not let me be eaten by those toys
+  - Let's start with 50 neurons so you can develop me
+  - Just click on me and have fun
+  DialogStageTwo:
+  - You did it! Thanks to you, we can now be better
+  - Click on the lighted button below and in the window that appears, buy one click
+    more neuron upgrade
+  DialogStageThree:
+  - 'HOORAY!!!!! I can feel you and I getting smarter. And the further we get, the
+    smarter we get! '
+  - Let's now accumulate 100 neurons altogether to improve our defense against Huggy
+    Wuggy. How's that for an idea?
+  DialogStageFour:
+  - 'What an AMAZING you are! Have you developed little brains before? '
+  - Now let's do the same thing we did with neurons per click
+  - Click the button at the bottom and buy an upgrade for protection so no Huggy
+    Wuggy will interfere with our enjoyable time
+  DialogStageFive:
+  - Did you pull that off, too? Bravo, that's bravo.
+  - 'Oh, we have very little time left before the day arrives... '
+  - 'Huggy Wuggy is attacking us during the day, because the information flow around
+    you and me is most active at this time. '
+  - And only you can prevent it. Click fast like Sonic and shop big like the rappers.
+  - 'It''s all in your fingers. THE GAME STARTED! '
+  DialogStageSix:
+  - The fun part begins. I hope you're well prepared and ready to explode Huggy Wuggy
+  - 'Your goal is to launch neurons in the direction of Huggy Waggy and BREAK THEM.
+    HAHAHAHAHAHAHAHAHA
+
+'
+  - There are recovery buttons at the bottom by the way so you can patch me up
+  - Click as much as possible. Just make sure you don't blow yourself up, or you
+    and I will be in trouble.
+  DialogStageSeven:
+  - 'YEEEEEEEEEAS. YOU DID IT!
+
+    YOU PROTECTED ME! THANK YOU SO MUCH!!!!!! '
+  - 'Let''s keep it up, shall we? I believe in you, you will do great! '
+  - I hope you can protect me for the maximum number of days, so come on, show me
+    what you can do in combat conditions

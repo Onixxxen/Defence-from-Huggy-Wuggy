@@ -9,6 +9,10 @@ public class ObjectPoolView : MonoBehaviour
     [SerializeField] private GameObject _container;
     [SerializeField] private RewardButtonView _rewardButtonView;
     [SerializeField] private SaverData _saverData;
+    [SerializeField] private PauseView _pauseView;
+    [SerializeField] private EnemySound _huggySound;
+    [SerializeField] private EnemySound _kissySound;
+
 
     private List<EnemyView> _pool = new List<EnemyView>();
 
@@ -24,7 +28,8 @@ public class ObjectPoolView : MonoBehaviour
         spawned.TryRequestAttack += TryAttack;
 
         spawned.SetCharacteristics(enemy);
-        spawned.Init(_rewardButtonView, _saverData);       
+        spawned.Init(_rewardButtonView, _saverData, enemy, _pauseView);      
+        spawned.InitSound(_huggySound, _kissySound);
 
         _pool.Add(spawned);
     }
